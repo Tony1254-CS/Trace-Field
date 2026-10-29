@@ -1,6 +1,6 @@
 # Repository-wide Copilot instructions
 
-Follow [`AGENTS.md`](../AGENTS.md) as the product and implementation contract. Before proposing edits, inspect the relevant code and data paths. Prefer small, complete, evidence-backed changes that make the flagship FluviSAR-to-TRACE Field journey work.
+Follow [`AGENTS.md`](../AGENTS.md) as the product and implementation contract. The product is one installable PWA named TRACE; do not build or specify a separate web dashboard/platform. Before proposing edits, inspect the relevant code and data paths. Prefer small, complete, evidence-backed changes that make the flagship TRACE app journey work.
 
 For every changed screen or feature, verify that displayed values come from real identified inputs or carry an explicit `SIMULATED`/`SAMPLE` label. Challenge unsupported scientific claims, fake metrics, misleading sensor labels, invented impacts, and any field record presented as verified. Treat `INDETERMINATE` as a valid result. Preserve working code and user changes.
 
