@@ -261,7 +261,7 @@ async function saveDraft() {
 }
 
 async function compressPhoto(file) {
-  if (!file || !file.type.startsWith("image/")) throw new Error("Choose an image file.");
+  if (!file || !/^image\/(jpeg|png|webp|gif|bmp|heic|heif)$/i.test(file.type)) throw new Error("Choose a supported photo format (JPEG, PNG, WebP, or GIF).");
   if (file.size > MAX_SOURCE_PHOTO_BYTES) throw new Error("Choose an image under 24 MB.");
   if (!("createImageBitmap" in window)) {
     if (file.size > MAX_PHOTO_BYTES) throw new Error("This browser cannot resize the photo. Choose an image under 8 MB.");
@@ -472,6 +472,7 @@ function dataUrlToBlob(value) {
   const parts = value.split(",");
   const mime = parts[0].match(/data:([^;]+);base64/);
   if (!mime) throw new Error("Backup contains an invalid photo encoding.");
+  if (!/^image\/(jpeg|png|webp|gif|bmp|heic|heif)$/i.test(mime[1])) throw new Error("Backup photo format is not supported.");
   const binary = atob(parts[1]);
   if (binary.length > MAX_PHOTO_BYTES) throw new Error("Backup photo is larger than 8 MB.");
   const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
@@ -484,6 +485,8 @@ async function restoreBackup(payload) {
   const missionIds = new Map();
   const importedMissions = payload.missions.map((mission) => {
     if (!mission || typeof mission.title !== "string" || typeof mission.prompt !== "string") throw new Error("Backup contains an invalid mission.");
+    if (typeof mission.id !== "string" || !mission.id || missionIds.has(mission.id)) throw new Error("Backup contains a missing or duplicate mission ID.");
+    if (mission.target && (!Number.isFinite(mission.target.lat) || Math.abs(mission.target.lat) > 90 || !Number.isFinite(mission.target.lng) || Math.abs(mission.target.lng) > 180)) throw new Error("Backup contains invalid target coordinates.");
     const id = makeId();
     missionIds.set(mission.id, id);
     return { ...mission, id, title: mission.title.slice(0, 72), prompt: mission.prompt.slice(0, 500), place: String(mission.place || "").slice(0, 100), createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
@@ -524,6 +527,10 @@ async function showRecord(id) {
 }
 
 document.querySelectorAll(".nav-item").forEach((button) => button.addEventListener("click", async () => {
+  if (state.view === "capture" && document.querySelector("#captureForm")) {
+    try { await saveDraft(); }
+    catch (error) { toastMessage("Draft could not be saved. Stay here and export your notes before leaving."); return; }
+  }
   state.view = button.dataset.view;
   await render();
   main.focus({ preventScroll: true });
