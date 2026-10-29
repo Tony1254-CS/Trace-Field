@@ -1,12 +1,12 @@
-# FluviSAR + TRACE Field: project contract
+# TRACE PWA: project contract
 
 This file is the source of truth for implementation agents. Read it before changing code. Follow the existing stack and architecture where they are sound; do not introduce a framework or service without a concrete need.
 
 ## Mission
 
-Build a working, mobile-first Progressive Web App for NASA Space Apps Challenge 2026, *Dancing with the SARs*. FluviSAR is the scientific observatory; TRACE Field is its ground-observation companion. The product's central journey is: inspect a real satellite-derived change candidate, challenge its interpretation, inspect its provenance and uncertainty, then submit linked field evidence for human review.
+Build a working, installable, mobile-first Progressive Web App named TRACE for NASA Space Apps Challenge 2026, *Dancing with the SARs*. TRACE is the complete product. All investigation, timeline, map, evidence, and review features belong inside this one app. Do not build or specify a separate web dashboard/platform. The central journey is: inspect a real satellite-derived change candidate, challenge its interpretation, inspect its provenance and uncertainty, then submit linked field evidence for human review.
 
-The project succeeds through one deep, honest, usable investigation—not a large collection of shallow screens. The Jamuna River is the flagship case. Add other cases only when their data and analysis support the relevant physical interpretation.
+TRACE succeeds through one deep, honest, usable investigation—not a large collection of shallow screens. The Jamuna River is the flagship case inside the app. Add other cases only when their data and analysis support the relevant physical interpretation.
 
 ## Product requirements and acceptance criteria
 
@@ -19,7 +19,7 @@ The project succeeds through one deep, honest, usable investigation—not a larg
 - When evidence is insufficient, show `INDETERMINATE` with the missing evidence and reason. Do not conceal null results.
 - Keep the interface usable when data is missing or offline; explain what is unavailable and why.
 
-### P0 — River Memory (FluviSAR)
+### P0 — River Memory (TRACE investigation)
 
 - Provide a synchronized, interactive map and timeline for actual acquisition dates only. Do not interpolate synthetic observation dates.
 - Show the observed/derived river boundary and transitions with clear layer labels; older boundaries may remain as subdued outlines.
@@ -43,9 +43,9 @@ The project succeeds through one deep, honest, usable investigation—not a larg
 - Each finding's passport must link source product/granule and location, acquisition/orbit metadata when available, inputs, method/parameters, area calculation, spatial reference, sensitivity, quality/limitations, interpretation status, and any linked field record.
 - Make the case shareable by link/QR and preserve enough manifest/provenance data to reproduce the analysis. Do not rely on AI prose as provenance.
 
-### P0 — TRACE Field PWA and evidence return
+### P0 — TRACE field workflow and evidence return
 
-- Make core navigation and actions feel like a focused mobile app: responsive layouts, touch targets, safe-area handling, installability, clear offline/sync state, and accessible keyboard/screen-reader behavior.
+- Make the entire product feel like one focused mobile app: app-style navigation, responsive layouts, touch targets, safe-area handling, installability, clear offline/sync state, and accessible keyboard/screen-reader behavior. Adapt to larger screens without turning into a separate dashboard product.
 - Open the exact case from a share link or QR code. Show target zone and a neutral observation prompt.
 - Capture structured response (`supports`, `contradicts`, `inconclusive`, `not observable`), note, photo, timestamp, coordinates, and GPS accuracy when available and consented to.
 - Queue records safely offline and synchronize later without loss or duplication. Show pending, synced, and failed states with a recoverable retry path.
@@ -82,7 +82,7 @@ The project succeeds through one deep, honest, usable investigation—not a larg
 - Deliver an elegant, distinctive scientific field-app experience: app-oriented navigation, strong information hierarchy, restrained motion, deliberate typography, excellent responsive behavior, and a small coherent visual system.
 - Avoid generic AI/SaaS dashboard patterns, gratuitous gradients/glows, decorative 3D, excessive animation, metric-card walls, fake glass effects, and novelty that competes with evidence.
 - Build real interactions with meaningful states, loading/error/empty/offline behavior, and accessible focus/contrast. Do not ship a static visual demo in place of a required function.
-- Prefer a clear map + timeline + contextual evidence panel on desktop, and a focused one-task-at-a-time app flow on mobile. Preserve the same case and data across both.
+- Keep a focused, one-task-at-a-time app flow on phones. On larger screens, adapt the same TRACE app experience and case data; do not create a separate web product or web-specific workflow.
 - Keep components and data flows understandable. Avoid unnecessary abstractions, dependencies, services, accounts, and duplicated dashboards.
 
 ## Agent execution rules
@@ -98,5 +98,5 @@ The project succeeds through one deep, honest, usable investigation—not a larg
 
 ## Definition of done
 
-A feature is done only when its complete user path works on supported screen sizes; its data/state is real or explicitly labelled; empty/error/offline and permission states are handled; accessible interaction is provided; provenance/limitations are visible where relevant; and the documented checks pass. The end-to-end flagship path must work from case selection through analysis challenge and passport to field evidence return and review.
+A feature is done only when its complete user path works on supported screen sizes; its data/state is real or explicitly labelled; empty/error/offline and permission states are handled; accessible interaction is provided; provenance/limitations are visible where relevant; and the documented checks pass. The end-to-end TRACE app path must work from case selection through analysis challenge and passport to field evidence return and review.
 
