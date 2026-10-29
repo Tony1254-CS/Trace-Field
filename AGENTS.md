@@ -1,87 +1,96 @@
-# TRACE PWA — project contract
+# TRACE PWA — implementation contract
 
-## Product boundary (hard rule)
+## Scope lock
 
-TRACE is one standalone, installable, mobile-first Progressive Web App for field missions and ground observations. TRACE owns its navigation, mission records, evidence, offline queue, synchronization, and user experience.
+This repository builds one product: TRACE, an installable field-observation PWA. All missions, capture, records, persistence, backup, routes, and styling belong to TRACE. Do not import or integrate another project, product, route, API, design system, or data model. Do not create another app surface. If a requirement appears to cross this boundary, stop and ask the human maintainer.
 
-Keep this repository and every feature in it focused only on TRACE. Do not import, copy, describe, depend on, link to, call, or synchronize with another product, project, repository, API, screen, route, design system, or data model. Do not create a second product surface. Mission URLs and QR codes, when implemented, must resolve to TRACE-owned mission records and TRACE routes. If a proposed feature or dependency crosses this boundary, stop and ask the human maintainer before proceeding.
+TRACE v1 is local-only. It has no account, server, or multi-device sync. Never label a local save as uploaded, submitted to a server, or synced. If network sync becomes necessary, ask the maintainer to choose and configure a TRACE-owned backend before implementing it.
 
-Do not infer TRACE requirements from materials describing another product. If the repository lacks a TRACE-specific requirement or data source, state the gap; do not fill it with features from elsewhere.
+## Product purpose
 
-## Mission
+Help a field observer open or create a mission, record what they can actually observe, and keep the note and optional photo/location safe on the device, including when offline. Make the app feel considered, fast, and trustworthy in field conditions.
 
-Build a working, polished mobile-first PWA named TRACE for field teams and community observers to receive a field mission, record a structured observation with clear location/time accuracy, save it durably on the device, and allow user-controlled backup and restore.
+## Required features and acceptance criteria
 
-The product should be simple to understand, app-like, responsive, accessible, and useful outside a staged demo. Quality comes from a reliable evidence-capture workflow and clear data provenance, not screen count or theatrical dashboards.
+### A. Installable TRACE app shell
 
-## P0 — Required app capabilities
+Build an installable PWA with app name/identity, standalone display, manifest, 192px and 512px app icons, service worker, offline app-shell cache, and responsive layouts. Use relative asset URLs so it works from a repository subpath as well as a root domain.
 
-### Mission inbox and mission detail
+Acceptance:
+- Core app shell loads over HTTPS or localhost and can be installed where the browser supports installation.
+- After first successful load, cached app assets open offline.
+- The interface reports device network state but never implies network sync.
+- No external font, analytics, map-tile, or tracking request is required for the shell to work.
 
-- Provide a clear mission list with real mission status and useful search/filtering when the data supports it.
-- Open a specific mission from a TRACE-owned deep link or QR code and preserve its identity through the capture flow.
-- Show the mission's target area, task, observation prompt, relevant dates, and source/provenance when supplied.
-- Clearly label sample/seed missions. Never imply a mission or field visit happened when it did not.
-- Missing or invalid mission context must produce an understandable recovery path, not a fabricated default.
+### B. Mission inbox and mission editor
 
-### Guided field observation
+Users can create a mission with a required title and neutral observation prompt; optional place/date and paired target coordinates are supported. Users can edit and archive/reopen missions. Show true counts derived from local records. An empty inbox must explain the next action and provide mission creation.
 
-- Let an observer submit one of: supports, contradicts, inconclusive, or not observable.
-- Capture a note and optional photo. Capture timestamp and coordinates only with clear user intent/permission; show GPS accuracy and location unavailable states.
-- Preserve submitted values exactly, associate them with the correct TRACE mission, and show a review/sync status.
-- A photo or observation is evidence for review; it is not automatic ground truth or scientific verification.
-- If an AR/camera/map overlay is implemented, disclose approximate alignment and location accuracy. Never imply exact positioning without evidence.
+Acceptance:
+- Mission data persists in IndexedDB across reloads and app restarts.
+- A record cannot be saved without a valid active mission.
+- Target coordinates require both latitude and longitude and stay within valid ranges.
+- Sample/demo missions are not seeded or presented as real visits.
 
-### Offline-first local storage and backup
+### C. Guided field capture
 
-- Mission viewing, draft capture, and saved evidence must work offline and survive app restarts.
-- Show drafts and saved-on-device records clearly; distinguish local storage from a submitted or server-confirmed record.
-- Provide a portable, user-controlled backup and restore flow that preserves mission links, metadata, and attached photos.
-- Do not imply this version has a server, account, or multi-device sync. If the team later needs network sync, stop and ask the human maintainer to choose and configure TRACE's backend first.
-- Explain permission, storage, connectivity, and backup failures in plain language with a recovery action.
-- Do not silently mark an observation verified after saving or restoring it.
+From an active mission, record one response: supports, contradicts, inconclusive, or not observable. Add a note and optional photo. Add current coordinates only after the user taps the location control and grants permission. Save the timestamp and GPS accuracy with coordinates. Let the observer review the form before saving.
 
-### PWA foundation and app UX
+Acceptance:
+- Location denied, unavailable, timed out, and unsupported states are clear; saving without location still works.
+- Photo selection is optional, size-limited, resized when supported, and previewed before save.
+- Draft, response, note, photo, and location remain associated with the selected mission.
+- Captured evidence is labelled saved on this device and awaiting human review. It is never described as automatic ground truth or verification.
 
-- Provide installability, app manifest, service worker/offline behavior, responsive app navigation, safe-area handling, touch-sized controls, and accessible keyboard/screen-reader interactions.
-- Make phone use the primary experience. Adapt to tablet and desktop browser sizes without adding a separate product or dashboard.
-- Implement loading, empty, permission-denied, offline, and error states for each core flow.
-- Use a distinctive, restrained visual system. Avoid generic AI/SaaS dashboard templates, metric-card walls, gratuitous gradients/glows, decorative 3D, and motion that distracts from field work.
-- Keep each screen's purpose and next action clear. Keep capture fast and forgiving under poor connectivity and outdoor use.
+### D. Field records
 
-## P1 — Helpful TRACE features after P0 is reliable
+List saved observations with real mission title, response, time, note, photo presence, and recorded location accuracy. Search and response filters operate on actual local records. Detail view shows the complete record. Deletion asks for confirmation.
 
-- Point & Prove: optional approximate camera/map overlay of a TRACE mission target, distance and GPS accuracy shown honestly.
-- Walk on the Radar: optional interaction that sonifies a locally available, documented measurement; display the value and units. State clearly that sound/haptics encode data and were not recorded in space. If real data is not available, do not fake the experience.
-- My Place Watch: optional user-selected place/mission follow-up with next-pass timing only when computed from identified acquisition data and cadence.
-- Bangla voice and plain-language guidance: add reviewed translations; cache generated/recorded audio only when its source and availability are clear.
-- Field story and mission replay: produce a time-ordered account from actual TRACE mission and observation records; label sample records.
-- Pocket SAR Field Guide / Mini Lab: brief educational material. Label any simulation and keep it separate from real observations.
+Acceptance:
+- Mission and observation counts derive from IndexedDB; no placeholder analytics or fabricated numbers.
+- Editing or archiving a mission does not detach its observations.
+- Deleting a record removes it from local storage and the list.
 
-These are optional and must not delay the working offline capture loop.
+### E. Device backup and restore
 
-## Data integrity, privacy, and science
+Export a TRACE backup in a documented versioned JSON format, including mission-observation relationships and photo attachments. Restore from a selected local backup file after validating format, record counts, required fields, photo type/size, and coordinates. Remap imported record IDs to avoid collisions.
 
-- Trace every displayed date, coordinate, accuracy, measurement, status, and count to a TRACE record or identified data source.
-- Distinguish measured, derived, cross-checked, unverified, sample, and simulated information wherever relevant.
-- Never fabricate field observations, telemetry, messages sent, confidence scores, validation rates, model metrics, impact totals, or mission activity.
-- Do not present a surface-change interpretation as confirmed ground truth based on a single photo or an unreviewed report.
-- Preserve competing observations separately with provenance and timestamps.
-- Request only the photo/location/device permissions needed for a user-initiated action. Explain why, offer a path when denied, and avoid retaining unnecessary personal data.
-- Do not introduce external services, trackers, or data transfers without documenting purpose, consent, privacy implications, and maintainer approval.
-- Use authoritative current sources for technical or mission facts shown in the app. State uncertainty and missing evidence clearly.
+Acceptance:
+- Exported backup can be restored without losing mission links, notes, timestamps, location accuracy, or photos.
+- Invalid or oversized files show a recoverable error and do not partially overwrite existing records.
+- Import adds copies; it must not silently replace existing user data.
+- State plainly that backup is a local file and is not cloud sync.
 
-## Agent workflow and approval
+### F. Visual quality, accessibility, and field usability
 
-1. Inspect the repository, stack, data sources, existing backend, PWA setup, and run instructions before planning.
-2. Keep the implementation inside the TRACE PWA boundary. Do not reuse another product's screens, state, routes, APIs, branding, or requirements.
-3. Implement complete vertical slices with real state, persistence, error/empty/offline handling, and documentation. A static mock or disconnected screen is not complete.
-4. Preserve existing work. Do not silently delete user data or established behavior.
-5. Ask the human maintainer before changing product scope, crossing a product boundary, introducing a new external service, changing evidence semantics, or collecting additional personal data. Present the alternative, evidence, trade-offs, and impact.
-6. If required data/backend details are missing, identify the dependency and continue independent work without inventing facts.
-7. Before reporting completion, run relevant existing checks and report exact commands and results. Add tests for new behavior when the repository has a test setup. Never claim an unrun check passed.
-8. PRs must describe user-visible behavior, data sources/provenance, sample or simulated content, validation performed, limitations, privacy effects, and visual evidence for UI changes.
+Use a distinctive restrained visual system, app-style navigation, obvious next actions, and responsive layouts. Avoid generic AI dashboard layouts, fake telemetry, decorative 3D, gratuitous gradients, and motion that competes with field work. Use semantic controls, visible focus, keyboard access, screen-reader names, sufficient contrast, touch-sized controls, reduced-motion support, and safe-area spacing.
+
+Acceptance:
+- Mission, capture, records, dialogs, empty states, error states, and navigation remain usable on narrow phones and larger screens.
+- All actions work with keyboard as well as touch.
+- No core interaction requires a hover state.
+- UI language explains each function in plain words and distinguishes observation from interpretation.
+
+## Data, privacy, and security rules
+
+- Store records locally in IndexedDB. Explain that browser data clearing/device changes can remove local records; encourage backup.
+- Request location only after an explicit user action. Photo selection is user initiated. Do not collect location continuously.
+- Escape user-entered text before rendering HTML. Validate imported JSON and cap file, record, and photo sizes.
+- Keep separate observers' records separate if multi-observer support is later added.
+- Never fabricate mission activity, GPS, timestamps, accuracy, field validation, confidence, metrics, or impact counts.
+- No external services, telemetry, accounts, or network data transfers without maintainer approval.
+- Treat missing evidence as missing. A user observation is evidence for review, not verified ground truth.
+
+## Agent workflow
+
+1. Inspect the repository and its run/check commands before editing.
+2. Keep changes inside TRACE and its local-first data boundary.
+3. Implement complete workflows, not static mock screens.
+4. Preserve user records and existing behavior; avoid destructive migrations.
+5. Ask the maintainer before adding a server, external service, account, background location tracking, new personal-data collection, or other material scope change.
+6. Run the repository's relevant checks and report exact commands/results. Do not claim an unrun check passed.
+7. PRs explain behavior, data/privacy effects, sample content, validation, limitations, and include visual evidence for UI changes.
 
 ## Definition of done
 
-A feature is complete only when its whole TRACE user path works on supported devices; stored information is real or explicitly labelled; location/photo permissions and denial states are handled; offline behavior and recoverable sync failures work; accessibility is addressed; and applicable repository checks pass. The core mission-to-capture-to-persistent-local-storage-to-backup/restore flow must work end to end.
+TRACE installs on supported browsers, loads/creates a mission, saves a structured observation with optional user-approved photo/GPS, retains it offline across restarts, and exports/restores a complete local backup. Every count and status reflects actual data. No screen or agent claims network sync or validation that the app does not provide.
