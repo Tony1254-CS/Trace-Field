@@ -2,12 +2,12 @@
 
 The repository files define the product contract and reviewer behavior. GitHub account/repository settings must also enable Copilot code review; a Markdown agent profile cannot turn on a hosted service by itself.
 
-1. Add these files to the default branch: `AGENTS.md`, `PROJECT_FEATURES.md`, `.github/copilot-instructions.md`, `.github/agents/fluvisar-reviewer.agent.md`, and `.github/pull_request_template.md`.
+1. The project instructions and reviewer profile are already committed to the default branch (`main`).
 2. In the repository on GitHub, open **Settings → Rules → Rulesets** and create or edit a ruleset targeting the branches your team uses.
 3. Enable automatic code review by GitHub Copilot for the repository and select **Review new pushes** so new commits to an open pull request trigger another review.
 4. Require the project's real CI checks and at least one human teammate review before merging. Copilot review is a critical second reviewer, not scientific ground truth or a substitute for a human sign-off.
 5. Confirm Copilot code review and (if used) Copilot cloud agent are enabled for the repository/account/organization. Availability can depend on plan and administrator settings.
-6. Confirm a test pull request receives a Copilot review that reflects the project instructions. The review uses instruction files from the PR's head branch, so include those files before relying on the reviewer for that PR.
+6. Confirm a test pull request receives a Copilot review that reflects the project instructions. The review uses instruction files from the PR's head branch.
 
 ## What this does and does not guarantee
 
