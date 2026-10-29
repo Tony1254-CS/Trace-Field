@@ -62,7 +62,7 @@ TRACE helps an observer open a field mission, record what they can actually see,
 ## Exclude from TRACE scope
 
 - Any separate dashboard, companion application, cross-product link, cross-product API, shared session, shared state, or synchronization with another project.
-- Global atlas, multi-case observatory, remote analysis dashboard, or web-specific judging flow.
+- Global atlas, multi-case observatory, or remote analysis dashboard unrelated to field missions.
 - Satellite classification laboratory or algorithm controls that belong to another analysis product.
 - Claims that submitted photos automatically verify an observation.
 - Fake field telemetry, agent activity, accuracy/confidence scores, impact counts, or fabricated missions.
