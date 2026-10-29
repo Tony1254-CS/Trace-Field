@@ -32,8 +32,8 @@ jobs:
           }
           if (manifest.display !== 'standalone') throw new Error('TRACE must use standalone display');
           for (const size of ['192x192', '512x512']) {
-            const icon = manifest.icons.find((entry) => entry.sizes.split(/\\s+/).includes(size));
-            if (!icon || !existsSync(icon.src.replace(/^\\.\\//, ''))) throw new Error(`Missing ${size} PWA icon`);
+            const icon = manifest.icons.find((entry) => entry.sizes.split(/\s+/).includes(size));
+            if (!icon || !existsSync(icon.src.replace(/^\.\//, ''))) throw new Error(`Missing ${size} PWA icon`);
           }
           for (const file of ['index.html', 'src/app.js', 'src/styles.css', 'sw.js']) {
             if (!existsSync(file)) throw new Error(`Missing required file: ${file}`);
@@ -43,6 +43,6 @@ jobs:
             throw new Error('App shell is missing a local manifest or entry asset');
           }
           const css = readFileSync('src/styles.css', 'utf8');
-          if (/@import\\s+url\\(/i.test(css)) throw new Error('App shell must not depend on remote imported stylesheets');
+          if (/@import\s+url\(/i.test(css)) throw new Error('App shell must not depend on remote imported stylesheets');
           console.log('TRACE PWA manifest and local shell assets are valid.');
           NODE
