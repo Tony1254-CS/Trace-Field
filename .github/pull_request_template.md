@@ -1,6 +1,6 @@
 ## What changed
 
-## User journey and requirements addressed
+## TRACE app journey and requirements addressed
 
 ## Data and claim integrity
 - Source data / provenance:
@@ -10,7 +10,7 @@
 ## Validation
 - [ ] Existing relevant checks run (include exact commands and results)
 - [ ] Tests added/updated for behavior changes
-- [ ] Responsive and accessible states reviewed
+- [ ] PWA install, responsive, and accessible states reviewed
 - [ ] Offline / missing-data / error states reviewed where relevant
 - [ ] Screenshots or recording attached for visual changes
 
