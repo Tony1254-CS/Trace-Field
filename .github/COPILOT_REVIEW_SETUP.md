@@ -1,17 +1,35 @@
-# Turn on automatic push-by-push review
+# Enable TRACE review and merge protection
 
-The repository files define the product contract and reviewer behavior. GitHub account/repository settings must also enable Copilot code review; a Markdown agent profile cannot turn on a hosted service by itself.
+This repository already contains TRACE-specific contributor rules, the feature build specification, Copilot instructions, a reusable reviewer profile, and a GitHub Actions quality gate.
 
-1. The project instructions and reviewer profile are already committed to the default branch (`main`).
-2. In the repository on GitHub, open **Settings → Rules → Rulesets** and create or edit a ruleset targeting the branches your team uses.
-3. Enable automatic code review by GitHub Copilot for the repository and select **Review new pushes** so new commits to an open pull request trigger another review.
-4. Require the project's real CI checks and at least one human teammate review before merging. Copilot review is a critical second reviewer, not scientific ground truth or a substitute for a human sign-off.
-5. Confirm Copilot code review and (if used) Copilot cloud agent are enabled for the repository/account/organization. Availability can depend on plan and administrator settings.
-6. Confirm a test pull request receives a Copilot review that reflects the project instructions. The review uses instruction files from the PR's head branch.
+## 1. Automatic Copilot reviews
 
-## What this does and does not guarantee
+Copilot code review is a GitHub-hosted repository/account setting; these files cannot switch it on.
 
-Automatic Copilot review runs on pull requests, and the `Review new pushes` option re-reviews new commits to an open PR. It does not review arbitrary direct pushes to a branch that have no PR. Protect the default branch and require PRs if every change must receive review. A review is probabilistic: CI, human review, source-data checks, and reproducible analysis remain necessary.
+1. Open GitHub **Settings → Copilot → Code review** and enable **Automatic Copilot code review** if this option is available for your Copilot plan/account.
+2. Enable **Review new pushes**.
+3. Alternatively, a repository administrator can create an active branch ruleset for `main`, choose **Automatically request Copilot code review**, and enable **Review new pushes**.
+4. Open a test pull request and confirm Copilot posts a review that follows `.github/copilot-instructions.md`.
 
-Repository settings are outside these source files, so a repository administrator must complete steps 2–5. See [GitHub's current instructions for automatic reviews and reviews on new pushes](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-code-review#enabling-automatic-reviews) and [custom review instructions](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-code-review#customizing-copilots-reviews-with-custom-instructions).
+Copilot reviews pull requests. **Review new pushes** re-reviews commits pushed to a reviewed pull request; it does not run an AI review on a branch push that has no pull request. The TRACE Actions workflow does run on every push and reports deterministic validation failures.
 
+## 2. Protect the main branch
+
+Create an active branch ruleset targeting `main`:
+
+- Require a pull request before merging.
+- Require the status check **Validate TRACE PWA files**.
+- Require at least one teammate review.
+- Do not allow bypass for ordinary contributor accounts.
+
+This makes failures visible on every push and prevents merging a failing pull request. The Actions workflow is already present; GitHub ruleset settings determine whether its result is merge-blocking.
+
+## What the reviewer must enforce
+
+The reviewer must check changes against `AGENTS.md` and `PROJECT_FEATURES.md`: TRACE-only scope, truthful local-only behavior, no fabricated observation data, privacy-first location/photo handling, offline usability, accessibility, responsive PWA behavior, and feature acceptance criteria. Report concrete defects with file/line and impact. Do not approve missing evidence, silently weaken acceptance criteria, or assume a review proves scientific validity.
+
+Use `.github/agents/trace-reviewer.agent.md` when a teammate wants the focused TRACE review profile. Copilot review comments are advisory and can be wrong; CI and human review remain required.
+
+## Configuration boundary
+
+The connected GitHub integration can commit repository files and read rulesets, but it cannot change this repository's hosted Copilot settings or create branch rulesets. A repository administrator must complete the settings above. Confirm the active ruleset and a successful sample PR before relying on the process.
