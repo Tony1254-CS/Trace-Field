@@ -111,5 +111,5 @@ TRACE is an installable app-like satellite investigation that lets people inspec
 
 ## Release bar
 
-The flagship end-to-end journey must work with identifiable data, on mobile and desktop, with real interactions, clear claim status, provenance, offline behavior, and honest empty/error states. If actual data or backend infrastructure is missing, call that out as a blocker; do not make the interface look complete by substituting invented science.
+The flagship end-to-end journey must work inside TRACE across supported phone and tablet form factors, with real interactions, clear claim status, provenance, offline behavior, and honest empty/error states. If actual data or backend infrastructure is missing, call that out as a blocker; do not make the interface look complete by substituting invented science.
 
