@@ -1,0 +1,48 @@
+name: TRACE quality gate
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trace-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate TRACE PWA files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Check JavaScript syntax
+        run: node --check src/app.js && node --check sw.js
+      - name: Validate manifest, icons, and shell references
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync, existsSync } from 'node:fs';
+          const manifest = JSON.parse(readFileSync('manifest.webmanifest', 'utf8'));
+          for (const key of ['name', 'short_name', 'start_url', 'scope', 'display', 'icons']) {
+            if (!manifest[key]) throw new Error(`manifest.webmanifest is missing ${key}`);
+          }
+          if (manifest.display !== 'standalone') throw new Error('TRACE must use standalone display');
+          for (const size of ['192x192', '512x512']) {
+            const icon = manifest.icons.find((entry) => entry.sizes.split(/\\s+/).includes(size));
+            if (!icon || !existsSync(icon.src.replace(/^\\.\\//, ''))) throw new Error(`Missing ${size} PWA icon`);
+          }
+          for (const file of ['index.html', 'src/app.js', 'src/styles.css', 'sw.js']) {
+            if (!existsSync(file)) throw new Error(`Missing required file: ${file}`);
+          }
+          const html = readFileSync('index.html', 'utf8');
+          if (!html.includes('manifest.webmanifest') || !html.includes('./src/app.js') || !html.includes('./src/styles.css')) {
+            throw new Error('App shell is missing a local manifest or entry asset');
+          }
+          const css = readFileSync('src/styles.css', 'utf8');
+          if (/@import\\s+url\\(/i.test(css)) throw new Error('App shell must not depend on remote imported stylesheets');
+          console.log('TRACE PWA manifest and local shell assets are valid.');
+          NODE
