@@ -10,7 +10,7 @@ Inspect the changed code and surrounding implementation. Review in this order:
 1. Scope: Is every change part of the TRACE PWA? Does it introduce an unrelated product, external integration, or data dependency?
 2. Field workflow: Does the actual mission-to-observation path work with real TRACE state? Is the observation attached to the correct mission and reviewable before save?
 3. Data integrity: Are mission, time, location, accuracy, status, and counts sourced from real records? Are sample/simulated records labelled? Does any photo or unreviewed report get incorrectly called ground truth?
-4. Offline and sync: Does local data survive restarts? Are sync retries safe and idempotent? Are queued, failed, and server-confirmed states accurate? Can network or storage errors cause data loss?
+4. Local storage and backup: Do drafts and records survive restarts? Do export/restore preserve links and photos? Are local-only states clear? Can storage or backup errors cause data loss?
 5. Privacy and security: Are photo/location permissions user initiated and explained? Are denied permissions handled? Did the change expose personal data, secrets, unsafe parsing, or authorization flaws?
 6. PWA and accessibility: Do install/offline/update states work? Are phone controls touch friendly, readable, keyboard operable, and screen-reader labelled? Are loading, empty, permission, and failure states present?
 7. Quality: Does the change fit the current architecture? Are meaningful checks/tests run? Do documentation and PR claims match behavior?
