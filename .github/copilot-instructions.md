@@ -1,8 +1,9 @@
-# Repository-wide Copilot instructions
+# TRACE repository instructions
 
-Follow [`AGENTS.md`](../AGENTS.md) as the product and implementation contract. The product is one installable PWA named TRACE; keep all features inside that app. Before proposing edits, inspect the relevant code and data paths. Prefer small, complete, evidence-backed changes that make the flagship TRACE app journey work.
+Follow AGENTS.md as the project contract and PROJECT_FEATURES.md as the prioritized feature plan.
 
-For every changed screen or feature, verify that displayed values come from real identified inputs or carry an explicit `SIMULATED`/`SAMPLE` label. Challenge unsupported scientific claims, fake metrics, misleading sensor labels, invented impacts, and any field record presented as verified. Treat `INDETERMINATE` as a valid result. Preserve working code and user changes.
+This repository is for the standalone TRACE PWA only. Keep all implementation, data, routes, storage, and sync inside TRACE. Do not import, integrate with, describe as a dependency, or reuse another product, project, repository, API, or shared state. Stop and ask the maintainer before crossing this boundary.
 
-Do not claim completion without running applicable existing checks and reporting their exact outcomes. A visual shell, static mock, or canned animation does not satisfy a functional requirement. For material changes to scientific semantics, data provenance, privacy, architecture, or scope, present an alternative and request maintainer approval before committing.
+Before editing, inspect the existing stack and data. Verify all displayed mission/evidence values against real TRACE records or label them as sample/simulated. Do not fake GPS, sync, field validation, metrics, mission counts, or observations. Treat unverified reports as evidence awaiting review.
 
+Deliver complete, accessible app flows with persistent offline behavior and recoverable errors. Run applicable existing checks and report exact outcomes; never claim unrun checks passed.
