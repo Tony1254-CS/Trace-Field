@@ -4,7 +4,7 @@ This file is the source of truth for implementation agents. Read it before chang
 
 ## Mission
 
-Build a working, installable, mobile-first Progressive Web App named TRACE for NASA Space Apps Challenge 2026, *Dancing with the SARs*. TRACE is the complete product. All investigation, timeline, map, evidence, and review features belong inside this one app. Do not build or specify a separate web dashboard/platform. The central journey is: inspect a real satellite-derived change candidate, challenge its interpretation, inspect its provenance and uncertainty, then submit linked field evidence for human review.
+Build a working, installable, mobile-first Progressive Web App named TRACE for NASA Space Apps Challenge 2026, *Dancing with the SARs*. TRACE is the complete product. All investigation, timeline, map, evidence, and review features belong inside this one app. Keep every feature inside TRACE; do not add a second product or companion client. The central journey is: inspect a real satellite-derived change candidate, challenge its interpretation, inspect its provenance and uncertainty, then submit linked field evidence for human review.
 
 TRACE succeeds through one deep, honest, usable investigation—not a large collection of shallow screens. The Jamuna River is the flagship case inside the app. Add other cases only when their data and analysis support the relevant physical interpretation.
 
