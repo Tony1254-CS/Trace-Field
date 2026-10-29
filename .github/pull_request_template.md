@@ -1,22 +1,23 @@
-## What changed
+## What changed in TRACE
 
-## TRACE app journey and requirements addressed
+## Mission or observation workflow affected
 
-## Data and claim integrity
-- Source data / provenance:
-- Values are measured, derived, cross-checked, unverified, simulated, or planned:
-- Scientific limitations shown to users:
+## Data integrity
+- Source of mission/evidence data:
+- Real, derived, sample, or simulated content:
+- Location/photo data collected and why:
 
 ## Validation
-- [ ] Existing relevant checks run (include exact commands and results)
+- [ ] Relevant existing checks run (exact commands and results below)
 - [ ] Tests added/updated for behavior changes
-- [ ] PWA install, responsive, and accessible states reviewed
-- [ ] Offline / missing-data / error states reviewed where relevant
-- [ ] Screenshots or recording attached for visual changes
+- [ ] PWA install/offline/update behavior reviewed where relevant
+- [ ] Permission, failure, and retry states reviewed
+- [ ] Accessibility and supported screen sizes reviewed
 
-## Limitations and follow-up
+## Known limitations or missing backend/data dependencies
 
-## Human approval needed for material plan changes?
+## Screenshots or recording for UI changes
+
+## Does this request a material scope/privacy/data change?
 - [ ] No
-- [ ] Yes — describe the alternative, evidence, trade-offs, and impact:
-
+- [ ] Yes — explain evidence, trade-offs, and impact:
