@@ -49,7 +49,7 @@ TRACE succeeds through one deep, honest, usable investigation—not a large coll
 - Open the exact case from a share link or QR code. Show target zone and a neutral observation prompt.
 - Capture structured response (`supports`, `contradicts`, `inconclusive`, `not observable`), note, photo, timestamp, coordinates, and GPS accuracy when available and consented to.
 - Queue records safely offline and synchronize later without loss or duplication. Show pending, synced, and failed states with a recoverable retry path.
-- Return submitted evidence to the same web case as `AWAITING REVIEW`. Keep submitter attribution and timestamp where permitted. Preserve disagreements as separate records.
+- Return submitted evidence to the same TRACE case as `AWAITING REVIEW`. Keep submitter attribution and timestamp where permitted. Preserve disagreements as separate records.
 - Label fixture/sample/demo observations as such. Never imply simulated data or a demo record is independent field validation.
 - Camera/map overlay features must disclose alignment and GPS accuracy; never imply exact ground truth without defensible calibration.
 
