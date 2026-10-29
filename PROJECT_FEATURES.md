@@ -34,14 +34,14 @@ TRACE helps an observer open a field mission, record what they can actually see,
 - Save the observation against the correct TRACE mission and display its current status.
 - The observation is evidence for review, not automatic ground truth or verification.
 
-### 4. Offline queue and TRACE synchronization
+### 4. Offline storage and device backup
 
 - Cache mission details needed for an explicitly available offline mission.
 - Save observation drafts/records locally and preserve them across app restarts.
-- Show queued, syncing, synced, and failed states; provide safe retry and recovery.
-- Prevent duplicate submissions and data loss; preserve original captured values and timestamps.
-- Sync only to TRACE's own configured backend. Never label an item synced without server confirmation.
-- If the repository has no backend, document the missing dependency and deliver an honest local queue state; do not pretend cloud sync works.
+- Preserve mission drafts, observations, and attached photos across app restarts.
+- Clearly label saved records as stored on this device; never imply cloud submission or multi-device sync.
+- Export and restore a portable backup while preserving mission-to-observation links.
+- If a future server sync is required, ask the maintainer to choose and configure TRACE's backend before implementing it.
 
 ### 5. Accessibility, usability, and field conditions
 
@@ -75,11 +75,11 @@ TRACE helps an observer open a field mission, record what they can actually see,
 3. Review the target and neutral observation prompt.
 4. Capture supports/contradicts/inconclusive/not observable, add a note/photo, and inspect GPS accuracy and permissions.
 5. Save while offline and show the persistent queue after restarting the app.
-6. Restore connectivity, sync to TRACE's configured backend, and show the server-confirmed status.
+6. Export a backup, restore it in a clean browser profile, and verify mission-to-observation links and attached photos are preserved.
 7. Show the record as awaiting review; explain that capture does not equal verification.
 
 If backend or real mission data is unavailable, label the limitation explicitly and do not stage a false successful sync or field validation.
 
 ## Release bar
 
-The TRACE PWA must install, load a mission, capture a structured observation, preserve it offline, and synchronize it safely when its own backend is configured. Every shown record must be real or explicitly labelled as sample/simulated. The product must remain understandable, accessible, responsive, and stable during ordinary failure states.
+The TRACE PWA must install, load a mission, capture a structured observation, preserve it offline, and provide a working backup/restore path. It must not imply network sync. Every shown record must be real or explicitly labelled as sample/simulated. The product must remain understandable, accessible, responsive, and stable during ordinary failure states.
