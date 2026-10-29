@@ -10,7 +10,7 @@ Do not infer TRACE requirements from materials describing another product. If th
 
 ## Mission
 
-Build a working, polished mobile-first PWA named TRACE for field teams and community observers to receive a field mission, record a structured observation with clear location/time accuracy, preserve it offline, and synchronize it safely to TRACE's own storage when connectivity returns.
+Build a working, polished mobile-first PWA named TRACE for field teams and community observers to receive a field mission, record a structured observation with clear location/time accuracy, save it durably on the device, and allow user-controlled backup and restore.
 
 The product should be simple to understand, app-like, responsive, accessible, and useful outside a staged demo. Quality comes from a reliable evidence-capture workflow and clear data provenance, not screen count or theatrical dashboards.
 
@@ -32,13 +32,14 @@ The product should be simple to understand, app-like, responsive, accessible, an
 - A photo or observation is evidence for review; it is not automatic ground truth or scientific verification.
 - If an AR/camera/map overlay is implemented, disclose approximate alignment and location accuracy. Never imply exact positioning without evidence.
 
-### Offline-first storage and synchronization
+### Offline-first local storage and backup
 
-- Core mission viewing and evidence capture must work offline for missions explicitly available on the device.
-- Persist queued observations across app restarts. Show pending, syncing, synced, and failed states.
-- Synchronize only with TRACE's own configured backend/service. Make retries safe and idempotent; do not lose, duplicate, or silently rewrite records.
-- Explain permission, storage, connectivity, upload, and conflict failures in plain language with a recovery action.
-- Never claim successful sync until the server confirms it. Do not silently mark an observation verified after upload.
+- Mission viewing, draft capture, and saved evidence must work offline and survive app restarts.
+- Show drafts and saved-on-device records clearly; distinguish local storage from a submitted or server-confirmed record.
+- Provide a portable, user-controlled backup and restore flow that preserves mission links, metadata, and attached photos.
+- Do not imply this version has a server, account, or multi-device sync. If the team later needs network sync, stop and ask the human maintainer to choose and configure TRACE's backend first.
+- Explain permission, storage, connectivity, and backup failures in plain language with a recovery action.
+- Do not silently mark an observation verified after saving or restoring it.
 
 ### PWA foundation and app UX
 
@@ -83,4 +84,4 @@ These are optional and must not delay the working offline capture loop.
 
 ## Definition of done
 
-A feature is complete only when its whole TRACE user path works on supported devices; stored information is real or explicitly labelled; location/photo permissions and denial states are handled; offline behavior and recoverable sync failures work; accessibility is addressed; and applicable repository checks pass. The core mission-to-capture-to-persistent-queue-to-TRACE-sync flow must work end to end.
+A feature is complete only when its whole TRACE user path works on supported devices; stored information is real or explicitly labelled; location/photo permissions and denial states are handled; offline behavior and recoverable sync failures work; accessibility is addressed; and applicable repository checks pass. The core mission-to-capture-to-persistent-local-storage-to-backup/restore flow must work end to end.
