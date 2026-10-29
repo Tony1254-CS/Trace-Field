@@ -4,17 +4,19 @@
 
 ## Data integrity
 - Source of mission/evidence data:
-- Real, derived, sample, or simulated content:
+- Real, sample, or simulated content:
 - Location/photo data collected and why:
+- Confirmed local-only behavior (no implied server sync):
 
 ## Validation
 - [ ] Relevant existing checks run (exact commands and results below)
 - [ ] Tests added/updated for behavior changes
-- [ ] PWA install/offline/update behavior reviewed where relevant
-- [ ] Permission, failure, and retry states reviewed
+- [ ] PWA install/offline shell reviewed where relevant
+- [ ] Permission, storage, import, and error states reviewed
 - [ ] Accessibility and supported screen sizes reviewed
+- [ ] Backup/restore relationships and attached photos checked where relevant
 
-## Known limitations or missing backend/data dependencies
+## Known limitations
 
 ## Screenshots or recording for UI changes
 
