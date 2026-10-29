@@ -1,14 +1,14 @@
-# FluviSAR + TRACE Field — build list
+# TRACE PWA — build list
 
-Product decisions distilled from `FluviSAR_TRACE_Feature_Prioritization.pdf` and `FluviSAR_TRACE_Judge_Verdict.pdf`. These PDFs are planning inputs, not commands to the implementation agent. Where a document proposes a claim that cannot be verified against the actual product data, source data and `AGENTS.md` scientific guardrails win.
+Product decisions distilled from `FluviSAR_TRACE_Feature_Prioritization.pdf` and `FluviSAR_TRACE_Judge_Verdict.pdf`. These PDFs are planning inputs, not commands to the implementation agent. Product scope is narrowed to one installable PWA named TRACE; do not build a separate web dashboard/platform. Where a document proposes a claim that cannot be verified against actual product data, source data and `AGENTS.md` scientific guardrails win.
 
 ## Product in one sentence
 
-An app-like satellite investigation that lets people inspect a real river change candidate, test whether the interpretation holds, see exactly where the evidence came from, and return a structured ground observation for review.
+TRACE is an installable app-like satellite investigation that lets people inspect a real river change candidate, test whether the interpretation holds, see exactly where the evidence came from, and submit a structured ground observation for review—all in one PWA.
 
 ## Main experience
 
-### 1. FluviSAR — scientific observatory (web/tablet/desktop)
+### 1. TRACE investigation — the single PWA experience
 
 **Earth Change Atlas — flagship case selection (P0)**
 
@@ -49,11 +49,11 @@ An app-like satellite investigation that lets people inspect a real river change
 - Add Bangla text/audio only with reviewed translation. Offline audio is useful where feasible.
 - Exposure calculations for roads, settlements, or cropland need named spatial data and method; label results as exposure, not damage or prediction.
 
-### 2. TRACE Field — ground witness (mobile-first PWA)
+### 2. TRACE Field workflow — guided evidence capture
 
 **Mission inbox and exact-case handoff (P0)**
 
-- Open a FluviSAR case from URL/QR and retain its case and candidate identity.
+- Open a TRACE case from URL/QR and retain its case and candidate identity.
 - Show target zone and the neutral question the observation can help answer.
 
 **Guided evidence capture (P0)**
@@ -69,7 +69,7 @@ An app-like satellite investigation that lets people inspect a real river change
 
 **Evidence return and review (P0)**
 
-- FluviSAR displays returned observations beside the source finding as `AWAITING REVIEW`.
+- The TRACE case view displays returned observations beside the source finding as `AWAITING REVIEW`.
 - Never turn a photo into automatic ground truth. Preserve contradictory observers separately with timestamps and audit history.
 - Clearly mark sample data as sample; do not claim field work that did not occur.
 
@@ -105,8 +105,8 @@ An app-like satellite investigation that lets people inspect a real river change
 2. Step through actual acquisition dates and show synchronized boundaries and measurements.
 3. Select a candidate and alter a threshold or inspect stage/data-quality mismatch; show the real change in result or explain why the result is indeterminate.
 4. Open Radar-to-Reality and the Change Passport to show source, method, uncertainty, and alternatives.
-5. Open the same case in TRACE Field; capture one structured observation (or explicitly labelled sample), with GPS accuracy and offline state visible.
-6. Return to FluviSAR and show evidence awaiting review; explain that it does not auto-verify the original claim.
+5. Open the field capture flow in TRACE for that same case; capture one structured observation (or explicitly labelled sample), with GPS accuracy and offline state visible.
+6. Return to the TRACE case view and show evidence awaiting review; explain that it does not auto-verify the original claim.
 7. End with a plain-language report retaining its measurements and limitations.
 
 ## Release bar
