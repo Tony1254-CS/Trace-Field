@@ -82,7 +82,7 @@ TRACE succeeds through one deep, honest, usable investigation—not a large coll
 - Deliver an elegant, distinctive scientific field-app experience: app-oriented navigation, strong information hierarchy, restrained motion, deliberate typography, excellent responsive behavior, and a small coherent visual system.
 - Avoid generic AI/SaaS dashboard patterns, gratuitous gradients/glows, decorative 3D, excessive animation, metric-card walls, fake glass effects, and novelty that competes with evidence.
 - Build real interactions with meaningful states, loading/error/empty/offline behavior, and accessible focus/contrast. Do not ship a static visual demo in place of a required function.
-- Keep a focused, one-task-at-a-time app flow on phones. On larger screens, adapt the same TRACE app experience and case data; do not create a separate web product or web-specific workflow.
+- Keep a focused, one-task-at-a-time app flow on phones. On larger screens, adapt the same TRACE app experience and case data; do not add a separate product surface.
 - Keep components and data flows understandable. Avoid unnecessary abstractions, dependencies, services, accounts, and duplicated dashboards.
 
 ## Agent execution rules
