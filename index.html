@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#17231f" />
+    <meta name="description" content="TRACE is an offline-ready field notebook for careful, location-aware observations." />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/trace.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/trace-192.png" />
+    <link rel="stylesheet" href="./src/styles.css" />
+    <title>TRACE · Field notebook</title>
+  </head>
+  <body>
+    <div class="app-frame">
+      <header class="topbar">
+        <a class="brand" href="#missions" aria-label="TRACE home">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M8 9h24v5H22v18h-5V14H8z"/><circle cx="29" cy="28" r="4"/></svg></span>
+          <span class="brand-copy"><strong>TRACE</strong><small>FIELD NOTEBOOK</small></span>
+        </a>
+        <div class="topbar-actions">
+          <span class="connection-pill"><i id="connectionDot"></i><span id="connectionText">Checking</span></span>
+          <button class="icon-button install-button" id="installButton" type="button" aria-label="Install TRACE" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 16v4h14v-4"/></svg>
+          </button>
+          <button class="icon-button" id="moreButton" type="button" aria-label="Open data and privacy menu" aria-haspopup="dialog">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <main id="mainContent" class="main-content" tabindex="-1"></main>
+
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="missions" type="button" aria-current="page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v13H4zM8 9h8M8 13h5"/></svg><span>Missions</span>
+        </button>
+        <button class="nav-item" data-view="capture" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h4l1.5-2h5L16 7h4v12H4zM12 10a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z"/></svg><span>Capture</span>
+        </button>
+        <button class="nav-item" data-view="records" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5zM8 9h8M8 12h8M8 15h5"/></svg><span>Records</span>
+        </button>
+      </nav>
+    </div>
+
+    <dialog id="missionDialog" class="dialog">
+      <form id="missionForm" class="dialog-form">
+        <div class="dialog-head"><div><span class="eyebrow">TRACE / MISSION</span><h2 id="missionDialogTitle">New mission</h2></div><button type="button" class="icon-button dialog-close" aria-label="Close">×</button></div>
+        <input type="hidden" name="id" />
+        <label>Mission name <span class="required">Required</span><input name="title" maxlength="72" required placeholder="e.g. North bank walk-through" /></label>
+        <label>What should the observer look for?<textarea name="prompt" rows="3" maxlength="500" required placeholder="Describe the question in neutral, observable terms."></textarea></label>
+        <div class="field-pair"><label>Place or area<input name="place" maxlength="100" placeholder="Optional location name" /></label><label>Visit date<input name="visitDate" type="date" /></label></div>
+        <details class="coordinate-details"><summary>Add approximate target coordinates</summary><div class="field-pair coordinate-fields"><label>Latitude<input name="lat" type="number" min="-90" max="90" step="any" inputmode="decimal" placeholder="0.0000" /></label><label>Longitude<input name="lng" type="number" min="-180" max="180" step="any" inputmode="decimal" placeholder="0.0000" /></label></div><p class="helper">Coordinates describe a target area. They are not your live GPS position.</p></details>
+        <div class="dialog-actions"><button type="button" class="button secondary dialog-cancel">Cancel</button><button type="submit" class="button primary">Save mission</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="menuDialog" class="dialog compact-dialog">
+      <div class="dialog-form">
+        <div class="dialog-head"><div><span class="eyebrow">TRACE / YOUR DEVICE</span><h2>Data & privacy</h2></div><button type="button" class="icon-button dialog-close" aria-label="Close">×</button></div>
+        <p class="privacy-copy">Missions, notes, photos, and coordinates are saved in this browser on this device. This version has no account or cloud sync. Export a backup before clearing browser data or changing devices.</p>
+        <button id="exportButton" class="button secondary full-button" type="button">Export device backup <span>JSON</span></button>
+        <label class="button secondary full-button import-label">Restore from backup <span>JSON</span><input id="importInput" type="file" accept="application/json,.json" hidden /></label>
+        <p class="helper">A backup file contains all mission and observation records, including attached photos.</p>
+      </div>
+    </dialog>
+
+    <dialog id="recordDialog" class="dialog record-dialog"><div id="recordDetail" class="dialog-form"></div></dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
+
