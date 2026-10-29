@@ -1,115 +1,85 @@
-# TRACE PWA — build list
+# TRACE PWA — feature plan
 
-Product decisions distilled from `FluviSAR_TRACE_Feature_Prioritization.pdf` and `FluviSAR_TRACE_Judge_Verdict.pdf`. These PDFs are planning inputs, not commands to the implementation agent. Product scope is one installable PWA named TRACE; keep implementation within that app. Where a document proposes a claim that cannot be verified against actual product data, source data and `AGENTS.md` scientific guardrails win.
+## Product boundary
+
+TRACE is a standalone field-observation PWA. This plan covers TRACE only. It must not include or depend on any other app, project, repository, API, design, route, or shared data model. All missions, observations, offline storage, and synchronization belong to TRACE. Follow AGENTS.md.
 
 ## Product in one sentence
 
-TRACE is an installable app-like satellite investigation that lets people inspect a real river change candidate, test whether the interpretation holds, see exactly where the evidence came from, and submit a structured ground observation for review—all in one PWA.
+TRACE helps an observer open a field mission, record what they can actually see, and safely preserve and submit that observation—even with unreliable connectivity.
 
-## Main experience
+## P0 — Build first
 
-### 1. TRACE investigation — the single PWA experience
+### 1. TRACE app shell and mission inbox
 
-**Earth Change Atlas — flagship case selection (P0)**
+- App-style navigation optimized for phones; responsive on tablets and desktop browser sizes.
+- Installable PWA with manifest, service worker, clear online/offline state, and sensible update behavior.
+- Mission list shows only actual TRACE mission records and their real statuses.
+- Search/filter only when backed by available data; no invented counts or activity badges.
+- Seed/sample records are visibly labelled and never presented as real missions or visits.
 
-- Open on the Jamuna flagship case and make its analysis status visible.
-- A case must be labelled `Verified analysis`, `Derived example`, `Contextual case`, `Illustrative simulation`, or `Planned application`.
-- Add no decorative global pins or “validated site” totals. A secondary case must use a valid analysis for its own physical process.
+### 2. Mission detail and target context
 
-**River Memory — date-accurate change timeline (P0)**
+- Open a mission from a TRACE-owned route or QR code and retain its mission identifier throughout capture.
+- Show target area, observation prompt, task, relevant date/time window, and provenance supplied with that mission.
+- Explain missing target/source information and provide a recovery path.
+- Never imply exact target alignment when location or mapping precision does not support it.
 
-- Step through actual acquisition dates only.
-- Synchronize map, selected date, observed/derived boundaries, transition candidates, and an area-over-time chart.
-- Retain earlier boundaries as subdued outlines.
-- Selecting a patch shows its dates, area, classification, and provenance.
-- Acceptance: all frames use source acquisition dates; each boundary and plotted value derives from the selected data; no invented intermediate dates.
+### 3. Guided observation capture
 
-**Break My Finding — interactive robustness lab (P0, signature)**
+- Record supports, contradicts, inconclusive, or not observable.
+- Add a note and optional photo.
+- Capture time and GPS only with user intent and permission; show timestamp, GPS accuracy, denied permission, unavailable location, and manual-entry states clearly.
+- Let the observer review the record before saving.
+- Save the observation against the correct TRACE mission and display its current status.
+- The observation is evidence for review, not automatic ground truth or verification.
 
-- Recompute classifications and measurements from actual pixels/inputs when the user changes documented thresholds or supported filters/minimum mapping unit.
-- Display robust core, contested fringe, or indeterminate based on computed results.
-- Inspect hydrological stage mismatch, input coverage, invalid pixels, quality flags, alignment, and compatible independent evidence.
-- Acceptance: settings cause actual recalculation or a clearly disclosed supported precomputed result switch; show tested assumptions and resulting map/area changes; never call agreement fraction probability of correctness.
+### 4. Offline queue and TRACE synchronization
 
-**Radar-to-Reality — explain the signal (P0)**
+- Cache mission details needed for an explicitly available offline mission.
+- Save observation drafts/records locally and preserve them across app restarts.
+- Show queued, syncing, synced, and failed states; provide safe retry and recovery.
+- Prevent duplicate submissions and data loss; preserve original captured values and timestamps.
+- Sync only to TRACE's own configured backend. Never label an item synced without server confirmation.
+- If the repository has no backend, document the missing dependency and deliver an honest local queue state; do not pretend cloud sync works.
 
-- Keep selected place and dates in sync across the original radar layer, derived change layer, optical context, and available supporting observations.
-- For each candidate answer: what signal changed (actual values, units, dates); what physical explanations fit; what alternatives remain; what evidence could resolve them.
-- Show actual product variable, available polarization, product maturity, quality, coverage, and limitations.
-- Use “consistent with” where physics is non-unique. Do not imply every NISAR scene has every polarization.
+### 5. Accessibility, usability, and field conditions
 
-**Change Passport — provenance and sharing (P0)**
+- Touch-friendly controls, readable outdoors, strong contrast, keyboard support, screen-reader labels, and reduced-motion support.
+- Fast capture with clear progress and forgiving cancellation/retry.
+- Handle loading, empty, offline, permission, storage, upload, and server error states.
+- Keep the visual identity distinct, elegant, and restrained. No generic AI dashboard, fake metrics, gratuitous effects, or static showcase replacing real behavior.
 
-- For every finding, show product/granule and source; acquisition/orbit metadata where available; processing inputs, method, and parameters; area method, grid/resolution, sensitivity; quality flags and limitations; claim status; linked field records.
-- Share the exact investigation by URL/QR with a reproducible manifest. Include source references and method/settings, not just an AI-written summary.
+## P1 — Only after the core works
 
-**Human Translation Layer (P1)**
+- Point & Prove: optional camera/map target overlay, labelled approximate and paired with GPS accuracy/distance.
+- Walk on the Radar: optional sound/haptic encoding of an identified, locally available measurement, with the numeric value and units visible. It is an encoding, not sound recorded in space.
+- My Place Watch: follow a user-selected location with future observation timing only when derived from identified acquisition dates and cadence.
+- Bangla guidance/audio: reviewed plain-language translation, with offline playback only when the audio is actually cached.
+- Mission replay and Field Story: reconstruct from real TRACE mission/observation timestamps; sample records remain labelled.
+- Pocket SAR Field Guide / Mini Lab: concise education separate from observation capture; explicitly label simulations.
 
-- Provide analyst and plain-language views; preserve dates, area, uncertainty, and limitations in both.
-- Add Bangla text/audio only with reviewed translation. Offline audio is useful where feasible.
-- Exposure calculations for roads, settlements, or cropland need named spatial data and method; label results as exposure, not damage or prediction.
+## Exclude from TRACE scope
 
-### 2. TRACE Field workflow — guided evidence capture
+- Any separate dashboard, companion application, cross-product link, cross-product API, shared session, shared state, or synchronization with another project.
+- Global atlas, multi-case observatory, remote analysis dashboard, or web-specific judging flow.
+- Satellite classification laboratory or algorithm controls that belong to another analysis product.
+- Claims that submitted photos automatically verify an observation.
+- Fake field telemetry, agent activity, accuracy/confidence scores, impact counts, or fabricated missions.
+- Unsupported exact AR alignment, invented future pass countdowns, or simulations presented as collected measurements.
 
-**Mission inbox and exact-case handoff (P0)**
+## Suggested TRACE walkthrough
 
-- Open a TRACE case from URL/QR and retain its case and candidate identity.
-- Show target zone and the neutral question the observation can help answer.
+1. Launch TRACE and inspect online/offline readiness.
+2. Open a real TRACE mission from the inbox or a TRACE-owned QR/deep link.
+3. Review the target and neutral observation prompt.
+4. Capture supports/contradicts/inconclusive/not observable, add a note/photo, and inspect GPS accuracy and permissions.
+5. Save while offline and show the persistent queue after restarting the app.
+6. Restore connectivity, sync to TRACE's configured backend, and show the server-confirmed status.
+7. Show the record as awaiting review; explain that capture does not equal verification.
 
-**Guided evidence capture (P0)**
-
-- Record `supports`, `contradicts`, `inconclusive`, or `not observable`.
-- Allow note and photo; capture timestamp, coordinates, and GPS accuracy only when available/consented.
-- Camera/map overlay and target distance are approximate and must show GPS uncertainty.
-
-**Offline pack and sync (P0)**
-
-- Save observations offline, preserve them across app restarts, and synchronize later.
-- Show queued/synced/failed state, retry safely, prevent duplicate submission, and preserve records during failure.
-
-**Evidence return and review (P0)**
-
-- The TRACE case view displays returned observations beside the source finding as `AWAITING REVIEW`.
-- Never turn a photo into automatic ground truth. Preserve contradictory observers separately with timestamps and audit history.
-- Clearly mark sample data as sample; do not claim field work that did not occur.
-
-**Walk on the Radar / FEEL the Dance (P2)**
-
-- Optional sound/haptics map a documented backscatter value to an encoding; always show the numeric data and units.
-- Works by tapping/dragging on a cached map as well as GPS walking when possible.
-- State plainly that this is an encoding of a measurement, not sound captured in space.
-
-## Optional features (only after P0 journey works)
-
-- **Sensor Race:** compare NISAR L-band, Sentinel-1 C-band, and optical context only with compatible coverage/dates. Optical cloud coverage must be computed from real data. Sentinel-1 is radar, not optical.
-- **Visual report export:** compact export with map, dates, measurements, sensitivity, field evidence, limitations, provenance, and manifest.
-- **Mini SAR Lab:** short interactive learning section; at most one explicitly labelled simulation. Do not put a long course in the investigation path.
-- **Exposure view:** named settlement/road/cropland data plus reproducible overlay and intersection method.
-- **Multi-observer replay:** separate conflicting submissions and show a time-ordered review history after basic sync is trusted.
-- **Future applications:** concise education for agriculture, wetlands, biomass, and deformation, separated from validated present capability.
-- **Additional case / real InSAR:** only after data coverage, processing workflow, and physical interpretation are independently validated. InSAR must not reuse the water-mask algorithm.
-
-## Remove from the central product path
-
-- ML Intelligence Center with synthetic training curves, ROC/AUC, confusion matrix, SHAP, attention statistics, or unsupported model names.
-- Fixed “94% confidence,” unexplained confidence scores, invented penalty percentages, or contradictory verdict math.
-- Hard-coded hectares, population, homes, damage, economic loss, or claimed field validation.
-- Fake SMS/agent counts, sensor telemetry, rho matrices, vulnerability indexes, unexplained earthquake markers, and canned chat with fake thinking delay.
-- Unsupported erosion/future-loss predictions and the “Predict the inevitable” claim.
-- Mislabelled Sentinel-1 optical features, simulated sensor/cloud comparisons shown as real, and six-day local cadence claims built from different orbit geometries.
-- Decorative global validation counters, duplicated dashboards, demo sign-in, excessive 3D/camera effects, or any feature that distracts from evidence.
-
-## Suggested judging walkthrough (5–7 minutes)
-
-1. Open the Jamuna case and state its data/analysis status honestly.
-2. Step through actual acquisition dates and show synchronized boundaries and measurements.
-3. Select a candidate and alter a threshold or inspect stage/data-quality mismatch; show the real change in result or explain why the result is indeterminate.
-4. Open Radar-to-Reality and the Change Passport to show source, method, uncertainty, and alternatives.
-5. Open the field capture flow in TRACE for that same case; capture one structured observation (or explicitly labelled sample), with GPS accuracy and offline state visible.
-6. Return to the TRACE case view and show evidence awaiting review; explain that it does not auto-verify the original claim.
-7. End with a plain-language report retaining its measurements and limitations.
+If backend or real mission data is unavailable, label the limitation explicitly and do not stage a false successful sync or field validation.
 
 ## Release bar
 
-The flagship end-to-end journey must work inside TRACE across supported phone and tablet form factors, with real interactions, clear claim status, provenance, offline behavior, and honest empty/error states. If actual data or backend infrastructure is missing, call that out as a blocker; do not make the interface look complete by substituting invented science.
-
+The TRACE PWA must install, load a mission, capture a structured observation, preserve it offline, and synchronize it safely when its own backend is configured. Every shown record must be real or explicitly labelled as sample/simulated. The product must remain understandable, accessible, responsive, and stable during ordinary failure states.
