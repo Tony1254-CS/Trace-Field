@@ -1,5 +1,5 @@
-const CACHE_NAME = "trace-shell-v1";
-const APP_FILES = ["./", "./index.html", "./manifest.webmanifest", "./src/styles.css", "./src/app.js", "./icons/trace.svg"];
+const CACHE_NAME = "trace-shell-v3";
+const APP_FILES = ["./", "./index.html", "./manifest.webmanifest", "./src/styles.css", "./src/app.js", "./icons/trace.svg", "./icons/trace-192.png", "./icons/trace-512.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_FILES.map((path) => new URL(path, self.registration.scope).href))));

@@ -7,6 +7,7 @@ const missionDialog = document.querySelector("#missionDialog");
 const missionForm = document.querySelector("#missionForm");
 const menuDialog = document.querySelector("#menuDialog");
 const recordDialog = document.querySelector("#recordDialog");
+const reviewDialog = document.querySelector("#reviewDialog");
 const toast = document.querySelector("#toast");
 
 const state = {
@@ -21,6 +22,7 @@ const state = {
   location: null,
   installPrompt: null,
   toastTimer: null,
+  pendingRecord: null,
 };
 
 function openDatabase() {
@@ -140,14 +142,15 @@ function renderPicker() {
 function renderCapture() {
   const selected = state.missions.find((mission) => mission.id === state.selectedMissionId && !mission.archived);
   const draft = state.currentDraft || {};
-  const photoPreview = state.photoUrl ? '<img class="photo-preview" src="' + state.photoUrl + '" alt="Selected field photo preview">' : '<span class="privacy-symbol" aria-hidden="true">＋</span>';
+  const photoPreview = state.photoUrl ? '<img class="photo-preview" src="' + state.photoUrl + '" alt="Selected field photo preview"><button class="small-action remove-photo" data-action="remove-photo" type="button">Remove photo</button>' : '<span class="privacy-symbol" aria-hidden="true">＋</span>';
   const locationText = state.location ? Number(state.location.lat).toFixed(5) + ', ' + Number(state.location.lng).toFixed(5) + ' · ±' + Math.round(state.location.accuracy) + ' m' : "No location attached";
-  const captureForm = selected ? '<div class="mission-callout"><strong>' + escapeHTML(selected.title) + '</strong><p>' + escapeHTML(selected.prompt) + '</p></div>' +
+  const missionContext = [selected?.place, selected?.visitDate ? "Visit date: " + formatDate(selected.visitDate) : "", selected?.target ? "Target: " + Number(selected.target.lat).toFixed(4) + ", " + Number(selected.target.lng).toFixed(4) : ""].filter(Boolean).join(" · ");
+  const captureForm = selected ? '<div class="mission-callout"><strong>' + escapeHTML(selected.title) + '</strong><p>' + escapeHTML(selected.prompt) + '</p>' + (missionContext ? '<p class="mission-context">' + escapeHTML(missionContext) + '</p>' : "") + '</div>' +
     '<form id="captureForm" class="capture-form"><div><span class="eyebrow">YOUR OBSERVATION</span><div class="response-options" role="radiogroup" aria-label="Choose your observation" style="margin-top:9px">' +
     [["supports", "Supports"], ["contradicts", "Contradicts"], ["inconclusive", "Inconclusive"], ["not-observable", "Not observable"]].map(([value, label]) => '<label class="response-option"><input type="radio" name="answer" value="' + value + '" required ' + (draft.answer === value ? "checked" : "") + '><span>' + label + '</span></label>').join("") + '</div></div>' +
     '<label>Field note <span class="helper">What did you observe? Keep interpretation separate from what you saw.</span><textarea name="note" rows="4" maxlength="1200" placeholder="Describe the visible conditions, time, and anything that may affect the observation.">' + escapeHTML(draft.note || "") + '</textarea></label>' +
     '<div><span class="eyebrow">LOCATION / OPTIONAL</span><div class="capture-row" style="margin-top:8px"><button class="gps-button" id="gpsButton" type="button">◎ Add current location</button><span class="gps-output" id="gpsOutput">' + escapeHTML(locationText) + '</span></div><input type="hidden" name="capturedAt" value="' + escapeHTML(state.location?.capturedAt || "") + '"></div>' +
-    '<div><label for="photoInput">Photo evidence <span class="helper">Optional. The original photo remains stored on this device.</span></label><div class="photo-box" style="margin-top:8px">' + photoPreview + '<input id="photoInput" type="file" accept="image/*" capture="environment" aria-label="Add photo evidence"></div></div>' +
+    '<div><label for="photoInput">Photo evidence <span class="helper">Optional. TRACE stores a resized copy on this device.</span></label><div class="photo-box" style="margin-top:8px">' + photoPreview + '<input id="photoInput" type="file" accept="image/*" capture="environment" aria-label="Add photo evidence"></div></div>' +
     '<div class="form-actions"><button class="button secondary" id="saveDraftButton" type="button">Save draft</button><button class="button primary" type="submit">Save field note <span class="button-arrow">↗</span></button></div><p class="helper">Saved locally on this device. Not submitted or independently verified.</p></form>' : '<div class="panel"><h2>Choose a mission</h2><p class="helper" style="margin-bottom:14px">Select an open TRACE mission to attach your observation to.</p>' + renderPicker() + '</div>';
   return '<div class="page-intro"><span class="eyebrow">TRACE / FIELD CAPTURE</span><h1>Record what you see.</h1><p>Capture an observation in your own words. Location and photo are optional; your note stays on this device.</p></div><div class="capture-layout"><section class="panel"><h2>' + (selected ? "Observation" : "Mission") + '</h2>' + (selected ? captureForm : renderPicker()) + '</section><aside class="panel"><span class="eyebrow">FIELD PRACTICE</span><h2 style="margin-top:8px">Evidence before interpretation.</h2><p class="helper">Describe visible conditions first. If you cannot tell, choose inconclusive or not observable. A photo is supporting evidence, not automatic confirmation.</p><div class="privacy-banner" style="margin-top:17px"><span class="privacy-symbol" aria-hidden="true">⌖</span><div><b>Location is your choice</b><p>TRACE asks for your position only when you tap Add current location. Accuracy is saved with the coordinates.</p></div></div></aside></div>';
 }
@@ -156,7 +159,7 @@ function renderRecordCard(record) {
   const mission = state.missions.find((item) => item.id === record.missionId);
   const caption = mission ? mission.title : "Mission unavailable";
   const location = record.location ? Number(record.location.lat).toFixed(4) + ", " + Number(record.location.lng).toFixed(4) + " · ±" + Math.round(record.location.accuracy) + " m" : "No location";
-  return '<article class="record-card"><div><h3>' + escapeHTML(caption) + '</h3><p>' + escapeHTML(record.note || "No written note") + '</p><p style="margin-top:7px">' + escapeHTML(location) + (record.photo ? " · Photo attached" : "") + '</p></div><div class="record-side"><span class="answer-tag ' + escapeHTML(record.answer) + '">' + answerLabel(record.answer) + '</span><button class="detail-button" data-action="view-record" data-id="' + escapeHTML(record.id) + '" type="button">View record</button></div></article>';
+  return '<article class="record-card"><div><h3>' + escapeHTML(caption) + '</h3><p>' + escapeHTML(record.note || "No written note") + '</p><p class="record-time">' + escapeHTML(formatDate(record.capturedAt, true)) + '</p><p style="margin-top:7px">' + escapeHTML(location) + (record.photo ? " · Photo attached" : "") + '</p></div><div class="record-side"><span class="answer-tag ' + escapeHTML(record.answer) + '">' + answerLabel(record.answer) + '</span><button class="detail-button" data-action="view-record" data-id="' + escapeHTML(record.id) + '" type="button">View record</button></div></article>';
 }
 
 function renderRecords() {
@@ -220,7 +223,8 @@ missionForm.addEventListener("submit", async (event) => {
     createdAt: state.missions.find((item) => item.id === id)?.createdAt || new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
-  if (!mission.title || !mission.prompt) return;
+  if (!mission.title || !mission.prompt) { toastMessage("Add a mission name and a clear observation question."); return; }
+  if (lat && lng && (!Number.isFinite(mission.target.lat) || Math.abs(mission.target.lat) > 90 || !Number.isFinite(mission.target.lng) || Math.abs(mission.target.lng) > 180)) { toastMessage("Target coordinates must be within valid latitude and longitude ranges."); return; }
   try {
     await db.put("missions", mission);
     missionDialog.close();
@@ -291,6 +295,14 @@ main.addEventListener("click", async (event) => {
     if (mission) openMissionEditor(mission);
   }
   if (action === "capture-mission") await selectMission(id);
+  if (action === "remove-photo") {
+    state.photoBlob = null;
+    if (state.photoUrl) URL.revokeObjectURL(state.photoUrl);
+    state.photoUrl = null;
+    await saveDraft();
+    await render();
+    toastMessage("Photo removed from this draft.");
+  }
   if (action === "select-mission") {
     state.selectedMissionId = id;
     await selectMission(id);
@@ -361,6 +373,13 @@ main.addEventListener("change", async (event) => {
       image.alt = "Selected field photo preview";
       image.src = state.photoUrl;
       photoBox.querySelector("img,.privacy-symbol")?.replaceWith(image);
+      const removeButton = document.createElement("button");
+      removeButton.type = "button";
+      removeButton.className = "small-action remove-photo";
+      removeButton.dataset.action = "remove-photo";
+      removeButton.textContent = "Remove photo";
+      photoBox.querySelector(".remove-photo")?.remove();
+      photoBox.insertBefore(removeButton, event.target);
       toastMessage("Photo added to your local draft.");
     } catch (error) { toastMessage(error.message); event.target.value = ""; }
   }
@@ -400,7 +419,7 @@ main.addEventListener("submit", async (event) => {
   const form = new FormData(event.target);
   const mission = state.missions.find((item) => item.id === state.selectedMissionId && !item.archived);
   if (!mission) { toastMessage("Choose an open mission before saving."); return; }
-  const record = {
+  state.pendingRecord = {
     id: makeId(),
     missionId: mission.id,
     answer: form.get("answer"),
@@ -412,9 +431,20 @@ main.addEventListener("submit", async (event) => {
     status: "saved_on_device",
     verification: "awaiting_review",
   };
+  const pending = state.pendingRecord;
+  const location = pending.location ? Number(pending.location.lat).toFixed(5) + ", " + Number(pending.location.lng).toFixed(5) + " · ±" + Math.round(pending.location.accuracy) + " m" : "No location attached";
+  document.querySelector("#reviewSummary").innerHTML = '<div class="detail-grid"><div class="detail-value"><small>Mission</small><strong>' + escapeHTML(mission.title) + '</strong></div><div class="detail-value"><small>Response</small><strong>' + escapeHTML(answerLabel(pending.answer)) + '</strong></div><div class="detail-value"><small>Location</small><strong>' + escapeHTML(location) + '</strong></div><div class="detail-value"><small>Photo</small><strong>' + (pending.photo ? "Attached" : "None") + '</strong></div></div><p class="privacy-copy">' + escapeHTML(pending.note || "No written note was added.") + '</p>' + (pending.photo ? '<img class="record-detail-photo" src="' + escapeHTML(state.photoUrl || "") + '" alt="Photo evidence preview for this field note">' : "");
+  reviewDialog.showModal();
+});
+
+document.querySelector("#confirmSaveButton").addEventListener("click", async () => {
+  const record = state.pendingRecord;
+  if (!record) return;
   try {
     await db.put("observations", record);
-    await db.delete("drafts", mission.id);
+    await db.delete("drafts", record.missionId);
+    reviewDialog.close();
+    state.pendingRecord = null;
     state.currentDraft = {};
     state.location = null;
     state.photoBlob = null;
@@ -474,6 +504,7 @@ function dataUrlToBlob(value) {
   if (!mime) throw new Error("Backup contains an invalid photo encoding.");
   if (!/^image\/(jpeg|png|webp|gif|bmp|heic|heif)$/i.test(mime[1])) throw new Error("Backup photo format is not supported.");
   const binary = atob(parts[1]);
+  if (!binary.length) throw new Error("Backup contains an empty photo.");
   if (binary.length > MAX_PHOTO_BYTES) throw new Error("Backup photo is larger than 8 MB.");
   const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
   return new Blob([bytes], { type: mime[1] });
@@ -484,20 +515,27 @@ async function restoreBackup(payload) {
   if (payload.missions.length > 1000 || payload.observations.length > 10000) throw new Error("Backup contains too many records.");
   const missionIds = new Map();
   const importedMissions = payload.missions.map((mission) => {
-    if (!mission || typeof mission.title !== "string" || typeof mission.prompt !== "string") throw new Error("Backup contains an invalid mission.");
+    if (!mission || typeof mission.title !== "string" || !mission.title.trim() || mission.title.length > 72 || typeof mission.prompt !== "string" || !mission.prompt.trim() || mission.prompt.length > 500) throw new Error("Backup contains an invalid mission.");
     if (typeof mission.id !== "string" || !mission.id || missionIds.has(mission.id)) throw new Error("Backup contains a missing or duplicate mission ID.");
+    if (mission.place != null && (typeof mission.place !== "string" || mission.place.length > 100)) throw new Error("Backup contains an invalid mission place.");
+    if (mission.visitDate && (typeof mission.visitDate !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(mission.visitDate) || Number.isNaN(Date.parse(mission.visitDate)))) throw new Error("Backup contains an invalid mission date.");
     if (mission.target && (!Number.isFinite(mission.target.lat) || Math.abs(mission.target.lat) > 90 || !Number.isFinite(mission.target.lng) || Math.abs(mission.target.lng) > 180)) throw new Error("Backup contains invalid target coordinates.");
+    if (mission.createdAt && (typeof mission.createdAt !== "string" || Number.isNaN(Date.parse(mission.createdAt)))) throw new Error("Backup contains an invalid mission timestamp.");
+    if (mission.updatedAt && (typeof mission.updatedAt !== "string" || Number.isNaN(Date.parse(mission.updatedAt)))) throw new Error("Backup contains an invalid mission timestamp.");
     const id = makeId();
     missionIds.set(mission.id, id);
-    return { ...mission, id, title: mission.title.slice(0, 72), prompt: mission.prompt.slice(0, 500), place: String(mission.place || "").slice(0, 100), createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
+    const now = new Date().toISOString();
+    return { ...mission, id, title: mission.title.trim(), prompt: mission.prompt.trim(), place: mission.place || "", archived: Boolean(mission.archived), createdAt: mission.createdAt || now, updatedAt: mission.updatedAt || now };
   });
+  const recordIds = new Set();
   const importedRecords = payload.observations.map((record) => {
-    if (!record || !missionIds.has(record.missionId) || !["supports", "contradicts", "inconclusive", "not-observable"].includes(record.answer)) throw new Error("Backup contains an invalid observation.");
+    if (!record || typeof record.id !== "string" || !record.id || !missionIds.has(record.missionId) || !["supports", "contradicts", "inconclusive", "not-observable"].includes(record.answer) || (record.note != null && (typeof record.note !== "string" || record.note.length > 1200)) || typeof record.capturedAt !== "string" || Number.isNaN(Date.parse(record.capturedAt)) || (record.createdAt && (typeof record.createdAt !== "string" || Number.isNaN(Date.parse(record.createdAt))))) throw new Error("Backup contains an invalid observation.");
+    if (recordIds.has(record.id)) throw new Error("Backup contains a duplicate observation ID.");
+    recordIds.add(record.id);
     const photo = record.photo ? dataUrlToBlob(record.photo) : null;
-    const location = record.location && Number.isFinite(record.location.lat) && Math.abs(record.location.lat) <= 90 && Number.isFinite(record.location.lng) && Math.abs(record.location.lng) <= 180 && Number.isFinite(record.location.accuracy) && record.location.accuracy >= 0
-      ? { lat: record.location.lat, lng: record.location.lng, accuracy: record.location.accuracy, capturedAt: record.location.capturedAt || record.capturedAt }
-      : null;
-    return { ...record, id: makeId(), missionId: missionIds.get(record.missionId), photo, location, note: String(record.note || "").slice(0, 1200), status: "saved_on_device", verification: "awaiting_review", createdAt: record.createdAt || new Date().toISOString() };
+    if (record.location && (!Number.isFinite(record.location.lat) || Math.abs(record.location.lat) > 90 || !Number.isFinite(record.location.lng) || Math.abs(record.location.lng) > 180 || !Number.isFinite(record.location.accuracy) || record.location.accuracy < 0 || (record.location.capturedAt && (typeof record.location.capturedAt !== "string" || Number.isNaN(Date.parse(record.location.capturedAt)))))) throw new Error("Backup contains invalid observation coordinates or accuracy.");
+    const location = record.location ? { lat: record.location.lat, lng: record.location.lng, accuracy: record.location.accuracy, capturedAt: record.location.capturedAt || record.capturedAt } : null;
+    return { ...record, id: makeId(), missionId: missionIds.get(record.missionId), photo, location, note: record.note || "", status: "saved_on_device", verification: "awaiting_review", createdAt: record.createdAt || new Date().toISOString() };
   });
   const database = await dbReady;
   await new Promise((resolve, reject) => {
@@ -518,7 +556,7 @@ async function showRecord(id) {
   const loc = record.location ? Number(record.location.lat).toFixed(6) + ", " + Number(record.location.lng).toFixed(6) : "Not provided";
   document.querySelector("#recordDetail").innerHTML = '<div class="dialog-head"><div><span class="eyebrow">TRACE / SAVED LOCALLY</span><h2>' + escapeHTML(mission?.title || "Field note") + '</h2></div><button type="button" class="icon-button dialog-close" aria-label="Close">×</button></div>' +
     '<span class="answer-tag ' + escapeHTML(record.answer) + '">' + answerLabel(record.answer) + '</span>' +
-    '<p class="privacy-copy">' + escapeHTML(record.note || "No written note was added.") + '</p>' + (photoUrl ? '<img class="record-detail-photo" src="' + photoUrl + '" alt="Photo attached to field note">' : "") +
+    '<p class="mission-prompt-detail"><span class="eyebrow">MISSION QUESTION</span>' + escapeHTML(mission?.prompt || "Mission prompt unavailable") + '</p><p class="privacy-copy">' + escapeHTML(record.note || "No written note was added.") + '</p>' + (photoUrl ? '<img class="record-detail-photo" src="' + photoUrl + '" alt="Photo attached to field note">' : "") +
     '<div class="detail-grid"><div class="detail-value"><small>Captured</small><strong>' + escapeHTML(formatDate(record.capturedAt, true)) + '</strong></div><div class="detail-value"><small>Location</small><strong>' + escapeHTML(loc) + '</strong></div><div class="detail-value"><small>GPS accuracy</small><strong>' + (record.location ? "±" + Math.round(record.location.accuracy) + " m" : "Not recorded") + '</strong></div><div class="detail-value"><small>Record state</small><strong>Saved on this device</strong></div><div class="detail-value"><small>Review state</small><strong>Awaiting review</strong></div><div class="detail-value"><small>Mission</small><strong>' + escapeHTML(mission?.place || "Place not set") + '</strong></div></div>' +
     '<div class="dialog-actions"><button type="button" class="button secondary dialog-close">Close</button><button type="button" class="button secondary" data-action="delete-record" data-id="' + escapeHTML(record.id) + '">Delete record</button></div>';
   document.querySelectorAll("#recordDetail .dialog-close").forEach((button) => button.addEventListener("click", () => recordDialog.close()));

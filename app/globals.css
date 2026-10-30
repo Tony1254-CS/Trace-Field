@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@import "../src/styles.css";
+
+html { min-width: 320px; background: #f3f2ed; }
+body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+button:disabled { cursor: not-allowed; opacity: .58; }
+.form-error { color: #a6412d; font-size: 12px; }
+.form-status { min-height: 1.25rem; color: #68736d; font-size: 12px; }
+.dialog-form input[type="email"], .dialog-form input[type="password"] { width: 100%; min-height: 44px; padding: 11px 12px; border: 1px solid #d9ddd4; border-radius: 11px; background: #fff; color: #17231f; font-size: 13px; font-weight: 400; }
+.toolbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.dashboard-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
+.dashboard-header h1 { margin: 0; font: 700 26px/1.1 var(--display); }
+.dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(300px, .8fr); gap: 20px; align-items: start; }
+.record-mission { color: var(--muted); font-size: 11px; }
+.record-photo { width: min(100%, 440px); max-height: 300px; object-fit: cover; border-radius: 13px; }
+.auth-frame { min-height: 100dvh; display: grid; place-items: center; padding: 22px; }
+.auth-card { width: min(100%, 470px); padding: 30px; border: 1px solid var(--line); border-radius: 22px; background: var(--surface); box-shadow: var(--shadow); }
+.auth-card h1 { margin: 16px 0 9px; font-size: 31px; }
+.auth-card > p { margin: 0 0 22px; color: var(--muted); line-height: 1.6; font-size: 13px; }
+.auth-form { display: grid; gap: 14px; }
+.auth-form label { display: grid; gap: 7px; color: #34443a; font-size: 12px; font-weight: 700; }
+.auth-switch { margin: 17px 0 0; text-align: center; color: var(--muted); font-size: 12px; }
+.text-link { border: 0; padding: 5px; background: transparent; color: var(--moss-deep); font-weight: 700; cursor: pointer; }
+.dashboard-loading { display: grid; place-items: center; min-height: 55vh; color: var(--muted); }
+.mission-editor { width: min(600px, calc(100% - 24px)); }
+.review-dialog { width: min(620px, calc(100% - 24px)); }
+.review-note { padding: 13px; border-radius: 12px; background: #f1f2ec; white-space: pre-wrap; overflow-wrap: anywhere; }
+.pagination { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 16px; color: var(--muted); font-size: 11px; }
+.pagination .button { min-height: 38px; }
+@media(max-width:760px) { .dashboard-header { align-items: flex-start; flex-direction: column; } .dashboard-grid { grid-template-columns: 1fr; } .auth-card { padding: 23px; } }
+
+.dialog-overlay { position: fixed; inset: 0; z-index: 49; background: rgba(12,23,19,.54); backdrop-filter: blur(3px); }
+.dialog.dialog-form { position: fixed; left: 50%; top: 50%; z-index: 50; transform: translate(-50%,-50%); max-height: min(88dvh,820px); overflow-y: auto; }
+.dialog-x { position: absolute; top: 17px; right: 17px; }
+.dialog-form > .dialog-head { padding-right: 40px; }
+.ghost-button { background: transparent; border-color: transparent; color: var(--moss-deep); }
+.danger-button { background: var(--soft-rust); border-color: #efc8ba; color: #8d3e2b; }
+.button-sm { min-height: 36px; padding: 0 10px; font-size: 11px; }
+.capture-form select { width: 100%; min-height: 44px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 11px; background: #fff; color: var(--ink); font-size: 13px; }
+.capture-fieldset { min-width: 0; padding: 0; border: 0; margin: 0; }
+.capture-fieldset legend { margin-bottom: 9px; }
+.search-wrap { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 180px; }
+.search-wrap .search-field { width: 100%; }
+.record-mission, .record-review { display: block; margin-top: 7px; color: var(--muted); font: 10px var(--mono); }
+.account-label { max-width: 220px; overflow: hidden; text-overflow: ellipsis; color: var(--muted); font-size: 11px; }
+.account-caption { margin: -20px 0 22px; color: var(--muted); font-size: 11px; }
+.mission-context-line { display: flex; gap: 12px; margin-top: 12px; color: var(--muted); font: 10px var(--mono); flex-wrap: wrap; }
+.mission-context-line span { display: inline-flex; align-items: center; gap: 5px; }
+.app-footer { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0 24px; color: var(--muted); font: 10px var(--mono); }
+@media(max-width:760px) { .account-label { max-width: 130px; } .app-footer { flex-direction: column; } .dialog-actions { flex-wrap: wrap; } }

@@ -1,34 +1,43 @@
-# TRACE
+# TRACE Field Notebook
 
-TRACE is a standalone, installable field-observation PWA. Create a mission, capture an observation, and keep the record on the current device—even offline.
+TRACE helps field observers create missions, capture observations, and review their records. This implementation uses a Next.js App Router frontend, an Express API, and Supabase Auth, PostgreSQL, and private Storage.
 
-## What works
+## Requirements
 
-- Create, edit, archive, and reopen field missions.
-- Capture one of four responses, a note, optional photo, and optional GPS position with reported accuracy.
-- Keep drafts, missions, and observations in IndexedDB.
-- Search/filter saved notes and inspect a full record.
-- Export a versioned JSON device backup and restore it without losing record-to-mission links or photos.
-- Load the app shell offline after the first successful visit.
+- Node.js 20.9 or later and npm.
+- A Supabase project with email/password Auth enabled.
+- Supabase project URL and publishable key.
+
+## First run
+
+1. Copy `.env.example` to `.env.local` and set the Supabase URL and publishable key.
+2. Apply `supabase/migrations/202610300001_trace_core.sql` to your Supabase project.
+3. Add `http://localhost:3000` to the Auth redirect URL allow-list.
+4. Run:
+
+   ```powershell
+   npm ci
+   npm run dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000). The API is at `http://localhost:8000/api/v1`; its health route is `/health`.
+
+See [docs/DEVELOPMENT_SETUP.md](docs/DEVELOPMENT_SETUP.md) for environment details and [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the system boundaries.
+
+## Quality checks
+
+```powershell
+npm run lint
+npm run typecheck
+npm test
+npm run test:server
+npm run build
+```
+
+The tests cover local schemas and API health/auth boundaries. RLS, Auth, Storage, and backup RPC behavior require a configured Supabase project for end-to-end verification.
 
 ## Data and privacy
 
-TRACE v1 is local-only. It has no account, backend, or network sync. Missions and observations live in this browser on this device. Clearing browser storage can delete them; export a backup before switching devices or clearing data. A local save is never shown as a server submission or verification.
+Missions and observations are account-backed in the configured Supabase project. PostgreSQL RLS and Storage policies isolate each user's records and photos. The API uses only the public publishable key and signed-in access tokens; it does not use a service-role key. Configure the Supabase email confirmation and mail delivery settings before inviting field users.
 
-Location is requested only after tapping the location control. A photo is attached only when the user chooses one.
-
-## Run locally
-
-Serve the repository over localhost; opening index.html directly with file:// does not enable service workers or PWA install behavior.
-
-```powershell
-python -m http.server 4173
-```
-
-Then open http://localhost:4173. No package install or build step is required.
-
-## GitHub checks
-
-The TRACE quality workflow runs on every push and pull request. It checks JavaScript syntax, the PWA manifest, icon assets, and app-shell references. To prevent a failing check from merging, require the “Validate TRACE PWA files” status in a GitHub branch ruleset. Copilot code review is a separate review service and must be enabled in repository/account settings; it can comment on pull requests but does not automatically repair code.
-
-See .github/COPILOT_REVIEW_SETUP.md for the remaining GitHub review settings.
+The app shell can open an offline information page after it has been cached, but account records cannot be fetched or saved without a connection. A local backup is a JSON file; it is not cloud synchronization.

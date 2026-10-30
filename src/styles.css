@@ -6,3 +6,7 @@
 @media(max-width:390px){.app-frame{padding-left:13px;padding-right:13px}.field-pair{grid-template-columns:1fr}.hero{padding:21px}.response-options{grid-template-columns:1fr}.brand-copy strong{font-size:16px}.connection-pill{gap:5px}.stat{padding:8px 10px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
+
+.review-summary{display:grid;gap:12px}.review-summary .detail-grid{margin:0}.review-summary .privacy-copy{padding:12px;border-radius:11px;background:#f1f2ec;white-space:pre-wrap;overflow-wrap:anywhere}.review-summary .record-detail-photo{max-height:220px}
+
+.mission-callout .mission-context{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font:10px/1.5 var(--mono);overflow-wrap:anywhere}.mission-prompt-detail{margin:0;padding:12px;border-radius:11px;background:#f1f2ec;color:var(--muted);font-size:12px;line-height:1.5;white-space:pre-wrap}.mission-prompt-detail .eyebrow{margin-bottom:5px}.remove-photo{margin-left:auto;min-height:40px;white-space:nowrap}

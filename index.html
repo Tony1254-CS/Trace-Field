@@ -70,6 +70,14 @@
     </dialog>
 
     <dialog id="recordDialog" class="dialog record-dialog"><div id="recordDetail" class="dialog-form"></div></dialog>
+    <dialog id="reviewDialog" class="dialog compact-dialog" aria-labelledby="reviewTitle">
+      <div class="dialog-form">
+        <div class="dialog-head"><div><span class="eyebrow">TRACE / REVIEW</span><h2 id="reviewTitle">Review field note</h2></div><button type="button" class="icon-button dialog-close" aria-label="Close">×</button></div>
+        <p class="helper">Check the observation and attached evidence before saving it to this device.</p>
+        <div id="reviewSummary" class="review-summary"></div>
+        <div class="dialog-actions"><button type="button" class="button secondary dialog-cancel">Back to note</button><button type="button" class="button primary" id="confirmSaveButton">Save on this device</button></div>
+      </div>
+    </dialog>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <script type="module" src="./src/app.js"></script>
