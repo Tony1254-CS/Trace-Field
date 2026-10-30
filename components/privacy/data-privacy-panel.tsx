@@ -9,6 +9,7 @@ import { apiRequest } from "@/lib/api/client";
 import { missionKey } from "@/features/missions/queries";
 import { observationKey } from "@/features/observations/queries";
 import { FeelRadarPlayer } from "@/components/radar/feel-radar-player";
+import { ModernBanglaPlayer } from "@/components/radar/modern-bangla-player";
 
 interface ServiceStatus {
   name: string;
@@ -346,6 +347,7 @@ export function DataPrivacyPanel({ email }: { email: string }) {
             </div>
           </section>
 
+          <ModernBanglaPlayer />
           <FeelRadarPlayer />
         </aside>
       </div>
