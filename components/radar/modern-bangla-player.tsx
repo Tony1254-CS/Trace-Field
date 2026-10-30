@@ -8,7 +8,6 @@ import {
   Languages,
   CheckCircle2,
   Sparkles,
-  Info,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -55,36 +54,25 @@ const SCRIPT_ITEMS: ScriptItem[] = [
 export function ModernBanglaPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeSentenceIndex, setActiveSentenceIndex] = useState(0);
-  const [speed, setSpeed] = useState<number>(0.9);
+  const [speed, setSpeed] = useState<number>(1.0);
   const [voiceLang, setVoiceLang] = useState<"bn" | "en">("bn");
-  const [hasNativeBanglaVoice, setHasNativeBanglaVoice] = useState(false);
-  const [availableVoices, setAvailableVoices] = useState<SpeechSynthesisVoice[]>([]);
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const playSentenceRef = useRef<(index: number) => void>(() => {});
 
-  // Initialize and check available voices
   useEffect(() => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
       synthRef.current = window.speechSynthesis;
-
-      const updateVoices = () => {
-        if (!synthRef.current) return;
-        const voices = synthRef.current.getVoices();
-        setAvailableVoices(voices);
-        const bnExists = voices.some(
-          (v) => v.lang.toLowerCase().startsWith("bn") || v.name.toLowerCase().includes("bangla") || v.name.toLowerCase().includes("bengali")
-        );
-        setHasNativeBanglaVoice(bnExists);
-      };
-
-      updateVoices();
-      if (window.speechSynthesis.onvoiceschanged !== undefined) {
-        window.speechSynthesis.onvoiceschanged = updateVoices;
-      }
     }
   }, []);
 
   const stopPlayback = useCallback(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+    }
     if (synthRef.current) {
       synthRef.current.cancel();
     }
@@ -93,56 +81,67 @@ export function ModernBanglaPlayer() {
 
   const playSentence = useCallback(
     (index: number) => {
-      if (!synthRef.current || index >= SCRIPT_ITEMS.length) {
+      if (index >= SCRIPT_ITEMS.length) {
         setIsPlaying(false);
         setActiveSentenceIndex(0);
         return;
       }
 
-      synthRef.current.cancel();
+      stopPlayback();
       setActiveSentenceIndex(index);
       setIsPlaying(true);
 
-      const item = SCRIPT_ITEMS[index];
-      // If native Bangla voice is available and user chose 'bn', speak Bangla.
-      // If no native Bangla voice is installed, speak English clearly to prevent garbled robotic noises,
-      // while displaying the Bangla text prominently.
-      const shouldSpeakEnglish = voiceLang === "en" || !hasNativeBanglaVoice;
-      const textToSpeak = shouldSpeakEnglish ? item.en : item.bn;
+      const audioSrc =
+        voiceLang === "bn"
+          ? `/audio/bangla/step-${index + 1}.mp3`
+          : `/audio/english/step-${index + 1}.mp3`;
 
-      const utterance = new SpeechSynthesisUtterance(textToSpeak);
-      utterance.rate = speed;
+      try {
+        const audio = new Audio(audioSrc);
+        audioRef.current = audio;
+        audio.playbackRate = speed;
 
-      if (!shouldSpeakEnglish) {
-        const bnVoice = availableVoices.find(
-          (v) => v.lang.toLowerCase().startsWith("bn") || v.name.toLowerCase().includes("bangla") || v.name.toLowerCase().includes("bengali")
-        );
-        if (bnVoice) utterance.voice = bnVoice;
-        utterance.lang = "bn-BD";
-      } else {
-        const enVoice = availableVoices.find(
-          (v) => v.lang.startsWith("en") && (v.name.includes("Google") || v.name.includes("Natural") || v.name.includes("Online"))
-        ) || availableVoices.find((v) => v.lang.startsWith("en"));
-        if (enVoice) utterance.voice = enVoice;
-        utterance.lang = "en-US";
-      }
+        audio.onended = () => {
+          if (index + 1 < SCRIPT_ITEMS.length) {
+            playSentenceRef.current(index + 1);
+          } else {
+            setIsPlaying(false);
+            setActiveSentenceIndex(0);
+          }
+        };
 
-      utterance.onend = () => {
-        if (index + 1 < SCRIPT_ITEMS.length) {
-          playSentenceRef.current(index + 1);
-        } else {
-          setIsPlaying(false);
-          setActiveSentenceIndex(0);
+        audio.onerror = () => {
+          // Fallback to speech synthesis if audio file cannot be loaded
+          if (synthRef.current) {
+            const item = SCRIPT_ITEMS[index];
+            const utterance = new SpeechSynthesisUtterance(voiceLang === "bn" ? item.bn : item.en);
+            utterance.rate = speed;
+            utterance.lang = voiceLang === "bn" ? "bn-BD" : "en-US";
+            utterance.onend = () => {
+              if (index + 1 < SCRIPT_ITEMS.length) {
+                playSentenceRef.current(index + 1);
+              } else {
+                setIsPlaying(false);
+                setActiveSentenceIndex(0);
+              }
+            };
+            synthRef.current.speak(utterance);
+          } else {
+            setIsPlaying(false);
+          }
+        };
+
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            setIsPlaying(false);
+          });
         }
-      };
-
-      utterance.onerror = () => {
+      } catch {
         setIsPlaying(false);
-      };
-
-      synthRef.current.speak(utterance);
+      }
     },
-    [availableVoices, hasNativeBanglaVoice, speed, voiceLang]
+    [speed, stopPlayback, voiceLang]
   );
 
   useEffect(() => {
@@ -162,14 +161,12 @@ export function ModernBanglaPlayer() {
     playSentence(0);
   };
 
-  // Clean up when unmounting
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (synthRef.current) {
-        synthRef.current.cancel();
-      }
+      stopPlayback();
     };
-  }, []);
+  }, [stopPlayback]);
 
   return (
     <div
@@ -196,22 +193,21 @@ export function ModernBanglaPlayer() {
 
         {/* Status Badge */}
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-          {hasNativeBanglaVoice ? (
-            <span
-              className="status-tag"
-              style={{ background: "#dcfce7", color: "#166534", border: "1px solid #bbf7d0", fontSize: 10, display: "inline-flex", gap: 4 }}
-            >
-              <CheckCircle2 size={12} /> বাংলা কণ্ঠস্বর সক্রিয়
-            </span>
-          ) : (
-            <span
-              className="status-tag"
-              style={{ background: "#fef9c3", color: "#854d0e", border: "1px solid #fde047", fontSize: 10, display: "inline-flex", gap: 4 }}
-              title="ডিভাইসে উইন্ডোজ বাংলা ভয়েস প্যাক না থাকায় পরিষ্কার ইংরেজি ভয়েসের সাথে আধুনিক বাংলা সাবটাইটেল সিঙ্ক করা হচ্ছে"
-            >
-              <Info size={12} /> স্মার্ট সাবটাইটেল মোড
-            </span>
-          )}
+          <span
+            className="status-tag"
+            style={{
+              background: "#dcfce7",
+              color: "#166534",
+              border: "1px solid #bbf7d0",
+              fontSize: 10,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <CheckCircle2 size={12} />
+            {voiceLang === "bn" ? "প্রাকৃতিক বাংলা কণ্ঠ সক্রিয় (HD Audio)" : "English HD Audio Active"}
+          </span>
         </div>
       </div>
 
@@ -342,7 +338,7 @@ export function ModernBanglaPlayer() {
         <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 11 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
             <span style={{ color: "#64748b" }}>গতি:</span>
-            {[0.8, 0.9, 1.1].map((s) => (
+            {[0.8, 1.0, 1.2].map((s) => (
               <button
                 key={s}
                 type="button"
@@ -364,22 +360,26 @@ export function ModernBanglaPlayer() {
 
           <button
             type="button"
-            onClick={() => setVoiceLang(voiceLang === "bn" ? "en" : "bn")}
+            onClick={() => {
+              stopPlayback();
+              setVoiceLang(voiceLang === "bn" ? "en" : "bn");
+            }}
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: 4,
-              padding: "3px 8px",
+              padding: "4px 8px",
               borderRadius: 6,
               background: "#ffffff",
               border: "1px solid #cbd5e1",
-              fontSize: 10,
+              fontSize: 11,
               cursor: "pointer",
               color: "#334155",
+              fontWeight: 500,
             }}
             title="ভয়েসের ভাষা পরিবর্তন করুন"
           >
-            <Languages size={12} />
+            <Languages size={13} />
             {voiceLang === "bn" ? "ভয়েস: বাংলা" : "Voice: English"}
           </button>
         </div>
