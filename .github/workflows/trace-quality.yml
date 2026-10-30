@@ -32,6 +32,12 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
       - name: Test
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://qozrzpyftynaohuxaqbg.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.ci_test_token
         run: npm test
       - name: Build frontend and API
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: https://qozrzpyftynaohuxaqbg.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.ci_test_token
         run: npm run build
