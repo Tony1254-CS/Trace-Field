@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   Satellite,
@@ -32,6 +32,7 @@ interface SarResponse {
   boundingBox: { minLat: string; minLng: string; maxLat: string; maxLng: string };
   worldviewUrl: string;
   gibsImageUrl: string;
+  recentModisUrl?: string;
   scenes: SarScene[];
   physicalPrinciples: {
     dielectricProperty: string;
@@ -57,6 +58,8 @@ export function SatelliteRadarModal({
   lat: number;
   lng: number;
 }) {
+  const [layerType, setLayerType] = useState<"bluemarble" | "modis">("bluemarble");
+
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["sar-scenes", lat, lng],
     queryFn: () => apiRequest<SarResponse>(`/nasa/sar-scenes?lat=${lat}&lng=${lng}`),
@@ -157,11 +160,51 @@ export function SatelliteRadarModal({
                 </a>
               </div>
               <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap" }}>
-                <img
-                  src={data.gibsImageUrl}
-                  alt="NASA GIBS satellite observation tile"
-                  style={{ width: 130, height: 130, objectFit: "cover", borderRadius: 10, border: "1px solid var(--line)" }}
-                />
+                <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "center" }}>
+                  <img
+                    src={layerType === "modis" && data.recentModisUrl ? data.recentModisUrl : data.gibsImageUrl}
+                    alt="NASA GIBS satellite observation tile"
+                    onError={(e) => {
+                      // Fallback to Blue Marble if daily MODIS swath is blank or errors
+                      e.currentTarget.src = data.gibsImageUrl;
+                    }}
+                    style={{ width: 130, height: 130, objectFit: "cover", borderRadius: 10, border: "1px solid var(--line)" }}
+                  />
+                  <div style={{ display: "flex", gap: 4 }}>
+                    <button
+                      type="button"
+                      onClick={() => setLayerType("bluemarble")}
+                      style={{
+                        padding: "2px 6px",
+                        fontSize: 9,
+                        borderRadius: 4,
+                        border: layerType === "bluemarble" ? "1px solid #0d9488" : "1px solid #cbd5e1",
+                        background: layerType === "bluemarble" ? "#ccfbf1" : "#fff",
+                        color: layerType === "bluemarble" ? "#0f766e" : "#475569",
+                        cursor: "pointer",
+                      }}
+                    >
+                      BlueMarble
+                    </button>
+                    {data.recentModisUrl && (
+                      <button
+                        type="button"
+                        onClick={() => setLayerType("modis")}
+                        style={{
+                          padding: "2px 6px",
+                          fontSize: 9,
+                          borderRadius: 4,
+                          border: layerType === "modis" ? "1px solid #0d9488" : "1px solid #cbd5e1",
+                          background: layerType === "modis" ? "#ccfbf1" : "#fff",
+                          color: layerType === "modis" ? "#0f766e" : "#475569",
+                          cursor: "pointer",
+                        }}
+                      >
+                        MODIS
+                      </button>
+                    )}
+                  </div>
+                </div>
                 <div style={{ flex: 1, minWidth: 200, fontSize: 11, color: "var(--muted)", lineHeight: 1.6 }}>
                   <p style={{ margin: "0 0 6px" }}>
                     <strong>Observation Coordinates:</strong> {lat.toFixed(4)}°N, {lng.toFixed(4)}°E

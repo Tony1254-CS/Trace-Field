@@ -134,8 +134,12 @@ nasaRoutes.get("/sar-scenes", async (req, res) => {
   const maxLng = Math.min(180, lng + delta).toFixed(4);
   const maxLat = Math.min(90, lat + delta).toFixed(4);
   const bbox = `${minLat},${minLng},${maxLat},${maxLng}`;
+  const recentDate = new Date(Date.now() - 3 * 86400000).toISOString().slice(0, 10);
 
-  const gibsUrl = `https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=MODIS_Terra_CorrectedReflectance_TrueColor&FORMAT=image/jpeg&HEIGHT=400&WIDTH=400&BBOX=${bbox}&CRS=EPSG:4326`;
+  // NASA GIBS WMS: Use BlueMarble_NextGeneration as guaranteed true-color base layer,
+  // preventing black tiles that occur when daily swath layers (MODIS) lack real-time ingestion for the current hour.
+  const gibsUrl = `https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=BlueMarble_NextGeneration&FORMAT=image/jpeg&HEIGHT=400&WIDTH=400&BBOX=${bbox}&CRS=EPSG:4326`;
+  const recentModisUrl = `https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=MODIS_Terra_CorrectedReflectance_TrueColor&FORMAT=image/jpeg&HEIGHT=400&WIDTH=400&BBOX=${bbox}&CRS=EPSG:4326&TIME=${recentDate}`;
   const worldviewUrl = `https://worldview.earthdata.nasa.gov/?v=${minLng},${minLat},${maxLng},${maxLat}&l=VIIRS_SNPP_CorrectedReflectance_TrueColor,MODIS_Terra_CorrectedReflectance_TrueColor`;
 
   try {
@@ -169,6 +173,7 @@ nasaRoutes.get("/sar-scenes", async (req, res) => {
       boundingBox: { minLat, minLng, maxLat, maxLng },
       worldviewUrl,
       gibsImageUrl: gibsUrl,
+      recentModisUrl,
       scenes,
       physicalPrinciples: {
         dielectricProperty: "Water possesses a high dielectric constant (~80 vs ~4 for dry soil), causing specular scattering away from the radar antenna. Consequently, standing floodwater and wetlands appear dark in SAR imagery.",
