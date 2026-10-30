@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Edit2, MapPin, Plus, RotateCcw, Archive, Camera, CalendarDays, Satellite, Sparkles } from "lucide-react";
+import { Edit2, MapPin, Plus, RotateCcw, Archive, Camera, CalendarDays, Satellite, Sparkles, QrCode } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -9,6 +9,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { SatelliteRadarModal } from "@/components/missions/satellite-radar-modal";
+import { MissionShareModal } from "@/components/missions/mission-share-modal";
 import { useArchiveMission, useMissions, useSaveMission } from "@/features/missions/queries";
 import type { Mission, MissionPayload } from "@/features/missions/types";
 import { formatDate } from "@/lib/utils";
@@ -122,6 +123,7 @@ export function MissionInbox({ onCapture }: { onCapture: (missionId: string) => 
   const archive = useArchiveMission();
   const [editor, setEditor] = useState<{ open: boolean; mission?: Mission }>({ open: false });
   const [radarModal, setRadarModal] = useState<{ open: boolean; mission?: Mission }>({ open: false });
+  const [shareModal, setShareModal] = useState<{ open: boolean; mission?: Mission }>({ open: false });
   const missions = missionsQuery.data?.data ?? [];
   const activeCount = missions.filter((mission) => !mission.archived_at).length;
   const noteCount = missions.reduce((total, mission) => total + mission.observationCount, 0);
@@ -144,6 +146,7 @@ export function MissionInbox({ onCapture }: { onCapture: (missionId: string) => 
         <div className="card-bottom"><span className="mission-meta">{mission.place || (mission.target ? `${mission.target.lat.toFixed(3)}, ${mission.target.lng.toFixed(3)}` : "Location not set")} · {mission.observationCount} {mission.observationCount === 1 ? "note" : "notes"}</span><div className="toolbar-actions">
           {mission.target && <Button size="sm" variant="ghost" aria-label={`Inspect SAR satellite data for ${mission.title}`} onClick={() => setRadarModal({ open: true, mission })} style={{ color: "var(--moss-deep)", fontWeight: 700 }}><Satellite size={14} />SAR Radar</Button>}
           {mission.archived_at ? <Button size="sm" variant="ghost" onClick={() => void toggleArchive(mission)} disabled={archive.isPending}><RotateCcw size={14} />Reopen</Button> : <Button size="sm" variant="ghost" onClick={() => onCapture(mission.id)}><Camera size={14} />Capture</Button>}
+          <Button size="sm" variant="ghost" aria-label={`Share ${mission.title}`} onClick={() => setShareModal({ open: true, mission })}><QrCode size={14} />Share</Button>
           <Button size="sm" variant="ghost" aria-label={`Edit ${mission.title}`} onClick={() => setEditor({ open: true, mission })}><Edit2 size={14} />Edit</Button>
           <Button size="sm" variant="ghost" aria-label={`${mission.archived_at ? "Reopen" : "Archive"} ${mission.title}`} onClick={() => void toggleArchive(mission)} disabled={archive.isPending}>{mission.archived_at ? <RotateCcw size={14} /> : <Archive size={14} />}</Button>
         </div></div>
@@ -160,5 +163,10 @@ export function MissionInbox({ onCapture }: { onCapture: (missionId: string) => 
         lng={radarModal.mission.target.lng}
       />
     )}
+    <MissionShareModal
+      mission={shareModal.mission ?? null}
+      open={shareModal.open}
+      onOpenChange={(open) => setShareModal({ open, mission: open ? shareModal.mission : undefined })}
+    />
   </>;
 }

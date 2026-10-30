@@ -3,6 +3,9 @@ import { z } from "zod";
 export const responseSchema = z.enum(["supports", "contradicts", "inconclusive", "not-observable"]);
 export type ResponseKind = z.infer<typeof responseSchema>;
 
+export const quickLabelSchema = z.enum(["water", "land", "sand", "crop"]).nullable().optional();
+export type QuickLabelKind = "water" | "land" | "sand" | "crop";
+
 const targetSchema = z.object({
   lat: z.number().min(-90).max(90),
   lng: z.number().min(-180).max(180),
@@ -23,6 +26,7 @@ export const missionUpdateSchema = missionCreateSchema.partial().extend({
 export const observationCreateSchema = z.object({
   missionId: z.uuid(),
   answer: responseSchema,
+  quickLabel: quickLabelSchema,
   note: z.string().trim().max(1200).default(""),
   capturedAt: z.iso.datetime({ offset: true }),
   location: z.object({

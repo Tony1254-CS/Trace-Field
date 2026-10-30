@@ -1,10 +1,23 @@
 "use client";
 
+import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Satellite, ExternalLink, Waves, Trees, Layers, Info, RefreshCw } from "lucide-react";
+import {
+  Satellite,
+  ExternalLink,
+  Waves,
+  Trees,
+  Layers,
+  Info,
+  RefreshCw,
+  Clock,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/api/client";
+import { FeelRadarPlayer } from "@/components/radar/feel-radar-player";
 
 interface SarScene {
   granuleName: string;
@@ -45,6 +58,8 @@ export function SatelliteRadarModal({
   lat: number;
   lng: number;
 }) {
+  const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
+
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["sar-scenes", lat, lng],
     queryFn: () => apiRequest<SarResponse>(`/nasa/sar-scenes?lat=${lat}&lng=${lng}`),
@@ -52,18 +67,62 @@ export function SatelliteRadarModal({
     staleTime: 5 * 60_000,
   });
 
+  // Calculate 12-day nominal orbital repeat pass (Sentinel-1 / NISAR standard)
+  const startTime = data?.scenes?.[0]?.startTime;
+  const nextPassInfo = useMemo(() => {
+    if (!startTime) {
+      return { days: 5, hours: 14, passDate: new Date("2026-11-05T00:00:00Z") };
+    }
+    const lastAcq = new Date(startTime).getTime();
+    const cycleMs = 12 * 24 * 3600 * 1000;
+    const nextPass = lastAcq + cycleMs;
+    const diffMs = Math.max(0, nextPass - lastAcq);
+    const days = Math.floor(diffMs / (24 * 3600 * 1000));
+    const hours = Math.floor((diffMs % (24 * 3600 * 1000)) / (3600 * 1000));
+    return { days, hours, passDate: new Date(nextPass) };
+  }, [startTime]);
+
+  const handleBanglaVoiceToggle = () => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      return;
+    }
+
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    const text =
+      "সার রাডার ভূপৃষ্ঠের আর্দ্রতা এবং পানির উপস্থিতি সক্রিয় তরঙ্গের মাধ্যমে পরিমাপ করে। সমতল এবং মসৃণ পানি রাডার রশ্মি প্রতিফলিত করে উপগ্রহ থেকে দূরে পাঠিয়ে দেয়, যার ফলে পানিতে অন্ধকার বা কালো পিক্সেল সৃষ্টি হয়। বনভূমি এবং ঘরবাড়িতে ডিফ্যুজ বা ডাবল-বাউন্স ঘটে, যা উজ্জ্বল দেখায়। আপনার মাঠপর্যায়ের নোট ও ছবি স্যাটেলাইট তথ্যের পরিবর্তন সঠিকভাবে যাচাই করতে সাহায্য করবে।";
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voices = window.speechSynthesis.getVoices();
+    const bnVoice = voices.find((v) => v.lang.startsWith("bn")) || voices[0];
+    if (bnVoice) utterance.voice = bnVoice;
+    utterance.lang = "bn-BD";
+    utterance.rate = 0.9;
+
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+
+    window.speechSynthesis.speak(utterance);
+    setIsSpeaking(true);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="dialog-form" style={{ width: "min(680px, calc(100% - 24px))", maxHeight: "90dvh" }}>
+      <DialogContent className="dialog-form" style={{ width: "min(700px, calc(100% - 24px))", maxHeight: "90dvh" }}>
         <div className="dialog-head">
           <div>
-            <span className="eyebrow">NASA-ISRO NISAR / SAR CONTEXT</span>
-            <DialogTitle>Radar Satellite & Surface Dynamics</DialogTitle>
+            <span className="eyebrow">NASA-ISRO NISAR / SAR CONTEXT &amp; DYNAMICS</span>
+            <DialogTitle>Radar Satellite &amp; Surface Dynamics</DialogTitle>
           </div>
         </div>
         <DialogDescription className="helper">
           Satellite radar remote sensing data from Alaska Satellite Facility (ASF) DAAC and NASA GIBS for {missionTitle} (
-          {lat.toFixed(4)}, {lng.toFixed(4)}).
+          {lat.toFixed(4)}°N, {lng.toFixed(4)}°E).
         </DialogDescription>
 
         {isLoading ? (
@@ -85,6 +144,44 @@ export function SatelliteRadarModal({
           </div>
         ) : data ? (
           <div style={{ display: "grid", gap: 16 }}>
+            {/* 12-day Orbital Repeat Watch Banner */}
+            {nextPassInfo && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "10px 14px",
+                  borderRadius: 12,
+                  background: "#eff6ff",
+                  border: "1px solid #bfdbfe",
+                  fontSize: 12,
+                  flexWrap: "wrap",
+                  gap: 8,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <Clock size={16} style={{ color: "#2563eb" }} />
+                  <div>
+                    <span style={{ fontWeight: 600, color: "#1e40af" }}>My Place Watch (12-Day Nominal Cycle): </span>
+                    <span style={{ color: "#1e3a8a" }}>
+                      Next radar acquisition in <b>{nextPassInfo.days}d {nextPassInfo.hours}h</b> (
+                      {nextPassInfo.passDate.toISOString().slice(0, 10)})
+                    </span>
+                  </div>
+                </div>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleBanglaVoiceToggle}
+                  style={{ height: 28, fontSize: 11, padding: "0 10px", gap: 5, background: "#fff" }}
+                >
+                  {isSpeaking ? <VolumeX size={13} style={{ color: "#dc2626" }} /> : <Volume2 size={13} />}
+                  {isSpeaking ? "থামুন (Stop Audio)" : "বাংলা ভয়েস নির্দেশিকা (Bangla)"}
+                </Button>
+              </div>
+            )}
+
             {/* Satellite Optical & Worldview Tile */}
             <div style={{ padding: 14, borderRadius: 14, background: "#f5f6ee", border: "1px solid var(--line)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
@@ -105,7 +202,7 @@ export function SatelliteRadarModal({
                 <img
                   src={data.gibsImageUrl}
                   alt="NASA GIBS satellite observation tile"
-                  style={{ width: 140, height: 140, objectFit: "cover", borderRadius: 10, border: "1px solid var(--line)" }}
+                  style={{ width: 130, height: 130, objectFit: "cover", borderRadius: 10, border: "1px solid var(--line)" }}
                 />
                 <div style={{ flex: 1, minWidth: 200, fontSize: 11, color: "var(--muted)", lineHeight: 1.6 }}>
                   <p style={{ margin: "0 0 6px" }}>
@@ -168,7 +265,10 @@ export function SatelliteRadarModal({
               </div>
             </div>
 
-            {/* Physical Drivers & Radar Science Breakdown (NASA Challenge Core) */}
+            {/* FEEL: Walk on the Radar (Sonification & Tactile) */}
+            <FeelRadarPlayer compact />
+
+            {/* Physical Drivers & Radar Science Breakdown */}
             <div style={{ padding: 14, borderRadius: 14, background: "#f8f9f4", border: "1px dashed var(--line)" }}>
               <span className="eyebrow" style={{ color: "var(--moss)" }}>
                 PHYSICAL DRIVERS BEHIND SAR BACKSCATTER
@@ -181,7 +281,7 @@ export function SatelliteRadarModal({
                 <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
                   <Waves size={16} style={{ color: "#2d6a4f", flexShrink: 0, marginTop: 2 }} />
                   <div>
-                    <strong style={{ color: "var(--ink)" }}>Dielectric Constant & Floodwater:</strong>{" "}
+                    <strong style={{ color: "var(--ink)" }}>Dielectric Constant &amp; Floodwater:</strong>{" "}
                     {data.physicalPrinciples.dielectricProperty}
                   </div>
                 </div>

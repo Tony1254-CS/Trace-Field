@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/api/client";
 import { missionKey } from "@/features/missions/queries";
 import { observationKey } from "@/features/observations/queries";
+import { FeelRadarPlayer } from "@/components/radar/feel-radar-player";
 
 interface ServiceStatus {
   name: string;
@@ -344,6 +345,8 @@ export function DataPrivacyPanel({ email }: { email: string }) {
               </p>
             </div>
           </section>
+
+          <FeelRadarPlayer />
         </aside>
       </div>
     </div>
