@@ -11,7 +11,7 @@
     "dev:web": "next dev --hostname 0.0.0.0 --port 3000",
     "dev:api": "node --env-file-if-exists=.env.local --import tsx --watch server/src/server.ts",
     "build": "npm run typecheck && npm run build:api && npm run build:web",
-    "build:web": "next build",
+    "build:web": "node scripts/build-web.mjs",
     "build:api": "tsup server/src/server.ts --format esm --platform node --target node24 --out-dir server/dist --clean",
     "start": "concurrently --kill-others --names web,api --prefix-colors green,blue \"npm:start:web\" \"npm:start:api\"",
     "start:web": "next start --hostname 0.0.0.0",
