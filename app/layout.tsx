@@ -6,7 +6,6 @@ export const metadata: Metadata = {
   title: "TRACE · Field notebook",
   description: "Record field observations with care. Keep each note tied to its mission and evidence.",
   applicationName: "TRACE Field Notebook",
-  manifest: "/manifest.webmanifest",
   icons: { icon: "/favicon.svg", apple: "/icons/trace-192.png" },
 };
 
