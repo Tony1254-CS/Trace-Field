@@ -49,7 +49,7 @@ export default function GlobalError({
           </span>
           <h2 style={{ margin: "0 0 10px", fontSize: 20 }}>An unexpected error occurred</h2>
           <p style={{ margin: "0 0 20px", fontSize: 13, color: "#64748b", lineHeight: 1.5 }}>
-            {error.message || "A client-side exception occurred while rendering this page."}
+            {error?.message || "A client-side exception occurred while rendering this page."}
           </p>
           <button
             type="button"
@@ -72,3 +72,4 @@ export default function GlobalError({
     </html>
   );
 }
+
