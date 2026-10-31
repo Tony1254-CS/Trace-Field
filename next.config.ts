@@ -9,6 +9,15 @@ const nextConfig: NextConfig = {
       "sb_publishable_2C2uvlWLo-WAwkfNdEOaRQ_ke7c_BDr",
   },
   poweredByHeader: false,
+  async rewrites() {
+    const apiPort = process.env.API_PORT || 8000;
+    return [
+      {
+        source: "/api/v1/:path*",
+        destination: `http://127.0.0.1:${apiPort}/api/v1/:path*`,
+      },
+    ];
+  },
   async headers() {
     return [{
       source: "/:path*",
