@@ -1,13 +1,13 @@
 @import "tailwindcss";
 @import "../src/styles.css";
 
-html { min-width: 320px; background: #f3f2ed; }
-body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+html { min-width: 320px; background: #f3f2ed; overflow-x: hidden; }
+body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; overflow-x: hidden; width: 100%; }
 button:disabled { cursor: not-allowed; opacity: .58; }
 .form-error { color: #a6412d; font-size: 12px; }
 .form-status { min-height: 1.25rem; color: #68736d; font-size: 12px; }
 .dialog-form input[type="email"], .dialog-form input[type="password"] { width: 100%; min-height: 44px; padding: 11px 12px; border: 1px solid #d9ddd4; border-radius: 11px; background: #fff; color: #17231f; font-size: 13px; font-weight: 400; }
-.toolbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
+.topbar .toolbar-actions { display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
 .dashboard-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
 .dashboard-header h1 { margin: 0; font: 700 26px/1.1 var(--display); }
 .dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(300px, .8fr); gap: 20px; align-items: start; }
@@ -130,3 +130,236 @@ button:disabled { cursor: not-allowed; opacity: .58; }
 .mission-context-line span { display: inline-flex; align-items: center; gap: 5px; }
 .app-footer { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0 24px; color: var(--muted); font: 10px var(--mono); }
 @media(max-width:760px) { .account-label { max-width: 130px; } .app-footer { flex-direction: column; } .dialog-actions { flex-wrap: wrap; } }
+
+/* ========================================================
+   Mobile Responsiveness Enhancements (Down to 320px)
+   ======================================================== */
+
+/* 1. Bottom Navigation Bar: Exactly 4 even items (25% each) with zero overflow */
+@media (max-width: 768px) {
+  .bottom-nav {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 6px 4px max(8px, env(safe-area-inset-bottom)) !important;
+    gap: 2px !important;
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    overflow: hidden !important;
+    background: rgba(243, 242, 237, 0.98) !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.04) !important;
+  }
+
+  .nav-item {
+    flex: 1 1 0px !important;
+    min-width: 0 !important;
+    max-width: 25% !important;
+    height: 48px !important;
+    padding: 4px 1px !important;
+    gap: 3px !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    border-radius: 10px !important;
+  }
+
+  .nav-item svg {
+    width: 18px !important;
+    height: 18px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .nav-item span {
+    font-size: 10px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}
+
+/* 2. Topbar on Small Mobile Screens (320px - 480px) */
+@media (max-width: 480px) {
+  .app-frame {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    padding-bottom: 84px !important;
+  }
+
+  .topbar {
+    height: 64px !important;
+    gap: 8px !important;
+  }
+
+  .brand {
+    gap: 8px !important;
+    min-width: 0 !important;
+  }
+
+  .brand-mark {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 10px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .brand-mark svg {
+    width: 22px !important;
+  }
+
+  .brand-copy strong {
+    font-size: 15px !important;
+    letter-spacing: 0.04em !important;
+  }
+
+  .brand-copy small {
+    font-size: 8px !important;
+    margin-top: 2px !important;
+  }
+
+  .topbar .toolbar-actions {
+    gap: 6px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .topbar .connection-pill {
+    padding: 6px 8px !important;
+    font-size: 10px !important;
+    gap: 5px !important;
+  }
+
+  .topbar .install-button {
+    padding: 6px 11px !important;
+    font-size: 11px !important;
+    gap: 4px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .brand-copy small {
+    display: none !important;
+  }
+  .topbar .install-button span {
+    font-size: 10px !important;
+  }
+}
+
+/* 3. Stat Strip (3 Columns cleanly across screen, zero ugly horizontal scrollbar) */
+@media (max-width: 600px) {
+  .stat-strip {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px !important;
+    overflow: visible !important;
+    margin: 12px 0 20px !important;
+  }
+
+  .stat {
+    padding: 8px 6px !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    text-align: center !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+    min-width: 0 !important;
+  }
+
+  .stat strong {
+    font-size: 13px !important;
+    line-height: 1.1 !important;
+  }
+
+  .stat span {
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+    white-space: normal !important;
+    text-align: center !important;
+  }
+}
+
+/* 4. Mission Cards & Action Buttons on Mobile */
+@media (max-width: 640px) {
+  .mission-card {
+    min-height: auto !important;
+    padding: 14px !important;
+    border-radius: 16px !important;
+    gap: 8px !important;
+  }
+
+  .mission-card h3 {
+    font-size: 15px !important;
+    margin: 8px 0 4px !important;
+    line-height: 1.3 !important;
+  }
+
+  .mission-card p {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+
+  .card-bottom {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    padding-top: 10px !important;
+    margin-top: 6px !important;
+    border-top: 1px solid var(--line) !important;
+  }
+
+  .card-bottom .mission-meta {
+    width: 100% !important;
+    font-size: 10px !important;
+    white-space: normal !important;
+    line-height: 1.4 !important;
+  }
+
+  .card-bottom .toolbar-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    width: 100% !important;
+    justify-content: flex-start !important;
+  }
+
+  .card-bottom .toolbar-actions button {
+    padding: 5px 9px !important;
+    font-size: 11px !important;
+    height: auto !important;
+    min-height: 30px !important;
+    background: rgba(0, 0, 0, 0.04) !important;
+    border-radius: 8px !important;
+    flex-grow: 1 !important;
+    justify-content: center !important;
+  }
+
+  .mission-context-line {
+    margin-top: 8px !important;
+    gap: 8px !important;
+    font-size: 9px !important;
+  }
+}
+
+/* 5. Hero Banner on Small Screens */
+@media (max-width: 640px) {
+  .hero {
+    min-height: 200px !important;
+    padding: 20px 18px !important;
+    border-radius: 18px !important;
+    gap: 16px !important;
+  }
+
+  .hero h1 {
+    font-size: 28px !important;
+    margin: 8px 0 8px !important;
+  }
+
+  .hero p {
+    font-size: 13px !important;
+  }
+
+  .hero .button {
+    width: 100% !important;
+    min-height: 42px !important;
+  }
+}
