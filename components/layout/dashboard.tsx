@@ -128,16 +128,16 @@ export function Dashboard({ email }: { email: string }) {
           padding: "7px 14px",
           boxShadow: "0 2px 10px rgba(1, 135, 95, 0.3)",
           cursor: "pointer",
+          whiteSpace: "nowrap",
         }}
       >
         <Download size={13} strokeWidth={2.4} />
         {isInstalled ? "App Installed" : "Install App"}
       </Button>
-      <span className="account-label" title="Field Investigator Active">🛰️ Field Investigator</span>
     </div></header>
     <nav className="bottom-nav" aria-label="Main navigation">{([ ["missions", ClipboardList, "Missions"], ["capture", Compass, "Capture"], ["records", Archive, "Records"], ["privacy", ShieldCheck, "Privacy"] ] as const).map(([key, Icon, label]) => <button className={`nav-item ${view === key ? "active" : ""}`} key={key} onClick={() => setView(key)} aria-current={view === key ? "page" : undefined} type="button"><Icon size={18} aria-hidden="true" /><span>{label}</span></button>)}</nav>
     <main id="mainContent" className="main-content" tabIndex={-1}>
-      <header className="dashboard-header"><h1 className="sr-only">{title}</h1><p className="account-caption">Active Station: <strong>{email === "field-investigator@trace.nasa" ? "Field Investigator #01 · Ready" : email}</strong></p></header>
+      <h1 className="sr-only">{title}</h1>
       {view === "missions" && <MissionInbox onCapture={(id) => { setSelectedMissionId(id); setView("capture"); }} />}
       {view === "capture" && (missions.isPending ? <div className="panel" role="status">Loading your missions…</div> : missions.isError ? <div className="panel" role="alert">{missions.error.message}</div> : <ObservationForm key={selectedMissionId ?? "capture"} missions={missions.data?.data ?? []} initialMissionId={selectedMissionId} onSaved={() => setView("records")} />)}
       {view === "records" && <RecordList />}

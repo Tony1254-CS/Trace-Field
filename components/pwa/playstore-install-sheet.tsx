@@ -49,10 +49,10 @@ export function PlaystoreInstallSheet({
       <DialogContent className="playstore-modal">
         <DialogTitle className="sr-only">Install TRACE Field Notebook</DialogTitle>
 
-        {/* Outer scrollable wrapper */}
-        <div className="max-h-[88dvh] overflow-y-auto overflow-x-hidden p-6 sm:p-7 select-none">
+        {/* Outer container: modal itself handles smooth vertical scrolling */}
+        <div className="p-5 sm:p-6 select-none pb-8">
           {/* Top Google Play Official Badge Header */}
-          <div className="flex items-center justify-between pb-4 border-b border-white/10">
+          <div className="flex items-center justify-between pb-3 border-b border-white/10">
             <div className="flex items-center gap-2.5">
               {/* Google Play Authentic 4-Color Triangle Logo SVG */}
               <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -73,11 +73,11 @@ export function PlaystoreInstallSheet({
           </div>
 
           {/* App Identity Banner */}
-          <div className="pt-5 pb-5 flex gap-4 sm:gap-5 items-start">
+          <div className="pt-4 pb-4 flex gap-4 sm:gap-5 items-start">
             {/* App Icon with 3D Depth & Glow */}
             <div className="relative flex-shrink-0">
-              <div className="flex h-20 w-20 sm:h-22 sm:w-22 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-700 to-slate-900 text-white shadow-xl shadow-emerald-500/25 ring-1 ring-white/20">
-                <Compass size={44} strokeWidth={2.2} className="text-emerald-200" />
+              <div className="flex h-18 w-18 sm:h-20 sm:w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 via-teal-700 to-slate-900 text-white shadow-xl shadow-emerald-500/25 ring-1 ring-white/20">
+                <Compass size={40} strokeWidth={2.2} className="text-emerald-200" />
               </div>
               <div className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-slate-950 shadow-md ring-2 ring-[#0d1613]">
                 <CheckCircle2 size={13} strokeWidth={3} />
@@ -95,7 +95,7 @@ export function PlaystoreInstallSheet({
               </p>
 
               {/* Tag Pills */}
-              <div className="flex items-center gap-2 mt-2.5 flex-wrap text-[10px] font-medium text-slate-300">
+              <div className="flex items-center gap-2 mt-2 flex-wrap text-[10px] font-medium text-slate-300">
                 <span className="rounded-md bg-white/5 border border-white/10 px-2 py-0.5">
                   #1 Earth Science
                 </span>
@@ -110,7 +110,7 @@ export function PlaystoreInstallSheet({
           </div>
 
           {/* Official Google Play 4-Column Metric Strip */}
-          <div className="rounded-2xl bg-white/[0.03] border border-white/[0.08] my-3 grid grid-cols-4 text-center py-3.5 px-1 divide-x divide-white/[0.08]">
+          <div className="rounded-2xl bg-white/[0.03] border border-white/[0.08] my-2.5 grid grid-cols-4 text-center py-3 px-1 divide-x divide-white/[0.08]">
             {/* 1. Rating */}
             <div className="px-1 flex flex-col items-center justify-center">
               <div className="flex items-center gap-1 text-sm font-bold text-white">
@@ -129,13 +129,13 @@ export function PlaystoreInstallSheet({
                 <Download size={13} className="text-emerald-400" />
                 <span>10K+</span>
               </div>
-              <p className="text-[10px] text-slate-400 mt-1 font-medium">Investigators</p>
+              <p className="text-[10px] text-slate-400 mt-0.5 font-medium">Investigators</p>
             </div>
 
             {/* 3. File Size */}
             <div className="px-1 flex flex-col items-center justify-center">
               <div className="text-sm font-bold text-white">5.8 MB</div>
-              <p className="text-[10px] text-emerald-400/90 mt-1 font-medium">Instant Cache</p>
+              <p className="text-[10px] text-emerald-400/90 mt-0.5 font-medium">Instant Cache</p>
             </div>
 
             {/* 4. Content Rating */}
@@ -143,16 +143,16 @@ export function PlaystoreInstallSheet({
               <div className="inline-block rounded border border-white/30 px-1.5 py-0.2 text-[11px] font-bold text-slate-200">
                 3+
               </div>
-              <p className="text-[10px] text-slate-400 mt-1 font-medium">Rated for 3+</p>
+              <p className="text-[10px] text-slate-400 mt-0.5 font-medium">Rated for 3+</p>
             </div>
           </div>
 
           {/* Main Action Install Button (Google Play Green) */}
-          <div className="pt-3 pb-2">
+          <div className="pt-2 pb-1">
             <button
               onClick={() => void handleInstallClick()}
               disabled={installing || installed}
-              className={`w-full flex items-center justify-center gap-2.5 rounded-2xl py-3.5 px-6 font-semibold text-sm transition-all transform active:scale-[0.99] shadow-lg ${
+              className={`w-full flex items-center justify-center gap-2.5 rounded-2xl py-3 px-6 font-semibold text-sm transition-all transform active:scale-[0.99] shadow-lg ${
                 installed
                   ? "bg-slate-800 text-slate-400 cursor-default border border-slate-700"
                   : "bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white shadow-emerald-600/30 cursor-pointer"
@@ -175,13 +175,13 @@ export function PlaystoreInstallSheet({
                 </>
               )}
             </button>
-            <p className="text-center text-[11px] text-slate-400 mt-2">
+            <p className="text-center text-[11px] text-slate-400 mt-1.5">
               Runs as a standalone desktop/mobile app. Preserves full offline camera &amp; GPS vault.
             </p>
           </div>
 
           {/* Cross-Device Compatibility Strip */}
-          <div className="flex items-center justify-center gap-4 py-2 text-[11px] text-slate-400 border-b border-white/[0.08] mb-4">
+          <div className="flex items-center justify-center gap-4 py-1.5 text-[11px] text-slate-400 border-b border-white/[0.08] mb-3">
             <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
               <CheckCircle2 size={13} />
               <span>Verified compatible with your device</span>
