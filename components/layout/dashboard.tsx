@@ -91,10 +91,13 @@ export function Dashboard({ email }: { email: string }) {
           {pendingCount} Pending Sync
         </button>
       )}
-      <span className={`connection-pill ${online ? "online" : "offline"}`} role="status" title={online ? "Network connected; records require the configured account." : "Offline. Cloud requests are unavailable until you reconnect."}>{online ? <Wifi size={13} /> : <WifiOff size={13} />}{online ? "Online" : "Offline"}</span>{installPrompt && <Button className="install-button" variant="secondary" size="sm" onClick={() => void install()}>Install</Button>}<span className="account-label" title={email}>{email}</span><Button variant="ghost" size="sm" onClick={() => void signOut()} aria-label="Sign out"><LogOut size={16} /></Button></div></header>
+      <span className={`connection-pill ${online ? "online" : "offline"}`} role="status" title={online ? "Network connected." : "Offline. Cloud requests are unavailable until you reconnect."}>{online ? <Wifi size={13} /> : <WifiOff size={13} />}{online ? "Online" : "Offline"}</span>
+      {installPrompt && <Button className="install-button" variant="secondary" size="sm" onClick={() => void install()}>Install</Button>}
+      <span className="account-label" title="Field Investigator Active">🛰️ Field Investigator</span>
+    </div></header>
     <nav className="bottom-nav" aria-label="Main navigation">{([ ["missions", ClipboardList, "Missions"], ["capture", Compass, "Capture"], ["records", Archive, "Records"], ["privacy", ShieldCheck, "Privacy"] ] as const).map(([key, Icon, label]) => <button className={`nav-item ${view === key ? "active" : ""}`} key={key} onClick={() => setView(key)} aria-current={view === key ? "page" : undefined} type="button"><Icon size={18} aria-hidden="true" /><span>{label}</span></button>)}</nav>
     <main id="mainContent" className="main-content" tabIndex={-1}>
-      <header className="dashboard-header"><h1 className="sr-only">{title}</h1><p className="account-caption">Signed in as <strong>{email}</strong></p></header>
+      <header className="dashboard-header"><h1 className="sr-only">{title}</h1><p className="account-caption">Active Station: <strong>{email === "field-investigator@trace.nasa" ? "Field Investigator #01 · Ready" : email}</strong></p></header>
       {view === "missions" && <MissionInbox onCapture={(id) => { setSelectedMissionId(id); setView("capture"); }} />}
       {view === "capture" && (missions.isPending ? <div className="panel" role="status">Loading your missions…</div> : missions.isError ? <div className="panel" role="alert">{missions.error.message}</div> : <ObservationForm key={selectedMissionId ?? "capture"} missions={missions.data?.data ?? []} initialMissionId={selectedMissionId} onSaved={() => setView("records")} />)}
       {view === "records" && <RecordList />}

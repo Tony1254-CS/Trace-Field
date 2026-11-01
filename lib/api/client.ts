@@ -5,9 +5,15 @@ export class ApiClientError extends Error {
 }
 
 export async function apiRequest<T>(path: string, init: RequestInit = {}): Promise<T> {
-  const supabase = createClient();
-  const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-  if (sessionError || !session?.access_token) throw new ApiClientError("Sign in again to continue.", 401);
+  let token: string | undefined = undefined;
+  try {
+    const supabase = createClient();
+    const { data: { session } } = await supabase.auth.getSession();
+    token = session?.access_token;
+  } catch {
+    // Unauthenticated / guest investigator mode
+  }
+
   let base = process.env.NEXT_PUBLIC_API_URL || "/api/v1";
   if (typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
     // In production browser, replace localhost references with same-origin /api/v1 so Next.js proxies to Express
@@ -16,7 +22,9 @@ export async function apiRequest<T>(path: string, init: RequestInit = {}): Promi
     }
   }
   const headers = new Headers(init.headers);
-  headers.set("Authorization", `Bearer ${session.access_token}`);
+  if (token) {
+    headers.set("Authorization", `Bearer ${token}`);
+  }
   if (!(init.body instanceof FormData) && init.body !== undefined) headers.set("Content-Type", "application/json");
   let response: Response;
   try { response = await fetch(`${base.replace(/\/$/, "")}${path}`, { ...init, headers, cache: "no-store" }); }
