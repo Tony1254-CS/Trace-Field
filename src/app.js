@@ -567,7 +567,7 @@ async function showRecord(id) {
 document.querySelectorAll(".nav-item").forEach((button) => button.addEventListener("click", async () => {
   if (state.view === "capture" && document.querySelector("#captureForm")) {
     try { await saveDraft(); }
-    catch (error) { toastMessage("Draft could not be saved. Stay here and export your notes before leaving."); return; }
+    catch { toastMessage("Draft could not be saved. Stay here and export your notes before leaving."); return; }
   }
   state.view = button.dataset.view;
   await render();

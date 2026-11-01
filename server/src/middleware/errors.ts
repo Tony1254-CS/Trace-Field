@@ -8,6 +8,7 @@ export const notFound: RequestHandler = (_req, res) => {
   res.status(404).json({ error: { code: "NOT_FOUND", message: "This API route does not exist." } });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const errorHandler: ErrorRequestHandler = (error: unknown, _req, res, _next) => {
   if (error && typeof error === "object" && "status" in error && (error.status === 413 || error.status === 400)) {
     const status = error.status;
