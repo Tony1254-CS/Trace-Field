@@ -6,7 +6,6 @@ import {
   Compass,
   Download,
   ShieldCheck,
-  Sparkles,
   Star,
   Smartphone,
   Laptop,
@@ -14,8 +13,6 @@ import {
   HardDrive,
   Volume2,
   Lock,
-  ChevronRight,
-  ExternalLink,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 

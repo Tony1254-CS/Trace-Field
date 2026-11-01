@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Archive, ClipboardList, Clock, Compass, Download, LogOut, ShieldCheck, Wifi, WifiOff } from "lucide-react";
+import { Archive, ClipboardList, Clock, Compass, Download, ShieldCheck, Wifi, WifiOff } from "lucide-react";
 import { toast } from "sonner";
 import { ObservationForm } from "@/components/capture/observation-form";
 import { MissionInbox } from "@/components/missions/mission-inbox";
@@ -11,7 +11,6 @@ import { DataPrivacyPanel } from "@/components/privacy/data-privacy-panel";
 import { PlaystoreInstallSheet } from "@/components/pwa/playstore-install-sheet";
 import { Button } from "@/components/ui/button";
 import { useMissions } from "@/features/missions/queries";
-import { createClient } from "@/lib/supabase/client";
 import { getPendingObservations } from "@/lib/offline/queue";
 import { syncPendingObservations } from "@/lib/offline/sync";
 
@@ -30,7 +29,13 @@ export function Dashboard({ email }: { email: string }) {
   const [online, setOnline] = useState(true);
   const [installPrompt, setInstallPrompt] = useState<InstallPrompt | null>(null);
   const [installSheetOpen, setInstallSheetOpen] = useState(false);
-  const [isInstalled, setIsInstalled] = useState(false);
+  const [isInstalled, setIsInstalled] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return Boolean(
+      window.matchMedia("(display-mode: standalone)").matches ||
+      (window.navigator as unknown as { standalone?: boolean }).standalone
+    );
+  });
   const missions = useMissions();
 
   const { data: pendingQueue = [], refetch: refreshPendingQueue } = useQuery({
@@ -41,10 +46,11 @@ export function Dashboard({ email }: { email: string }) {
   const pendingCount = pendingQueue.length;
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as unknown as { standalone?: boolean }).standalone;
-      if (isStandalone) setIsInstalled(true);
-    }
+    if (typeof window === "undefined") return;
+    const media = window.matchMedia("(display-mode: standalone)");
+    const handler = (e: MediaQueryListEvent) => setIsInstalled(e.matches);
+    media.addEventListener("change", handler);
+    return () => media.removeEventListener("change", handler);
   }, []);
 
   useEffect(() => {

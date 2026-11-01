@@ -27,8 +27,11 @@ function LocalBlobImage({ blob, alt, style, className }: { blob: Blob; alt: stri
 
   useEffect(() => {
     const objectUrl = URL.createObjectURL(blob);
-    setUrl(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
+    const frame = requestAnimationFrame(() => setUrl(objectUrl));
+    return () => {
+      cancelAnimationFrame(frame);
+      URL.revokeObjectURL(objectUrl);
+    };
   }, [blob]);
 
   if (!url) return null;
