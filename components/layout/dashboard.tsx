@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Archive, ClipboardList, Clock, Compass, LogOut, ShieldCheck, Wifi, WifiOff } from "lucide-react";
+import { Archive, ClipboardList, Clock, Compass, Download, LogOut, ShieldCheck, Wifi, WifiOff } from "lucide-react";
 import { toast } from "sonner";
 import { ObservationForm } from "@/components/capture/observation-form";
 import { MissionInbox } from "@/components/missions/mission-inbox";
 import { RecordList } from "@/components/records/record-list";
 import { DataPrivacyPanel } from "@/components/privacy/data-privacy-panel";
+import { PlaystoreInstallSheet } from "@/components/pwa/playstore-install-sheet";
 import { Button } from "@/components/ui/button";
 import { useMissions } from "@/features/missions/queries";
 import { createClient } from "@/lib/supabase/client";
@@ -28,6 +29,8 @@ export function Dashboard({ email }: { email: string }) {
   const [view, setView] = useState<View>(() => (selectedMissionId ? "capture" : "missions"));
   const [online, setOnline] = useState(true);
   const [installPrompt, setInstallPrompt] = useState<InstallPrompt | null>(null);
+  const [installSheetOpen, setInstallSheetOpen] = useState(false);
+  const [isInstalled, setIsInstalled] = useState(false);
   const missions = useMissions();
 
   const { data: pendingQueue = [], refetch: refreshPendingQueue } = useQuery({
@@ -36,6 +39,13 @@ export function Dashboard({ email }: { email: string }) {
     staleTime: 5000,
   });
   const pendingCount = pendingQueue.length;
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isStandalone = window.matchMedia("(display-mode: standalone)").matches || (window.navigator as unknown as { standalone?: boolean }).standalone;
+      if (isStandalone) setIsInstalled(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (selectedMissionId) {
@@ -68,13 +78,24 @@ export function Dashboard({ email }: { email: string }) {
     };
   }, [refreshPendingQueue, selectedMissionId]);
 
-  async function signOut() {
-    const { error } = await createClient().auth.signOut();
-    if (error) toast.error(error.message); else window.location.reload();
-  }
-  async function install() {
-    if (!installPrompt) { toast.message("Use your browser menu and choose Install TRACE or Add to Home Screen."); return; }
-    await installPrompt.prompt(); await installPrompt.userChoice; setInstallPrompt(null);
+  async function handleInstallApp() {
+    if (installPrompt) {
+      await installPrompt.prompt();
+      const choice = await installPrompt.userChoice;
+      if (choice.outcome === "accepted") {
+        setIsInstalled(true);
+        setInstallSheetOpen(false);
+        setInstallPrompt(null);
+        toast.success("TRACE Field Notebook installed on your device!");
+      }
+    } else {
+      if (typeof window !== "undefined" && window.matchMedia("(display-mode: standalone)").matches) {
+        setIsInstalled(true);
+        toast.success("TRACE Field Notebook is already installed.");
+      } else {
+        toast.message("To install: Use your browser address bar (⊕ icon) or menu and tap 'Add to Home Screen'.");
+      }
+    }
   }
 
   const title = view === "missions" ? "Missions" : view === "capture" ? "Capture" : view === "records" ? "Records" : "Privacy & Guide";
@@ -92,7 +113,26 @@ export function Dashboard({ email }: { email: string }) {
         </button>
       )}
       <span className={`connection-pill ${online ? "online" : "offline"}`} role="status" title={online ? "Network connected." : "Offline. Cloud requests are unavailable until you reconnect."}>{online ? <Wifi size={13} /> : <WifiOff size={13} />}{online ? "Online" : "Offline"}</span>
-      {installPrompt && <Button className="install-button" variant="secondary" size="sm" onClick={() => void install()}>Install</Button>}
+      <Button
+        className="install-button"
+        variant="secondary"
+        size="sm"
+        onClick={() => setInstallSheetOpen(true)}
+        style={{
+          background: "linear-gradient(135deg, #01875f 0%, #03684a 100%)",
+          color: "#ffffff",
+          borderColor: "transparent",
+          fontWeight: 700,
+          gap: 6,
+          borderRadius: 9999,
+          padding: "7px 14px",
+          boxShadow: "0 2px 10px rgba(1, 135, 95, 0.3)",
+          cursor: "pointer",
+        }}
+      >
+        <Download size={13} strokeWidth={2.4} />
+        {isInstalled ? "App Installed" : "Install App"}
+      </Button>
       <span className="account-label" title="Field Investigator Active">🛰️ Field Investigator</span>
     </div></header>
     <nav className="bottom-nav" aria-label="Main navigation">{([ ["missions", ClipboardList, "Missions"], ["capture", Compass, "Capture"], ["records", Archive, "Records"], ["privacy", ShieldCheck, "Privacy"] ] as const).map(([key, Icon, label]) => <button className={`nav-item ${view === key ? "active" : ""}`} key={key} onClick={() => setView(key)} aria-current={view === key ? "page" : undefined} type="button"><Icon size={18} aria-hidden="true" /><span>{label}</span></button>)}</nav>
@@ -103,6 +143,12 @@ export function Dashboard({ email }: { email: string }) {
       {view === "records" && <RecordList />}
       {view === "privacy" && <DataPrivacyPanel email={email} />}
     </main>
-    <footer className="app-footer"><span>TRACE · Account-backed field notebook</span><span>Observations are evidence for review, not verified ground truth.</span></footer>
+    <footer className="app-footer"><span>TRACE · Ground Evidence Companion</span><span>Observations are evidence for review, not verified ground truth.</span></footer>
+    <PlaystoreInstallSheet
+      open={installSheetOpen}
+      onOpenChange={setInstallSheetOpen}
+      onInstall={handleInstallApp}
+      installed={isInstalled}
+    />
   </div>;
 }

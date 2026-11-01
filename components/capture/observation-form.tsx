@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Camera, Crosshair, MapPin, Navigation, Tag, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -77,6 +78,7 @@ export function ObservationForm({ missions, initialMissionId, onSaved }: { missi
   const [quickLabel, setQuickLabel] = useState<QuickLabelKind | null>(null);
   const [isSample, setIsSample] = useState<boolean>(false);
   const [pending, setPending] = useState<CaptureValues | null>(null);
+  const queryClient = useQueryClient();
   const save = useSaveObservation();
   const selected = active.find((mission) => mission.id === missionId);
   const alignment = selected?.target && location ? calculateAlignment(location.lat, location.lng, selected.target.lat, selected.target.lng) : null;
@@ -111,71 +113,69 @@ export function ObservationForm({ missions, initialMissionId, onSaved }: { missi
       pending.note,
     ].filter(Boolean).join(" ");
 
-    // Offline-first: save locally to pending queue if disconnected
-    if (typeof navigator !== "undefined" && !navigator.onLine) {
-      try {
-        await addPendingObservation({
-          id: crypto.randomUUID(),
-          missionId,
-          missionTitle: selected.title,
-          answer: pending.answer,
-          quickLabel,
-          note: finalNote,
-          capturedAt,
-          location,
-          photoBlob: photo || null,
-          photoName: photo?.name || null,
-          status: "pending",
-          createdAt: new Date().toISOString(),
-          retryCount: 0,
-        });
-        toast.info("Offline: Saved to local queue. Will sync automatically when connected.");
-        setPending(null); updatePhoto(null); setLocation(null); setLocationStatus("No location attached"); setQuickLabel(null); setIsSample(false); reset(); onSaved();
-        return;
-      } catch {
-        toast.error("Could not write to local offline storage.");
-        return;
-      }
+    const recordId = crypto.randomUUID();
+    let savedLocally = false;
+
+    // 1. ALWAYS store the observation and photo directly in the user's local IndexedDB
+    try {
+      await addPendingObservation({
+        id: recordId,
+        missionId,
+        missionTitle: selected.title,
+        answer: pending.answer,
+        quickLabel,
+        note: finalNote,
+        capturedAt,
+        location,
+        photoBlob: photo || null,
+        photoName: photo?.name || null,
+        status: "pending",
+        createdAt: new Date().toISOString(),
+        retryCount: 0,
+      });
+      savedLocally = true;
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["pending-count"] }),
+        queryClient.invalidateQueries({ queryKey: ["pending-queue"] }),
+      ]);
+    } catch (e) {
+      console.warn("Could not write to local IndexedDB:", e);
     }
 
-    const body = new FormData();
-    body.append("payload", JSON.stringify({
-      missionId,
-      answer: pending.answer,
-      quickLabel,
-      note: finalNote,
-      capturedAt,
-      location,
-    }));
-    if (photo) body.append("photo", photo, photo.name);
-    try {
-      await save.mutateAsync(body);
-      toast.success("Observation saved. It is awaiting human review.");
-      setPending(null); updatePhoto(null); setLocation(null); setLocationStatus("No location attached"); setQuickLabel(null); setIsSample(false); reset(); onSaved();
-    } catch (error) {
-      // Network/cloud error: preserve safely in offline queue
+    // 2. If online and authenticated, attempt background cloud synchronization
+    if (typeof navigator !== "undefined" && navigator.onLine) {
       try {
-        await addPendingObservation({
-          id: crypto.randomUUID(),
+        const body = new FormData();
+        body.append("payload", JSON.stringify({
           missionId,
-          missionTitle: selected.title,
           answer: pending.answer,
           quickLabel,
           note: finalNote,
           capturedAt,
           location,
-          photoBlob: photo || null,
-          photoName: photo?.name || null,
-          status: "pending",
-          createdAt: new Date().toISOString(),
-          retryCount: 0,
-        });
-        toast.info("Connection failed: Observation preserved in local queue for auto-sync.");
-        setPending(null); updatePhoto(null); setLocation(null); setLocationStatus("No location attached"); setQuickLabel(null); setIsSample(false); reset(); onSaved();
+        }));
+        if (photo) body.append("photo", photo, photo.name);
+        await save.mutateAsync(body);
+        toast.success("Saved to device & synced to cloud!");
       } catch {
-        toast.error(error instanceof Error ? error.message : "Observation could not be saved.");
+        if (savedLocally) {
+          toast.success("Saved to device storage! Photo stored locally.");
+        } else {
+          toast.error("Could not write observation.");
+        }
       }
+    } else {
+      toast.success("Offline Mode: Saved to device storage with photo!");
     }
+
+    setPending(null);
+    updatePhoto(null);
+    setLocation(null);
+    setLocationStatus("No location attached");
+    setQuickLabel(null);
+    setIsSample(false);
+    reset();
+    onSaved();
   };
 
   if (!active.length) return <div className="empty-state"><div><div className="empty-mark" aria-hidden="true">＋</div><h3>No open missions yet</h3><p>Create a mission before starting a field note.</p></div></div>;

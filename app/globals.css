@@ -29,10 +29,46 @@ button:disabled { cursor: not-allowed; opacity: .58; }
 .pagination .button { min-height: 38px; }
 @media(max-width:760px) { .dashboard-header { align-items: flex-start; flex-direction: column; } .dashboard-grid { grid-template-columns: 1fr; } .auth-card { padding: 23px; } }
 
-.dialog-overlay { position: fixed; inset: 0; z-index: 49; background: rgba(12,23,19,.54); backdrop-filter: blur(3px); }
+.dialog-overlay { position: fixed; inset: 0; z-index: 49; background: rgba(8, 14, 12, 0.72); backdrop-filter: blur(8px); }
 .dialog.dialog-form { position: fixed; left: 50%; top: 50%; z-index: 50; transform: translate(-50%,-50%); max-height: min(88dvh,820px); overflow-y: auto; }
 .dialog-x { position: absolute; top: 17px; right: 17px; }
 .dialog-form > .dialog-head { padding-right: 40px; }
+
+/* Custom Google Play / App Store PWA Modal */
+.dialog.dialog-form.playstore-modal {
+  width: min(580px, calc(100% - 24px)) !important;
+  max-height: min(92dvh, 840px) !important;
+  padding: 0 !important;
+  display: block !important;
+  gap: 0 !important;
+  background: #0d1613 !important;
+  border: 1px solid rgba(16, 185, 129, 0.25) !important;
+  border-radius: 28px !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 35px -5px rgba(16, 185, 129, 0.22) !important;
+  overflow: hidden !important;
+}
+
+.dialog.dialog-form.playstore-modal .dialog-x {
+  top: 14px !important;
+  right: 14px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #cbd5e1 !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 9999px !important;
+  display: grid !important;
+  place-items: center !important;
+  transition: all 0.2s ease !important;
+  z-index: 60 !important;
+}
+
+.dialog.dialog-form.playstore-modal .dialog-x:hover {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  transform: scale(1.06) !important;
+}
 .ghost-button { background: transparent; border-color: transparent; color: var(--moss-deep); }
 .danger-button { background: var(--soft-rust); border-color: #efc8ba; color: #8d3e2b; }
 .button-sm { min-height: 36px; padding: 0 10px; font-size: 11px; }
