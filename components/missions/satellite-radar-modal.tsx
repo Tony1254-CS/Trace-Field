@@ -11,8 +11,11 @@ import {
   Info,
   RefreshCw,
   Clock,
+  Headphones,
+  Sparkles,
+  CheckCircle2,
 } from "lucide-react";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/api/client";
 import { FeelRadarPlayer } from "@/components/radar/feel-radar-player";
@@ -58,6 +61,7 @@ export function SatelliteRadarModal({
   lat: number;
   lng: number;
 }) {
+  const [activeTab, setActiveTab] = useState<"audio" | "radar" | "science">("audio");
   const [layerType, setLayerType] = useState<"bluemarble" | "modis">("bluemarble");
 
   const { data, isLoading, error, refetch } = useQuery({
@@ -84,239 +88,377 @@ export function SatelliteRadarModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="dialog-form" style={{ width: "min(700px, calc(100% - 24px))", maxHeight: "90dvh" }}>
-        <div className="dialog-head">
+      <DialogContent className="dialog-form sar-radar-modal">
+        {/* Modal Header */}
+        <div className="dialog-head sar-modal-head">
           <div>
-            <span className="eyebrow">NASA-ISRO NISAR / SAR CONTEXT &amp; DYNAMICS</span>
-            <DialogTitle>Radar Satellite &amp; Surface Dynamics</DialogTitle>
+            <span className="eyebrow" style={{ color: "var(--moss)", fontSize: 10, letterSpacing: "0.12em" }}>
+              NASA-ISRO NISAR / SAR CONTEXT &amp; DYNAMICS
+            </span>
+            <DialogTitle style={{ fontSize: 20, marginTop: 2 }}>Radar Satellite &amp; Surface Dynamics</DialogTitle>
           </div>
         </div>
-        <DialogDescription className="helper">
-          Satellite radar remote sensing data from Alaska Satellite Facility (ASF) DAAC and NASA GIBS for {missionTitle} (
-          {lat.toFixed(4)}°N, {lng.toFixed(4)}°E).
+
+        <DialogDescription className="helper sar-modal-desc">
+          Target: <strong>{missionTitle}</strong> ({lat.toFixed(4)}°N, {lng.toFixed(4)}°E) · NASA GIBS &amp; ASF DAAC
         </DialogDescription>
 
-        {isLoading ? (
-          <div className="panel" role="status" style={{ textAlign: "center", padding: 32 }}>
-            <RefreshCw size={24} className="animate-spin" style={{ margin: "0 auto 12px", color: "var(--moss)" }} />
-            <p style={{ margin: 0, fontSize: 13, color: "var(--muted)" }}>
-              Querying NASA Alaska Satellite Facility DAAC for live SAR scenes…
-            </p>
-          </div>
-        ) : error ? (
-          <div className="empty-state" role="alert">
-            <div>
-              <h3>Could not load SAR satellite data</h3>
-              <p>{error instanceof Error ? error.message : "Service temporarily unavailable."}</p>
-              <Button variant="secondary" onClick={() => void refetch()}>
-                Try again
-              </Button>
+        {/* Sub-Navbar: 3 Distinct Visible Segments */}
+        <div className="sar-tab-nav" role="tablist" aria-label="SAR Satellite View Options">
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "audio"}
+            className={`sar-tab-btn ${activeTab === "audio" ? "active" : ""}`}
+            onClick={() => setActiveTab("audio")}
+          >
+            <Headphones size={16} className="sar-tab-icon" />
+            <span className="sar-tab-label">অডিও নির্দেশিকা</span>
+            <span className="sar-tab-pill">৫ ধাপ</span>
+          </button>
+
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "radar"}
+            className={`sar-tab-btn ${activeTab === "radar" ? "active" : ""}`}
+            onClick={() => setActiveTab("radar")}
+          >
+            <Satellite size={16} className="sar-tab-icon" />
+            <span className="sar-tab-label">স্যাটেলাইট দৃশ্য</span>
+            <span className="sar-tab-pill">ASF DAAC</span>
+          </button>
+
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "science"}
+            className={`sar-tab-btn ${activeTab === "science" ? "active" : ""}`}
+            onClick={() => setActiveTab("science")}
+          >
+            <Sparkles size={16} className="sar-tab-icon" />
+            <span className="sar-tab-label">বিজ্ঞান ও পাস</span>
+            <span className="sar-tab-pill">১২-দিন</span>
+          </button>
+        </div>
+
+        {/* Tab Content Body with Scrollable Area */}
+        <div
+          className="sar-modal-scroll"
+          style={{
+            flex: 1,
+            overflowY: "auto",
+            paddingRight: 4,
+            display: "flex",
+            flexDirection: "column",
+            gap: 14,
+          }}
+        >
+          {isLoading ? (
+            <div className="panel" role="status" style={{ textAlign: "center", padding: 36 }}>
+              <RefreshCw size={24} className="animate-spin" style={{ margin: "0 auto 12px", color: "var(--moss)" }} />
+              <p style={{ margin: 0, fontSize: 13, color: "var(--muted)" }}>
+                Querying NASA Alaska Satellite Facility DAAC for live SAR scenes…
+              </p>
             </div>
-          </div>
-        ) : data ? (
-          <div style={{ display: "grid", gap: 16 }}>
-            {/* 12-day Orbital Repeat Watch Banner */}
-            {nextPassInfo && (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "10px 14px",
-                  borderRadius: 12,
-                  background: "#eff6ff",
-                  border: "1px solid #bfdbfe",
-                  fontSize: 12,
-                }}
-              >
-                <Clock size={16} style={{ color: "#2563eb", flexShrink: 0 }} />
-                <div>
-                  <span style={{ fontWeight: 600, color: "#1e40af" }}>My Place Watch (12-Day Nominal Cycle): </span>
-                  <span style={{ color: "#1e3a8a" }}>
-                    Next radar acquisition in <b>{nextPassInfo.days}d {nextPassInfo.hours}h</b> (
-                    {nextPassInfo.passDate.toISOString().slice(0, 10)})
-                  </span>
-                </div>
+          ) : error ? (
+            <div className="empty-state" role="alert">
+              <div>
+                <h3>Could not load SAR satellite data</h3>
+                <p>{error instanceof Error ? error.message : "Service temporarily unavailable."}</p>
+                <Button variant="secondary" onClick={() => void refetch()}>
+                  Try again
+                </Button>
               </div>
-            )}
+            </div>
+          ) : data ? (
+            <>
+              {/* TAB 1: 🎙️ ফিল্ড অডিও গাইড */}
+              {activeTab === "audio" && (
+                <div style={{ display: "grid", gap: 12 }}>
+                  <ModernBanglaPlayer />
 
-            {/* Modern Bangla & English Voice Teleprompter Guide */}
-            <ModernBanglaPlayer />
-
-            {/* Satellite Optical & Worldview Tile */}
-            <div style={{ padding: 14, borderRadius: 14, background: "#f5f6ee", border: "1px solid var(--line)" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-                <strong style={{ fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
-                  <Satellite size={16} /> NASA GIBS Satellite Imagery Context
-                </strong>
-                <a
-                  href={data.worldviewUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-link"
-                  style={{ display: "inline-flex", alignItems: "center", gap: 4, fontSize: 11 }}
-                >
-                  Open in NASA Worldview <ExternalLink size={12} />
-                </a>
-              </div>
-              <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap" }}>
-                <div style={{ display: "flex", flexDirection: "column", gap: 6, alignItems: "center" }}>
-                  <img
-                    src={layerType === "modis" && data.recentModisUrl ? data.recentModisUrl : data.gibsImageUrl}
-                    alt="NASA GIBS satellite observation tile"
-                    onError={(e) => {
-                      // Fallback to Blue Marble if daily MODIS swath is blank or errors
-                      e.currentTarget.src = data.gibsImageUrl;
+                  {/* Ground Truth Field Tips */}
+                  <div
+                    style={{
+                      padding: "12px 14px",
+                      borderRadius: 12,
+                      background: "rgba(243, 245, 238, 0.7)",
+                      border: "1px solid var(--line)",
+                      fontSize: 11,
+                      lineHeight: 1.5,
+                      color: "var(--muted)",
                     }}
-                    style={{ width: 130, height: 130, objectFit: "cover", borderRadius: 10, border: "1px solid var(--line)" }}
-                  />
-                  <div style={{ display: "flex", gap: 4 }}>
-                    <button
-                      type="button"
-                      onClick={() => setLayerType("bluemarble")}
+                  >
+                    <strong
                       style={{
-                        padding: "2px 6px",
-                        fontSize: 9,
-                        borderRadius: 4,
-                        border: layerType === "bluemarble" ? "1px solid #0d9488" : "1px solid #cbd5e1",
-                        background: layerType === "bluemarble" ? "#ccfbf1" : "#fff",
-                        color: layerType === "bluemarble" ? "#0f766e" : "#475569",
-                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                        color: "var(--ink)",
+                        marginBottom: 6,
+                        fontSize: 12,
                       }}
                     >
-                      BlueMarble
-                    </button>
-                    {data.recentModisUrl && (
-                      <button
-                        type="button"
-                        onClick={() => setLayerType("modis")}
-                        style={{
-                          padding: "2px 6px",
-                          fontSize: 9,
-                          borderRadius: 4,
-                          border: layerType === "modis" ? "1px solid #0d9488" : "1px solid #cbd5e1",
-                          background: layerType === "modis" ? "#ccfbf1" : "#fff",
-                          color: layerType === "modis" ? "#0f766e" : "#475569",
-                          cursor: "pointer",
-                        }}
-                      >
-                        MODIS
-                      </button>
-                    )}
+                      <CheckCircle2 size={15} style={{ color: "#2d6a4f" }} /> ফিল্ড ট্রুথিং চেকলিস্ট (Field Investigator Tips)
+                    </strong>
+                    <ul style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 4 }}>
+                      <li>
+                        <b>শান্ত পানি:</b> রাডার তরঙ্গ মিরর রিফ্লেকশনে ছিটকে যায়, চিত্রে এলাকাটি কালো দেখায়।
+                      </li>
+                      <li>
+                        <b>রুক্ষ মাটি বা শস্য:</b> সংকেত বিচ্ছুরণ ঘটিয়ে ধূসর বা উজ্জ্বল পিক্সেল তৈরি করে।
+                      </li>
+                      <li>
+                        <b>ফিল্ড প্রমাণ:</b> অডিও নির্দেশিকা শুনে সঠিক স্থানে গিয়ে ছবি তুলুন ও নোট রেকর্ড করুন।
+                      </li>
+                    </ul>
                   </div>
                 </div>
-                <div style={{ flex: 1, minWidth: 200, fontSize: 11, color: "var(--muted)", lineHeight: 1.6 }}>
-                  <p style={{ margin: "0 0 6px" }}>
-                    <strong>Observation Coordinates:</strong> {lat.toFixed(4)}°N, {lng.toFixed(4)}°E
-                  </p>
-                  <p style={{ margin: "0 0 6px" }}>
-                    <strong>Sensor Provider:</strong> NASA EOSDIS / Alaska Satellite Facility DAAC
-                  </p>
-                  <p style={{ margin: 0 }}>
-                    Optical context from NASA GIBS combined with active microwave Synthetic Aperture Radar (SAR) backscatter
-                    to calibrate and validate ground observations.
-                  </p>
-                </div>
-              </div>
-            </div>
+              )}
 
-            {/* Live SAR Scenes from ASF DAAC */}
-            <div>
-              <span className="eyebrow" style={{ marginBottom: 6 }}>
-                LIVE ASF DAAC SAR SCENES (SENTINEL-1 / NISAR PROXY)
-              </span>
-              <div style={{ display: "grid", gap: 8 }}>
-                {data.scenes.slice(0, 3).map((scene, i) => (
+              {/* TAB 2: 🛰️ স্যাটেলাইট রাডার দৃশ্য */}
+              {activeTab === "radar" && (
+                <div style={{ display: "grid", gap: 14 }}>
+                  {/* Cinematic NASA Satellite Telemetry Viewer */}
+                  <div className="nasa-sat-viewer">
+                    {/* High-Definition Satellite Viewport with HUD Overlay */}
+                    <div className="sat-viewport">
+                      <img
+                        src={layerType === "modis" && data.recentModisUrl ? data.recentModisUrl : data.gibsImageUrl}
+                        alt="NASA GIBS satellite observation tile"
+                        onError={(e) => {
+                          e.currentTarget.src = data.gibsImageUrl;
+                        }}
+                        className="sat-viewport-img"
+                      />
+
+                      {/* Radar reticle grid overlay */}
+                      <div className="sat-hud-grid" aria-hidden="true" />
+
+                      {/* Top HUD Overlay: Live telemetry & Worldview Link */}
+                      <div className="sat-hud-top">
+                        <div className="sat-hud-badge">
+                          <span className="sat-pulse-dot" />
+                          <span>NASA GIBS Live View</span>
+                          <span className="sat-coords">
+                            {lat.toFixed(4)}°N, {lng.toFixed(4)}°E
+                          </span>
+                        </div>
+
+                        <a
+                          href={data.worldviewUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="sat-hud-link"
+                          title="Open interactive multi-layer viewer in NASA Worldview"
+                        >
+                          <span>NASA Worldview</span>
+                          <ExternalLink size={12} />
+                        </a>
+                      </div>
+
+                      {/* Bottom HUD Controls: Layer Switcher & Resolution */}
+                      <div className="sat-hud-bottom">
+                        <div className="sat-layer-pill-group">
+                          <button
+                            type="button"
+                            onClick={() => setLayerType("bluemarble")}
+                            className={`sat-layer-pill ${layerType === "bluemarble" ? "active" : ""}`}
+                          >
+                            <Satellite size={12} />
+                            <span>BlueMarble (TrueColor)</span>
+                          </button>
+                          {data.recentModisUrl && (
+                            <button
+                              type="button"
+                              onClick={() => setLayerType("modis")}
+                              className={`sat-layer-pill ${layerType === "modis" ? "active" : ""}`}
+                            >
+                              <span>MODIS (Daily Swath)</span>
+                            </button>
+                          )}
+                        </div>
+                        <span className="sat-res-tag">250m Resolution</span>
+                      </div>
+                    </div>
+
+                    {/* Telemetry Stats Strip below the image */}
+                    <div className="sat-meta-grid">
+                      <div className="sat-meta-item">
+                        <small>SURFACE TARGET</small>
+                        <strong>{missionTitle}</strong>
+                      </div>
+                      <div className="sat-meta-item">
+                        <small>SENSOR &amp; DAAC</small>
+                        <strong>NASA EOSDIS · Sentinel-1 / GIBS</strong>
+                      </div>
+                      <div className="sat-meta-item">
+                        <small>CALIBRATION</small>
+                        <strong>SAR Microwave Backscatter</strong>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Live SAR Scenes from ASF DAAC */}
+                  <div>
+                    <span className="eyebrow" style={{ marginBottom: 6, display: "block" }}>
+                      LIVE ASF DAAC SAR SCENES (SENTINEL-1 / NISAR PROXY)
+                    </span>
+                    <div style={{ display: "grid", gap: 8 }}>
+                      {data.scenes.slice(0, 3).map((scene, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            padding: 10,
+                            borderRadius: 10,
+                            background: "#fff",
+                            border: "1px solid var(--line)",
+                            fontSize: 11,
+                          }}
+                        >
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <strong style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--ink)" }}>
+                              {scene.granuleName}
+                            </strong>
+                            <span className="status-tag active" style={{ fontSize: 9 }}>
+                              {scene.flightDirection}
+                            </span>
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: 12,
+                              marginTop: 5,
+                              color: "var(--muted)",
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <span>
+                              <b>Polarization:</b> {scene.polarization}
+                            </span>
+                            <span>
+                              <b>Beam Mode:</b> {scene.beamModeType}
+                            </span>
+                            <span>
+                              <b>Sensor:</b> {scene.sensor}
+                            </span>
+                            {scene.startTime && (
+                              <span>
+                                <b>Acquired:</b> {new Date(scene.startTime).toISOString().slice(0, 10)}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* FEEL: Walk on the Radar (Sonification & Tactile) */}
+                  <FeelRadarPlayer compact />
+                </div>
+              )}
+
+              {/* TAB 3: 🔬 বিজ্ঞান ও অরবিট পাস */}
+              {activeTab === "science" && (
+                <div style={{ display: "grid", gap: 14 }}>
+                  {/* 12-day Orbital Repeat Watch Banner */}
+                  {nextPassInfo && (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: 12,
+                        padding: "14px 16px",
+                        borderRadius: 14,
+                        background: "#eff6ff",
+                        border: "1px solid #bfdbfe",
+                        fontSize: 12,
+                      }}
+                    >
+                      <Clock size={20} style={{ color: "#2563eb", flexShrink: 0, marginTop: 2 }} />
+                      <div>
+                        <div style={{ fontWeight: 700, color: "#1e40af", fontSize: 13, marginBottom: 4 }}>
+                          My Place Watch (12-Day Nominal Orbit Cycle)
+                        </div>
+                        <div style={{ color: "#1e3a8a", lineHeight: 1.5, marginBottom: 6 }}>
+                          Next radar acquisition in <b>{nextPassInfo.days} days {nextPassInfo.hours} hours</b> (
+                          {nextPassInfo.passDate.toISOString().slice(0, 10)}).
+                        </div>
+                        <div style={{ fontSize: 11, color: "#3b82f6" }}>
+                          Sentinel-1 and NASA-ISRO NISAR satellites follow a sun-synchronous exact repeat orbit, capturing this
+                          exact coordinate every 12 days to monitor surface changes.
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Physical Drivers & Radar Science Breakdown */}
+                  <div style={{ padding: 14, borderRadius: 14, background: "#f8f9f4", border: "1px dashed var(--line)" }}>
+                    <span className="eyebrow" style={{ color: "var(--moss)", marginBottom: 4, display: "block" }}>
+                      PHYSICAL DRIVERS BEHIND SAR BACKSCATTER
+                    </span>
+                    <h4 style={{ margin: "4px 0 10px", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+                      <Layers size={15} /> How Radar Sees Earth&apos;s Changing Surface
+                    </h4>
+
+                    <div style={{ display: "grid", gap: 10, fontSize: 11, lineHeight: 1.5, color: "var(--muted)" }}>
+                      <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+                        <Waves size={16} style={{ color: "#2d6a4f", flexShrink: 0, marginTop: 2 }} />
+                        <div>
+                          <strong style={{ color: "var(--ink)" }}>Dielectric Constant &amp; Floodwater:</strong>{" "}
+                          {data.physicalPrinciples.dielectricProperty}
+                        </div>
+                      </div>
+
+                      <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+                        <Trees size={16} style={{ color: "#2d6a4f", flexShrink: 0, marginTop: 2 }} />
+                        <div>
+                          <strong style={{ color: "var(--ink)" }}>Polarizations (VV vs VH vs HH):</strong>{" "}
+                          <span>
+                            <b>VV</b> delineates water/soil boundaries; <b>VH</b> captures vegetation volume scattering; <b>HH</b>{" "}
+                            reveals double-bounce from flooded trees and riverbank structures.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+                        <Info size={16} style={{ color: "#2d6a4f", flexShrink: 0, marginTop: 2 }} />
+                        <div>
+                          <strong style={{ color: "var(--ink)" }}>Ground Observation Value:</strong> Your TRACE field notes and
+                          photos provide verified ground truth to confirm whether dark SAR pixels represent flood inundation,
+                          standing irrigation, or flat sediment.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Geographic & Technical Bounding Box */}
                   <div
-                    key={i}
                     style={{
-                      padding: 10,
-                      borderRadius: 10,
+                      padding: "10px 14px",
+                      borderRadius: 12,
                       background: "#fff",
                       border: "1px solid var(--line)",
                       fontSize: 11,
+                      display: "flex",
+                      justifyContent: "space-between",
+                      flexWrap: "wrap",
+                      gap: 8,
                     }}
                   >
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <strong style={{ fontFamily: "var(--mono)", fontSize: 10, color: "var(--ink)" }}>
-                        {scene.granuleName}
-                      </strong>
-                      <span className="status-tag active" style={{ fontSize: 9 }}>
-                        {scene.flightDirection}
-                      </span>
+                    <div>
+                      <span style={{ color: "var(--muted)" }}>Target Coordinates:</span>{" "}
+                      <b>{lat.toFixed(4)}°N, {lng.toFixed(4)}°E</b>
                     </div>
-                    <div style={{ display: "flex", gap: 12, marginTop: 5, color: "var(--muted)" }}>
-                      <span>
-                        <b>Polarization:</b> {scene.polarization}
-                      </span>
-                      <span>
-                        <b>Beam Mode:</b> {scene.beamModeType}
-                      </span>
-                      <span>
-                        <b>Sensor:</b> {scene.sensor}
-                      </span>
-                      {scene.startTime && (
-                        <span>
-                          <b>Acquired:</b> {new Date(scene.startTime).toISOString().slice(0, 10)}
-                        </span>
-                      )}
+                    <div>
+                      <span style={{ color: "var(--muted)" }}>Sensor Bands:</span> <b>C-Band (5.4 GHz) / L-Band (1.2 GHz)</b>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* FEEL: Walk on the Radar (Sonification & Tactile) */}
-            <FeelRadarPlayer compact />
-
-            {/* Physical Drivers & Radar Science Breakdown */}
-            <div style={{ padding: 14, borderRadius: 14, background: "#f8f9f4", border: "1px dashed var(--line)" }}>
-              <span className="eyebrow" style={{ color: "var(--moss)" }}>
-                PHYSICAL DRIVERS BEHIND SAR BACKSCATTER
-              </span>
-              <h4 style={{ margin: "6px 0 10px", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
-                <Layers size={15} /> How Radar Sees Earth&apos;s Changing Surface
-              </h4>
-
-              <div style={{ display: "grid", gap: 10, fontSize: 11, lineHeight: 1.5, color: "var(--muted)" }}>
-                <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-                  <Waves size={16} style={{ color: "#2d6a4f", flexShrink: 0, marginTop: 2 }} />
-                  <div>
-                    <strong style={{ color: "var(--ink)" }}>Dielectric Constant &amp; Floodwater:</strong>{" "}
-                    {data.physicalPrinciples.dielectricProperty}
-                  </div>
                 </div>
-
-                <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-                  <Trees size={16} style={{ color: "#2d6a4f", flexShrink: 0, marginTop: 2 }} />
-                  <div>
-                    <strong style={{ color: "var(--ink)" }}>Polarizations (VV vs VH vs HH):</strong>{" "}
-                    <span>
-                      <b>VV</b> delineates water/soil boundaries; <b>VH</b> captures vegetation volume scattering; <b>HH</b>{" "}
-                      reveals double-bounce from flooded trees and riverbank structures.
-                    </span>
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-                  <Info size={16} style={{ color: "#2d6a4f", flexShrink: 0, marginTop: 2 }} />
-                  <div>
-                    <strong style={{ color: "var(--ink)" }}>Ground Observation Value:</strong> Your TRACE field notes and
-                    photos provide verified ground truth to confirm whether dark SAR pixels represent flood inundation,
-                    standing irrigation, or flat sediment.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : null}
-
-        <div className="dialog-actions">
-          <DialogClose asChild>
-            <Button variant="secondary" type="button">
-              Close
-            </Button>
-          </DialogClose>
+              )}
+            </>
+          ) : null}
         </div>
       </DialogContent>
     </Dialog>

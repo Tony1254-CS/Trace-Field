@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "concurrently --kill-others --names web,api --prefix-colors green,blue \"npm:dev:web\" \"npm:dev:api\"",
-    "dev:web": "next dev --hostname 0.0.0.0 --port 3000",
+    "dev:web": "next dev --hostname 0.0.0.0 --port 3100",
     "dev:api": "node --env-file-if-exists=.env.local --import tsx --watch server/src/server.ts",
     "build": "npm run typecheck && npm run build:api && npm run build:web",
     "build:web": "node scripts/build-web.mjs",
