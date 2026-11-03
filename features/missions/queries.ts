@@ -62,29 +62,126 @@ export const DEFAULT_MISSIONS: Mission[] = [
 ];
 
 export const missionKey = ["missions"] as const;
+
+const LOCAL_MISSIONS_KEY = "trace_local_missions";
+
+function getLocalMissions(): Mission[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(LOCAL_MISSIONS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveLocalMission(payload: MissionPayload & { id?: string }): Mission {
+  const local = getLocalMissions();
+  const id = payload.id || `m-local-${Date.now()}`;
+  const now = new Date().toISOString();
+  
+  const existingIdx = local.findIndex((m) => m.id === id);
+  const updatedMission: Mission = {
+    id,
+    title: payload.title,
+    prompt: payload.prompt,
+    place: payload.place || null,
+    visit_date: payload.visitDate || null,
+    target_lat: payload.target?.lat ?? null,
+    target_lng: payload.target?.lng ?? null,
+    target: payload.target || null,
+    archived_at: existingIdx >= 0 ? local[existingIdx].archived_at : null,
+    created_at: existingIdx >= 0 ? local[existingIdx].created_at : now,
+    updated_at: now,
+    observationCount: existingIdx >= 0 ? local[existingIdx].observationCount : 0,
+  };
+
+  if (existingIdx >= 0) {
+    local[existingIdx] = updatedMission;
+  } else {
+    local.unshift(updatedMission);
+  }
+
+  try {
+    localStorage.setItem(LOCAL_MISSIONS_KEY, JSON.stringify(local));
+  } catch (e) {
+    console.warn("Could not save to localStorage:", e);
+  }
+
+  return updatedMission;
+}
+
+function archiveLocalMission(id: string, archived: boolean): void {
+  const local = getLocalMissions();
+  const idx = local.findIndex((m) => m.id === id);
+  if (idx >= 0) {
+    local[idx].archived_at = archived ? new Date().toISOString() : null;
+    local[idx].updated_at = new Date().toISOString();
+    try {
+      localStorage.setItem(LOCAL_MISSIONS_KEY, JSON.stringify(local));
+    } catch (e) {
+      console.warn("Could not write to localStorage:", e);
+    }
+  }
+}
+
 export function useMissions() {
   return useQuery({
     queryKey: missionKey,
     queryFn: async () => {
+      const localMissions = getLocalMissions();
+      let baseMissions = DEFAULT_MISSIONS;
       try {
         const res = await apiRequest<{ data: Mission[] }>("/missions");
-        if (res.data && res.data.length > 0) return res;
-        return { data: DEFAULT_MISSIONS };
+        if (res.data && res.data.length > 0) {
+          baseMissions = res.data;
+        }
       } catch {
-        return { data: DEFAULT_MISSIONS };
+        // Unauthenticated or offline: fallback to DEFAULT_MISSIONS
       }
+
+      // Merge baseMissions with localMissions
+      const mergedMap = new Map<string, Mission>();
+      for (const m of baseMissions) mergedMap.set(m.id, m);
+      for (const m of localMissions) mergedMap.set(m.id, m);
+      return { data: Array.from(mergedMap.values()) };
     },
-    staleTime: 60_000,
+    staleTime: 10_000,
   });
 }
+
 export function useSaveMission() {
   const client = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, ...payload }: MissionPayload & { id?: string }) => apiRequest<{ data: Mission }>(id ? `/missions/${id}` : "/missions", { method: id ? "PATCH" : "POST", body: JSON.stringify(payload) }),
+    mutationFn: async ({ id, ...payload }: MissionPayload & { id?: string }) => {
+      try {
+        return await apiRequest<{ data: Mission }>(
+          id ? `/missions/${id}` : "/missions",
+          { method: id ? "PATCH" : "POST", body: JSON.stringify(payload) }
+        );
+      } catch {
+        // Fallback to local storage (Guest / Offline / Unauthenticated field investigator mode)
+        const saved = saveLocalMission({ id, ...payload });
+        return { data: saved };
+      }
+    },
     onSuccess: () => client.invalidateQueries({ queryKey: missionKey }),
   });
 }
+
 export function useArchiveMission() {
   const client = useQueryClient();
-  return useMutation({ mutationFn: ({ id, archived }: { id: string; archived: boolean }) => apiRequest(`/missions/${id}`, { method: "PATCH", body: JSON.stringify({ archived }) }), onSuccess: () => client.invalidateQueries({ queryKey: missionKey }) });
+  return useMutation({
+    mutationFn: async ({ id, archived }: { id: string; archived: boolean }) => {
+      try {
+        await apiRequest(`/missions/${id}`, {
+          method: "PATCH",
+          body: JSON.stringify({ archived }),
+        });
+      } catch {
+        archiveLocalMission(id, archived);
+      }
+    },
+    onSuccess: () => client.invalidateQueries({ queryKey: missionKey }),
+  });
 }

@@ -363,3 +363,559 @@ button:disabled { cursor: not-allowed; opacity: .58; }
     min-height: 42px !important;
   }
 }
+
+/* ========================================================
+   SAR Radar Modal Container: Desktop Centered vs Mobile Fullscreen
+   ======================================================== */
+.dialog.dialog-form.sar-radar-modal,
+.sar-radar-modal {
+  width: min(740px, calc(100% - 32px)) !important;
+  max-height: 92dvh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 22px 24px !important;
+  gap: 12px !important;
+  background: var(--paper) !important;
+  border-radius: 22px !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: 0 20px 50px rgba(12, 23, 19, 0.25) !important;
+  overflow: hidden !important;
+}
+
+.sar-modal-head {
+  padding-right: 48px;
+  margin-bottom: 0 !important;
+}
+
+.sar-modal-desc {
+  margin: 0 !important;
+  font-size: 12px !important;
+  color: var(--muted) !important;
+}
+
+.sar-modal-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+/* MOBILE FULLSCREEN WORKSPACE (<= 640px) */
+@media (max-width: 640px) {
+  .dialog.dialog-form.sar-radar-modal,
+  .sar-radar-modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: var(--paper) !important;
+    z-index: 60 !important;
+    box-shadow: none !important;
+    gap: 0 !important;
+  }
+
+  /* Fixed sticky top header on mobile */
+  .sar-modal-head {
+    padding: 14px 50px 8px 16px !important;
+    background: rgba(243, 242, 237, 0.98) !important;
+    backdrop-filter: blur(12px) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .sar-modal-head h2 {
+    font-size: 17px !important;
+    line-height: 1.25 !important;
+  }
+
+  .sar-modal-desc {
+    padding: 6px 16px 2px !important;
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+    background: rgba(243, 242, 237, 0.98) !important;
+  }
+
+  .sar-radar-modal .dialog-x {
+    top: 12px !important;
+    right: 14px !important;
+    width: 36px !important;
+    height: 36px !important;
+    background: #ffffff !important;
+    border: 1px solid var(--line) !important;
+    border-radius: 50% !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  /* Tab Nav container on mobile */
+  .sar-tab-nav {
+    margin: 6px 14px 6px 14px !important;
+    gap: 6px !important;
+    padding: 4px !important;
+    background: #e9ece4 !important;
+  }
+
+  .sar-tab-btn {
+    padding: 8px 4px !important;
+    font-size: 11px !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    border-radius: 8px !important;
+  }
+
+  .sar-tab-pill {
+    display: none !important;
+  }
+
+  /* Full mobile scroll body */
+  .sar-modal-scroll {
+    padding: 10px 14px max(28px, env(safe-area-inset-bottom)) 14px !important;
+    gap: 12px !important;
+  }
+
+  .sat-viewport {
+    height: 200px !important;
+  }
+
+  .sat-hud-top {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 5px !important;
+  }
+
+  .sat-coords {
+    display: none !important;
+  }
+
+  .sat-meta-grid {
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+  }
+}
+
+/* ========================================================
+   6. SAR Radar Modal Sub-Navigation Tabs & Cinematic Viewer
+   ======================================================== */
+.sar-tab-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 6px;
+  background: #f0f2eb;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.sar-tab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.sar-tab-btn:hover {
+  background: #fafbf9;
+  border-color: #2d6a4f;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
+}
+
+.sar-tab-btn .sar-tab-icon {
+  color: #2d6a4f;
+  transition: transform 0.2s ease;
+}
+
+.sar-tab-btn:hover .sar-tab-icon {
+  transform: scale(1.1);
+}
+
+.sar-tab-pill {
+  font-size: 10px;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: #eff3e7;
+  color: #47604f;
+  font-weight: 600;
+  border: 1px solid rgba(71, 96, 79, 0.15);
+}
+
+.sar-tab-btn.active {
+  background: linear-gradient(135deg, #122119 0%, #1f3d2e 100%) !important;
+  color: #ffffff !important;
+  border-color: #2d6a4f !important;
+  box-shadow: 0 4px 14px rgba(18, 33, 25, 0.3) !important;
+}
+
+.sar-tab-btn.active .sar-tab-icon {
+  color: #d6f05d !important;
+}
+
+.sar-tab-btn.active .sar-tab-pill {
+  background: rgba(214, 240, 93, 0.2) !important;
+  color: #d6f05d !important;
+  border-color: rgba(214, 240, 93, 0.4) !important;
+}
+
+/* Cinematic Satellite Viewport */
+.nasa-sat-viewer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.sat-viewport {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0b1510;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sat-viewport-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.sat-viewport:hover .sat-viewport-img {
+  transform: scale(1.02);
+}
+
+.sat-hud-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(rgba(214, 240, 93, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(214, 240, 93, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  border-radius: 12px;
+}
+
+.sat-hud-top {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+}
+
+.sat-hud-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(12, 23, 19, 0.82);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.sat-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.sat-coords {
+  color: #d6f05d;
+  font-family: var(--mono);
+  font-size: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  padding-left: 7px;
+}
+
+.sat-hud-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(12, 23, 19, 0.82);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.sat-hud-link:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+.sat-hud-bottom {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  z-index: 2;
+  flex-wrap: wrap;
+}
+
+.sat-layer-pill-group {
+  display: inline-flex;
+  gap: 5px;
+  background: rgba(12, 23, 19, 0.82);
+  backdrop-filter: blur(8px);
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.sat-layer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.sat-layer-pill:hover {
+  color: #ffffff;
+}
+
+.sat-layer-pill.active {
+  background: #059669;
+  color: #ffffff;
+  border-color: #34d399;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+}
+
+.sat-res-tag {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: #e2e8f0;
+  background: rgba(12, 23, 19, 0.82);
+  backdrop-filter: blur(8px);
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.sat-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.sat-meta-item {
+  padding: 8px 10px;
+  background: #f7f8f3;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sat-meta-item small {
+  font-size: 9px;
+  font-family: var(--mono);
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sat-meta-item strong {
+  font-size: 11px;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sar-modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+.sar-modal-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.sar-modal-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 999px;
+}
+
+@media (max-width: 600px) {
+  .sar-tab-nav {
+    gap: 4px;
+    padding: 4px;
+  }
+  .sar-tab-btn {
+    padding: 8px 6px;
+    font-size: 11px;
+    gap: 4px;
+    flex-direction: column;
+  }
+  .sar-tab-pill {
+    display: none;
+  }
+  .sat-viewport {
+    height: 180px;
+  }
+  .sat-hud-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .sat-coords {
+    display: none;
+  }
+  .sat-meta-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}
+
+/* ========================================================
+   7. Desktop Bottom Nav Scrolling Fix (Prevent Card Overlap)
+   ======================================================== */
+@media (min-width: 900px) {
+  .bottom-nav {
+    position: absolute !important;
+    top: 88px !important;
+    z-index: 20 !important;
+  }
+  .main-content {
+    padding-top: 62px !important;
+  }
+  .nav-item {
+    transition: all 0.2s ease !important;
+  }
+  .nav-item:hover:not(.active) {
+    background: rgba(0, 0, 0, 0.05) !important;
+    color: var(--ink) !important;
+  }
+}
+
+/* ========================================================
+   8. Privacy Panel Sub-Navigation Tabs
+   ======================================================== */
+.privacy-tab-nav {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 6px;
+  background: #f0f2eb;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  margin: 18px 0 20px 0;
+}
+
+.privacy-tab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  white-space: nowrap;
+}
+
+.privacy-tab-btn:hover {
+  background: #fafbf9;
+  border-color: #2d6a4f;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.07);
+}
+
+.privacy-tab-btn.active {
+  background: linear-gradient(135deg, #122119 0%, #1f3d2e 100%) !important;
+  color: #ffffff !important;
+  border-color: #2d6a4f !important;
+  box-shadow: 0 4px 14px rgba(18, 33, 25, 0.3) !important;
+}
+
+.privacy-tab-btn.active svg {
+  color: #d6f05d !important;
+}
+
+@media (max-width: 768px) {
+  .privacy-tab-nav {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+}
+
+@media (max-width: 440px) {
+  .privacy-tab-nav {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 4px;
+  }
+  .privacy-tab-btn {
+    padding: 8px 6px;
+    font-size: 11px;
+    gap: 5px;
+  }
+}
+
+

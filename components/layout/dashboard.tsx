@@ -2,17 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Archive, ClipboardList, Clock, Compass, Download, ShieldCheck, Wifi, WifiOff } from "lucide-react";
+import { Archive, ClipboardList, Clock, Compass, Download, LogIn, LogOut, ShieldCheck, User, Wifi, WifiOff } from "lucide-react";
 import { toast } from "sonner";
 import { ObservationForm } from "@/components/capture/observation-form";
 import { MissionInbox } from "@/components/missions/mission-inbox";
 import { RecordList } from "@/components/records/record-list";
 import { DataPrivacyPanel } from "@/components/privacy/data-privacy-panel";
 import { PlaystoreInstallSheet } from "@/components/pwa/playstore-install-sheet";
+import { AuthPanel } from "@/components/auth/auth-panel";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useMissions } from "@/features/missions/queries";
 import { getPendingObservations } from "@/lib/offline/queue";
 import { syncPendingObservations } from "@/lib/offline/sync";
+import { createClient } from "@/lib/supabase/client";
 
 type View = "missions" | "capture" | "records" | "privacy";
 type InstallPrompt = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: "accepted" | "dismissed" }> };
@@ -27,6 +30,8 @@ export function Dashboard({ email }: { email: string }) {
   });
   const [view, setView] = useState<View>(() => (selectedMissionId ? "capture" : "missions"));
   const [online, setOnline] = useState(true);
+  const [authOpen, setAuthOpen] = useState(false);
+  const isAuthenticated = Boolean(email && email !== "field-investigator@trace.nasa");
   const [installPrompt, setInstallPrompt] = useState<InstallPrompt | null>(null);
   const [installSheetOpen, setInstallSheetOpen] = useState(false);
   const [isInstalled, setIsInstalled] = useState(() => {
@@ -119,6 +124,49 @@ export function Dashboard({ email }: { email: string }) {
         </button>
       )}
       <span className={`connection-pill ${online ? "online" : "offline"}`} role="status" title={online ? "Network connected." : "Offline. Cloud requests are unavailable until you reconnect."}>{online ? <Wifi size={13} /> : <WifiOff size={13} />}{online ? "Online" : "Offline"}</span>
+      {isAuthenticated ? (
+        <button
+          className="connection-pill"
+          style={{ cursor: "pointer", maxWidth: 170, overflow: "hidden", textOverflow: "ellipsis", display: "inline-flex", alignItems: "center", gap: 5 }}
+          title={`Signed in as ${email}. Click to sign out.`}
+          onClick={async () => {
+            if (window.confirm(`Sign out of ${email}?`)) {
+              const supabase = createClient();
+              await supabase.auth.signOut();
+              window.location.reload();
+            }
+          }}
+        >
+          <User size={13} />
+          <span>{email.split("@")[0]}</span>
+          <LogOut size={11} style={{ opacity: 0.7 }} />
+        </button>
+      ) : (
+        <Dialog open={authOpen} onOpenChange={setAuthOpen}>
+          <DialogTrigger asChild>
+            <Button
+              variant="secondary"
+              size="sm"
+              style={{
+                borderRadius: 9999,
+                padding: "7px 12px",
+                gap: 5,
+                fontSize: 11,
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              <LogIn size={13} />
+              Sign in
+            </Button>
+          </DialogTrigger>
+          <DialogContent style={{ maxWidth: 490, padding: 0, border: "none", background: "transparent" }}>
+            <DialogTitle className="sr-only">Sign In to TRACE</DialogTitle>
+            <DialogDescription className="sr-only">Sign in to your account or create a new field investigator account.</DialogDescription>
+            <AuthPanel />
+          </DialogContent>
+        </Dialog>
+      )}
       <Button
         className="install-button"
         variant="secondary"

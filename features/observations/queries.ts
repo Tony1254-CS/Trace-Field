@@ -8,7 +8,16 @@ export function useObservations(options: { q: string; response: string; offset: 
   const params = new URLSearchParams({ limit: "30", offset: String(options.offset) });
   if (options.q.trim()) params.set("q", options.q.trim());
   if (options.response !== "all") params.set("response", options.response);
-  return useQuery({ queryKey: [...observationKey, options], queryFn: () => apiRequest<ObservationPage>(`/observations?${params}`) });
+  return useQuery({
+    queryKey: [...observationKey, options],
+    queryFn: async () => {
+      try {
+        return await apiRequest<ObservationPage>(`/observations?${params}`);
+      } catch {
+        return { data: [], count: 0, limit: 30, offset: options.offset };
+      }
+    },
+  });
 }
 export function useSaveObservation() {
   const client = useQueryClient();
