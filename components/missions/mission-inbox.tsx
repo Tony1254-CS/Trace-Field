@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Edit2, MapPin, Plus, RotateCcw, Archive, Camera, CalendarDays, Satellite, Sparkles, QrCode } from "lucide-react";
+import { Edit2, MapPin, Plus, RotateCcw, Archive, Camera, CalendarDays, Satellite, Sparkles, QrCode, LayoutGrid } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { SatelliteRadarModal } from "@/components/missions/satellite-radar-modal";
 import { MissionShareModal } from "@/components/missions/mission-share-modal";
+import { BangladeshRadarMap } from "@/components/missions/bangladesh-radar-map";
 import { useArchiveMission, useMissions, useSaveMission } from "@/features/missions/queries";
 import type { Mission, MissionPayload } from "@/features/missions/types";
 import { formatDate } from "@/lib/utils";
@@ -141,6 +142,7 @@ export function MissionInbox({ onCapture }: { onCapture: (missionId: string) => 
   const [editor, setEditor] = useState<{ open: boolean; mission?: Mission }>({ open: false });
   const [radarModal, setRadarModal] = useState<{ open: boolean; mission?: Mission }>({ open: false });
   const [shareModal, setShareModal] = useState<{ open: boolean; mission?: Mission }>({ open: false });
+  const [viewMode, setViewMode] = useState<"cards" | "map">("cards");
   const missions = missionsQuery.data?.data ?? [];
   const activeCount = missions.filter((mission) => !mission.archived_at).length;
   const noteCount = missions.reduce((total, mission) => total + mission.observationCount, 0);
@@ -155,8 +157,37 @@ export function MissionInbox({ onCapture }: { onCapture: (missionId: string) => 
   return <>
     <section className="hero"><div className="hero-copy"><span className="eyebrow">FIELD NOTES / READY WHEN YOU ARE</span><h1>Go where the evidence is.</h1><p>Open a mission, record what you can observe, and keep every note tied to its source.</p></div><Dialog open={editor.open} onOpenChange={(open) => setEditor({ open, mission: open ? editor.mission : undefined })}><DialogTrigger asChild><Button onClick={() => setEditor({ open: true })}><Plus size={17} />New mission</Button></DialogTrigger><DialogContent className="mission-editor"><MissionEditor key={editor.mission?.id ?? "new"} mission={editor.mission} onDone={() => setEditor({ open: false })} /></DialogContent></Dialog></section>
     <div className="stat-strip" aria-label="Your TRACE account records"><div className="stat"><strong>{missionsQuery.isLoading ? "—" : activeCount}</strong><span>open missions</span></div><div className="stat"><strong>{missionsQuery.isLoading ? "—" : noteCount}</strong><span>field notes</span></div><div className="stat"><strong>PRIVATE</strong><span>account records</span></div></div>
-    <div className="section-head"><div><h2>Your missions</h2><p>Each observation remains linked to the mission that prompted it.</p></div></div>
-    {missionsQuery.isPending ? <div className="panel" role="status">Loading your missions…</div> : missionsQuery.isError ? <div className="empty-state" role="alert"><div><h3>Could not load missions</h3><p>{missionsQuery.error.message}</p><Button variant="secondary" onClick={() => missionsQuery.refetch()}>Try again</Button></div></div> : <section className="mission-grid" aria-label="Missions">
+    <div className="section-head">
+      <div>
+        <h2>Your missions</h2>
+        <p>Each observation remains linked to the mission that prompted it.</p>
+      </div>
+      <div className="mission-view-switcher">
+        <button
+          type="button"
+          onClick={() => setViewMode("cards")}
+          className={`view-switch-btn ${viewMode === "cards" ? "active" : ""}`}
+        >
+          <LayoutGrid size={15} />
+          <span>Cards</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setViewMode("map")}
+          className={`view-switch-btn ${viewMode === "map" ? "active" : ""}`}
+        >
+          <MapPin size={15} />
+          <span>BD Radar Map ({activeCount})</span>
+        </button>
+      </div>
+    </div>
+    {missionsQuery.isPending ? <div className="panel" role="status">Loading your missions…</div> : missionsQuery.isError ? <div className="empty-state" role="alert"><div><h3>Could not load missions</h3><p>{missionsQuery.error.message}</p><Button variant="secondary" onClick={() => missionsQuery.refetch()}>Try again</Button></div></div> : viewMode === "map" ? (
+      <BangladeshRadarMap
+        missions={missions}
+        onCapture={onCapture}
+        onOpenRadar={(mission) => setRadarModal({ open: true, mission })}
+      />
+    ) : <section className="mission-grid" aria-label="Missions">
       {!missions.length ? <div className="empty-state"><div><div className="empty-mark" aria-hidden="true">+</div><h3>Your field list starts here</h3><p>Create a mission with a clear observation question. TRACE keeps every record connected to its mission.</p><Button onClick={() => setEditor({ open: true })}>Create a mission</Button></div></div> : missions.map((mission, index) => {
         const domain = getDomainBadge(mission);
         return (

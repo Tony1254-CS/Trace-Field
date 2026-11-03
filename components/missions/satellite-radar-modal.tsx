@@ -14,6 +14,8 @@ import {
   Headphones,
   Sparkles,
   CheckCircle2,
+  Radio,
+  Activity,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -62,7 +64,7 @@ export function SatelliteRadarModal({
   lng: number;
 }) {
   const [activeTab, setActiveTab] = useState<"audio" | "radar" | "science">("audio");
-  const [layerType, setLayerType] = useState<"bluemarble" | "modis">("bluemarble");
+  const [layerType, setLayerType] = useState<"bluemarble" | "modis" | "sar">("bluemarble");
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["sar-scenes", lat, lng],
@@ -223,24 +225,33 @@ export function SatelliteRadarModal({
                   {/* Cinematic NASA Satellite Telemetry Viewer */}
                   <div className="nasa-sat-viewer">
                     {/* High-Definition Satellite Viewport with HUD Overlay */}
-                    <div className="sat-viewport">
+                    <div className={`sat-viewport ${layerType === "sar" ? "sat-viewport-sar" : ""}`}>
                       <img
                         src={layerType === "modis" && data.recentModisUrl ? data.recentModisUrl : data.gibsImageUrl}
                         alt="NASA GIBS satellite observation tile"
                         onError={(e) => {
                           e.currentTarget.src = data.gibsImageUrl;
                         }}
-                        className="sat-viewport-img"
+                        className={`sat-viewport-img ${layerType === "sar" ? "sar-composite-mode" : ""}`}
                       />
 
                       {/* Radar reticle grid overlay */}
                       <div className="sat-hud-grid" aria-hidden="true" />
 
+                      {/* SAR Sweep Line when in SAR mode */}
+                      {layerType === "sar" && (
+                        <div className="sar-scan-beam" aria-hidden="true" />
+                      )}
+
                       {/* Top HUD Overlay: Live telemetry & Worldview Link */}
                       <div className="sat-hud-top">
                         <div className="sat-hud-badge">
-                          <span className="sat-pulse-dot" />
-                          <span>NASA GIBS Live View</span>
+                          <span className={`sat-pulse-dot ${layerType === "sar" ? "sar-pulse-active" : ""}`} />
+                          <span>
+                            {layerType === "sar"
+                              ? "Sentinel-1 / NISAR SAR Backscatter (VV/VH)"
+                              : "NASA GIBS Live View"}
+                          </span>
                           <span className="sat-coords">
                             {lat.toFixed(4)}°N, {lng.toFixed(4)}°E
                           </span>
@@ -278,10 +289,39 @@ export function SatelliteRadarModal({
                               <span>MODIS (Daily Swath)</span>
                             </button>
                           )}
+                          <button
+                            type="button"
+                            onClick={() => setLayerType("sar")}
+                            className={`sat-layer-pill sat-layer-pill-sar ${layerType === "sar" ? "active" : ""}`}
+                          >
+                            <Radio size={12} />
+                            <span>🛰️ SAR Radar (False-Color)</span>
+                          </button>
                         </div>
-                        <span className="sat-res-tag">250m Resolution</span>
+                        <span className="sat-res-tag">
+                          {layerType === "sar" ? "10m SAR RTC" : "250m Resolution"}
+                        </span>
                       </div>
                     </div>
+
+                    {/* SAR Backscatter Calibration Legend Bar when SAR is active */}
+                    {layerType === "sar" && (
+                      <div className="sar-legend-strip">
+                        <div className="sar-legend-label">
+                          <Activity size={13} style={{ color: "#d6f05d" }} />
+                          <span>Calibrated Backscatter (σ° dB) Scale:</span>
+                        </div>
+                        <div className="sar-scale-bar">
+                          <div className="sar-scale-gradient" />
+                          <div className="sar-scale-marks">
+                            <span>-25 dB (Open Water / Mirror)</span>
+                            <span>-14 dB (Wet Soil &amp; Silt)</span>
+                            <span>-6 dB (Vegetation Canopy)</span>
+                            <span>0 dB (Urban / Revetment Double-Bounce)</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Telemetry Stats Strip below the image */}
                     <div className="sat-meta-grid">
