@@ -2,9 +2,10 @@
 
 import { useEffect, useDeferredValue, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { AlertTriangle, Clock, Download, Eye, Image as ImageIcon, RefreshCw, Search, Trash2 } from "lucide-react";
+import { AlertTriangle, Clock, Download, Eye, Filter, Image as ImageIcon, RefreshCw, Search, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { CustomSelect } from "@/components/ui/custom-select";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { useDeleteObservation, useObservations } from "@/features/observations/queries";
 import type { Observation, ResponseKind } from "@/features/observations/types";
@@ -140,9 +141,26 @@ export function RecordList() {
 
     <div className="records-toolbar">
       <label className="search-wrap"><Search size={16} aria-hidden="true" /><input className="search-field" type="search" value={search} onChange={(event) => { setSearch(event.target.value); setOffset(0); }} placeholder="Search notes or missions" aria-label="Search field notes" /></label>
-      <select value={response} onChange={(event) => { setResponse(event.target.value); setOffset(0); }} aria-label="Filter by response"><option value="all">All responses</option>{Object.entries(labels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>
-      <Button variant="secondary" onClick={() => void exportBackup()}>Export Journal (JSON)</Button>
-      <label className="button secondary import-label">Restore backup<input type="file" accept="application/json,.json" hidden onChange={async (event) => { const file = event.target.files?.[0]; event.target.value = ""; if (!file) return; await importBackup(file, async () => { await Promise.all([queryClient.invalidateQueries({ queryKey: missionKey }), queryClient.invalidateQueries({ queryKey: observationKey }), loadPending()]); }); }} /></label>
+      <div className="records-filter-wrap">
+        <CustomSelect
+          value={response}
+          onChange={(val) => { setResponse(val); setOffset(0); }}
+          icon={<Filter size={15} />}
+          placeholder="Filter by response"
+          ariaLabel="Filter by response"
+          options={[
+            { value: "all", label: "All responses", sublabel: "Overview of all records" },
+            ...Object.entries(labels).map(([value, label]) => ({
+              value,
+              label,
+            })),
+          ]}
+        />
+      </div>
+      <div className="records-backup-btns">
+        <Button variant="secondary" onClick={() => void exportBackup()}>Export Journal (JSON)</Button>
+        <label className="button secondary import-label">Restore backup<input type="file" accept="application/json,.json" hidden onChange={async (event) => { const file = event.target.files?.[0]; event.target.value = ""; if (!file) return; await importBackup(file, async () => { await Promise.all([queryClient.invalidateQueries({ queryKey: missionKey }), queryClient.invalidateQueries({ queryKey: observationKey }), loadPending()]); }); }} /></label>
+      </div>
     </div>
 
     {/* Local Device Items Section */}
