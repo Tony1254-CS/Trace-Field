@@ -1,13 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Camera, ChevronDown, Crosshair, MapPin, Navigation, Tag, X } from "lucide-react";
+import { Camera, Crosshair, MapPin, Navigation, Tag, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { CustomSelect } from "@/components/ui/custom-select";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { useSaveObservation } from "@/features/observations/queries";
 import type { LocationEvidence, ResponseKind } from "@/features/observations/types";
@@ -182,28 +183,23 @@ export function ObservationForm({ missions, initialMissionId, onSaved }: { missi
   return <>
     <section className="page-intro"><span className="eyebrow">TRACE / FIELD CAPTURE</span><h1>Record what you see.</h1><p>Describe the observation in your own words. Location and photo are optional; the record is attached to the selected mission.</p></section>
     <div className="capture-layout"><section className="panel"><h2>Observation</h2><form className="capture-form" onSubmit={handleSubmit((values) => setPending(values))} noValidate>
-      <label className="mission-field-label">
-        <span className="eyebrow" style={{ color: "var(--moss-deep)", marginBottom: 4, display: "block" }}>
+      <div className="mission-field-label" style={{ marginBottom: 14 }}>
+        <span className="eyebrow" style={{ color: "var(--moss-deep)", marginBottom: 6, display: "block" }}>
           MISSION TARGET
         </span>
-        <div className="custom-select-wrap">
-          <MapPin size={16} className="select-icon-left" />
-          <select
-            value={missionId}
-            onChange={(event) => setMissionId(event.target.value)}
-            required
-            aria-label="Select an open mission"
-            className="modern-select"
-          >
-            {active.map((mission) => (
-              <option key={mission.id} value={mission.id}>
-                {mission.title} {mission.place ? `· ${mission.place}` : ""}
-              </option>
-            ))}
-          </select>
-          <ChevronDown size={16} className="select-icon-right" />
-        </div>
-      </label>
+        <CustomSelect
+          value={missionId}
+          onChange={(newId) => setMissionId(newId)}
+          icon={<MapPin size={16} />}
+          placeholder="Select an open mission"
+          ariaLabel="Select an open mission"
+          options={active.map((mission) => ({
+            value: mission.id,
+            label: mission.title,
+            sublabel: mission.place ? mission.place : undefined,
+          }))}
+        />
+      </div>
       {selected && <div className="mission-callout"><strong>{selected.title}</strong><p>{selected.prompt}</p>{(selected.place || selected.target || selected.visit_date) && <p className="mission-context">{[selected.place, selected.visit_date ? `Visit date: ${formatDate(selected.visit_date)}` : "", selected.target ? `Target: ${selected.target.lat.toFixed(4)}, ${selected.target.lng.toFixed(4)}` : ""].filter(Boolean).join(" · ")}</p>}</div>}
       <fieldset className="capture-fieldset"><legend className="eyebrow">YOUR OBSERVATION</legend><div className="response-options">{responses.map(([value, label]) => <label className="response-option" key={value}><input type="radio" value={value} {...register("answer")} /><span>{label}</span></label>)}</div>{errors.answer && <span className="form-error">Choose one response.</span>}</fieldset>
       <div>
@@ -213,27 +209,16 @@ export function ObservationForm({ missions, initialMissionId, onSaved }: { missi
         <p className="helper" style={{ marginBottom: 8 }}>
           Satellite Asked Me: Fast-response ground surface state for NISAR change verification.
         </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 6 }}>
+        <div className="quick-field-grid">
           {quickLabels.map(([val, label, desc]) => (
             <button
               key={val}
               type="button"
               title={desc}
               onClick={() => setQuickLabel(quickLabel === val ? null : val)}
-              style={{
-                minHeight: 38,
-                padding: "6px 8px",
-                borderRadius: 10,
-                border: quickLabel === val ? "2px solid var(--moss)" : "1px solid var(--line)",
-                background: quickLabel === val ? "#edf2e8" : "#fff",
-                fontWeight: quickLabel === val ? 700 : 500,
-                fontSize: 11,
-                color: quickLabel === val ? "var(--ink)" : "var(--muted)",
-                cursor: "pointer",
-                whiteSpace: "nowrap",
-              }}
+              className={`quick-field-btn ${quickLabel === val ? "active" : ""}`}
             >
-              {label}
+              <span>{label}</span>
             </button>
           ))}
         </div>

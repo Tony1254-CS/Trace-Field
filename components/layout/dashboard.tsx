@@ -114,20 +114,20 @@ export function Dashboard({ email }: { email: string }) {
     <header className="topbar"><a className="brand" href="#missions" aria-label="TRACE home"><span className="brand-mark"><Compass size={26} aria-hidden="true" /></span><span className="brand-copy"><strong>TRACE</strong><small>FIELD NOTEBOOK</small></span></a><div className="toolbar-actions">
       {pendingCount > 0 && (
         <button
-          className="connection-pill"
+          className="connection-pill pending-sync-pill"
           style={{ background: "#fef5d1", color: "#b7950b", borderColor: "#f9e79f", cursor: "pointer" }}
           onClick={() => setView("records")}
           title={`${pendingCount} observation(s) waiting in local offline queue`}
         >
           <Clock size={13} />
-          {pendingCount} Pending Sync
+          <span className="pill-status-label">{pendingCount} Sync</span>
         </button>
       )}
       <span className={`connection-pill ${online ? "online" : "offline"}`} role="status" title={online ? "Network connected." : "Offline. Cloud requests are unavailable until you reconnect."}>{online ? <Wifi size={13} /> : <WifiOff size={13} />}<span className="pill-status-label">{online ? "Online" : "Offline"}</span></span>
       {isAuthenticated ? (
         <button
-          className="connection-pill"
-          style={{ cursor: "pointer", maxWidth: 170, overflow: "hidden", textOverflow: "ellipsis", display: "inline-flex", alignItems: "center", gap: 5 }}
+          className="connection-pill auth-user-pill"
+          style={{ cursor: "pointer" }}
           title={`Signed in as ${email}. Click to sign out.`}
           onClick={async () => {
             if (window.confirm(`Sign out of ${email}?`)) {
@@ -170,7 +170,7 @@ export function Dashboard({ email }: { email: string }) {
         </Dialog>
       )}
       <Button
-        className="install-button"
+        className="install-button topbar-install-btn"
         variant="secondary"
         size="sm"
         onClick={() => setInstallSheetOpen(true)}
