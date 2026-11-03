@@ -240,6 +240,7 @@ export function BangladeshRadarMap({
     void (async () => {
       const L = (await import("leaflet")).default;
       const map = mapInstanceRef.current;
+      if (!map) return;
 
       if (tileLayerRef.current) {
         map.removeLayer(tileLayerRef.current);
@@ -279,6 +280,7 @@ export function BangladeshRadarMap({
     void (async () => {
       const L = (await import("leaflet")).default;
       const layer = markersLayerRef.current;
+      if (!layer) return;
       layer.clearLayers();
 
       filteredMissions.forEach((mission) => {
@@ -327,6 +329,7 @@ export function BangladeshRadarMap({
     void (async () => {
       const L = (await import("leaflet")).default;
       const layer = userLayerRef.current;
+      if (!layer) return;
       layer.clearLayers();
 
       if (!userLocation) return;
