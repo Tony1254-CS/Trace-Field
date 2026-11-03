@@ -161,10 +161,15 @@ export function MissionInbox({ onCapture }: { onCapture: (missionId: string) => 
         const domain = getDomainBadge(mission);
         return (
           <article className="mission-card-modern" key={mission.id}>
-            {/* Top Row: Mission Index, Domain Tag, Status, and Action Icons */}
+            {/* Top Row: Mission Index, Status, Quick Actions */}
             <div className="mission-card-top-modern">
-              <div className="mission-badge-group">
-                <span className="mission-index-chip">MISSION / {String(index + 1).padStart(2, "0")}</span>
+              <div className="mission-card-top-left">
+                <div className="mission-badge-group">
+                  <span className="mission-index-chip">MISSION / {String(index + 1).padStart(2, "0")}</span>
+                  <span className={`status-tag ${mission.archived_at ? "archived" : "active"}`}>
+                    {mission.archived_at ? "Archived" : "Open"}
+                  </span>
+                </div>
                 <span
                   className="domain-pill"
                   style={{
@@ -175,9 +180,6 @@ export function MissionInbox({ onCapture }: { onCapture: (missionId: string) => 
                 >
                   <span>{domain.icon}</span>
                   <span>{domain.label}</span>
-                </span>
-                <span className={`status-tag ${mission.archived_at ? "archived" : "active"}`}>
-                  {mission.archived_at ? "Archived" : "Open"}
                 </span>
               </div>
 

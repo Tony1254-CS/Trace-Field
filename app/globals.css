@@ -188,24 +188,25 @@ button:disabled { cursor: not-allowed; opacity: .58; }
   }
 
   .topbar {
-    height: 64px !important;
-    gap: 8px !important;
+    height: 60px !important;
+    gap: 6px !important;
   }
 
   .brand {
-    gap: 8px !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
     min-width: 0 !important;
   }
 
   .brand-mark {
-    width: 34px !important;
-    height: 34px !important;
-    border-radius: 10px !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 9px !important;
     flex-shrink: 0 !important;
   }
 
   .brand-mark svg {
-    width: 22px !important;
+    width: 20px !important;
   }
 
   .brand-copy strong {
@@ -214,34 +215,63 @@ button:disabled { cursor: not-allowed; opacity: .58; }
   }
 
   .brand-copy small {
-    font-size: 8px !important;
-    margin-top: 2px !important;
+    display: none !important;
   }
 
   .topbar .toolbar-actions {
-    gap: 6px !important;
+    gap: 4px !important;
     flex-wrap: nowrap !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
   }
 
   .topbar .connection-pill {
+    padding: 6px 7px !important;
+    font-size: 10px !important;
+    gap: 0 !important;
+    min-width: 28px !important;
+    justify-content: center !important;
+  }
+
+  .topbar .connection-pill .pill-status-label {
+    display: none !important;
+  }
+
+  .topbar .auth-btn {
     padding: 6px 8px !important;
     font-size: 10px !important;
-    gap: 5px !important;
+    gap: 0 !important;
+    min-width: 28px !important;
+  }
+
+  .topbar .auth-btn .auth-btn-label {
+    display: none !important;
+  }
+
+  .topbar .user-email-label {
+    max-width: 55px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: 10px !important;
   }
 
   .topbar .install-button {
-    padding: 6px 11px !important;
-    font-size: 11px !important;
+    padding: 6px 9px !important;
+    font-size: 10.5px !important;
     gap: 4px !important;
+    white-space: nowrap !important;
   }
 }
 
 @media (max-width: 360px) {
-  .brand-copy small {
-    display: none !important;
+  .brand-copy strong {
+    font-size: 14px !important;
   }
-  .topbar .install-button span {
-    font-size: 10px !important;
+  .topbar .install-button {
+    padding: 5px 7px !important;
+    font-size: 9.5px !important;
   }
 }
 
@@ -960,16 +990,24 @@ button:disabled { cursor: not-allowed; opacity: .58; }
 
 .mission-card-top-modern {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 8px;
+}
+
+.mission-card-top-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
 }
 
 .mission-badge-group {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
@@ -1152,6 +1190,56 @@ button:disabled { cursor: not-allowed; opacity: .58; }
   border-color: #2d6a4f;
   color: #2d6a4f;
   transform: translateY(-1px);
+}
+
+@media (max-width: 520px) {
+  .mission-card-modern {
+    padding: 16px 14px !important;
+    border-radius: 16px !important;
+    gap: 12px !important;
+  }
+
+  .mission-card-top-modern {
+    align-items: flex-start !important;
+    gap: 6px !important;
+  }
+
+  .mission-card-top-left {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
+  }
+
+  .domain-pill {
+    font-size: 9.5px !important;
+    padding: 2px 7px !important;
+    max-width: 100% !important;
+  }
+
+  .mission-title-modern {
+    font-size: 16px !important;
+  }
+
+  .mission-prompt-box {
+    padding: 8px 10px !important;
+    font-size: 12px !important;
+  }
+
+  .card-action-bar-modern {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 8px !important;
+    margin-top: 6px !important;
+  }
+
+  .sar-radar-cta-btn,
+  .capture-cta-btn {
+    width: 100% !important;
+    flex: none !important;
+    min-height: 42px !important;
+    justify-content: center !important;
+    font-size: 12px !important;
+  }
 }
 
 

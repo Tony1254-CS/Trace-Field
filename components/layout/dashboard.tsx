@@ -123,7 +123,7 @@ export function Dashboard({ email }: { email: string }) {
           {pendingCount} Pending Sync
         </button>
       )}
-      <span className={`connection-pill ${online ? "online" : "offline"}`} role="status" title={online ? "Network connected." : "Offline. Cloud requests are unavailable until you reconnect."}>{online ? <Wifi size={13} /> : <WifiOff size={13} />}{online ? "Online" : "Offline"}</span>
+      <span className={`connection-pill ${online ? "online" : "offline"}`} role="status" title={online ? "Network connected." : "Offline. Cloud requests are unavailable until you reconnect."}>{online ? <Wifi size={13} /> : <WifiOff size={13} />}<span className="pill-status-label">{online ? "Online" : "Offline"}</span></span>
       {isAuthenticated ? (
         <button
           className="connection-pill"
@@ -138,7 +138,7 @@ export function Dashboard({ email }: { email: string }) {
           }}
         >
           <User size={13} />
-          <span>{email.split("@")[0]}</span>
+          <span className="user-email-label">{email.split("@")[0]}</span>
           <LogOut size={11} style={{ opacity: 0.7 }} />
         </button>
       ) : (
@@ -147,6 +147,7 @@ export function Dashboard({ email }: { email: string }) {
             <Button
               variant="secondary"
               size="sm"
+              className="auth-btn"
               style={{
                 borderRadius: 9999,
                 padding: "7px 12px",
@@ -154,10 +155,11 @@ export function Dashboard({ email }: { email: string }) {
                 fontSize: 11,
                 fontWeight: 600,
                 cursor: "pointer",
+                whiteSpace: "nowrap",
               }}
             >
               <LogIn size={13} />
-              Sign in
+              <span className="auth-btn-label">Sign in</span>
             </Button>
           </DialogTrigger>
           <DialogContent style={{ maxWidth: 490, padding: 0, border: "none", background: "transparent" }}>
@@ -186,7 +188,7 @@ export function Dashboard({ email }: { email: string }) {
         }}
       >
         <Download size={13} strokeWidth={2.4} />
-        {isInstalled ? "App Installed" : "Install App"}
+        <span className="install-btn-label">{isInstalled ? "Installed" : "Install App"}</span>
       </Button>
     </div></header>
     <nav className="bottom-nav" aria-label="Main navigation">{([ ["missions", ClipboardList, "Missions"], ["capture", Compass, "Capture"], ["records", Archive, "Records"], ["privacy", ShieldCheck, "Privacy"] ] as const).map(([key, Icon, label]) => <button className={`nav-item ${view === key ? "active" : ""}`} key={key} onClick={() => setView(key)} aria-current={view === key ? "page" : undefined} type="button"><Icon size={18} aria-hidden="true" /><span>{label}</span></button>)}</nav>
