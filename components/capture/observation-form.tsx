@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Camera, Crosshair, MapPin, Navigation, Tag, X } from "lucide-react";
+import { Camera, ChevronDown, Crosshair, MapPin, Navigation, Tag, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
@@ -182,7 +182,28 @@ export function ObservationForm({ missions, initialMissionId, onSaved }: { missi
   return <>
     <section className="page-intro"><span className="eyebrow">TRACE / FIELD CAPTURE</span><h1>Record what you see.</h1><p>Describe the observation in your own words. Location and photo are optional; the record is attached to the selected mission.</p></section>
     <div className="capture-layout"><section className="panel"><h2>Observation</h2><form className="capture-form" onSubmit={handleSubmit((values) => setPending(values))} noValidate>
-      <label>Mission<select value={missionId} onChange={(event) => setMissionId(event.target.value)} required aria-label="Select an open mission">{active.map((mission) => <option key={mission.id} value={mission.id}>{mission.title}</option>)}</select></label>
+      <label className="mission-field-label">
+        <span className="eyebrow" style={{ color: "var(--moss-deep)", marginBottom: 4, display: "block" }}>
+          MISSION TARGET
+        </span>
+        <div className="custom-select-wrap">
+          <MapPin size={16} className="select-icon-left" />
+          <select
+            value={missionId}
+            onChange={(event) => setMissionId(event.target.value)}
+            required
+            aria-label="Select an open mission"
+            className="modern-select"
+          >
+            {active.map((mission) => (
+              <option key={mission.id} value={mission.id}>
+                {mission.title} {mission.place ? `· ${mission.place}` : ""}
+              </option>
+            ))}
+          </select>
+          <ChevronDown size={16} className="select-icon-right" />
+        </div>
+      </label>
       {selected && <div className="mission-callout"><strong>{selected.title}</strong><p>{selected.prompt}</p>{(selected.place || selected.target || selected.visit_date) && <p className="mission-context">{[selected.place, selected.visit_date ? `Visit date: ${formatDate(selected.visit_date)}` : "", selected.target ? `Target: ${selected.target.lat.toFixed(4)}, ${selected.target.lng.toFixed(4)}` : ""].filter(Boolean).join(" · ")}</p>}</div>}
       <fieldset className="capture-fieldset"><legend className="eyebrow">YOUR OBSERVATION</legend><div className="response-options">{responses.map(([value, label]) => <label className="response-option" key={value}><input type="radio" value={value} {...register("answer")} /><span>{label}</span></label>)}</div>{errors.answer && <span className="form-error">Choose one response.</span>}</fieldset>
       <div>

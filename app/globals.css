@@ -2007,5 +2007,134 @@ button:disabled { cursor: not-allowed; opacity: .58; }
   }
 }
 
+/* =========================================================================
+   Custom Modern Select Dropdown Styling (Theme Consistent)
+   ========================================================================= */
+.custom-select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.custom-select-wrap:hover {
+  border-color: #2d6a4f;
+  background: #fafbf9;
+}
+
+.custom-select-wrap:focus-within {
+  border-color: #2d6a4f;
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
+}
+
+.select-icon-left {
+  position: absolute;
+  left: 12px;
+  color: #2d6a4f;
+  pointer-events: none;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.select-icon-right {
+  position: absolute;
+  right: 12px;
+  color: #64748b;
+  pointer-events: none;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.modern-select {
+  width: 100% !important;
+  min-height: 44px !important;
+  padding: 10px 38px 10px 38px !important;
+  border: none !important;
+  border-radius: 12px !important;
+  background: transparent !important;
+  color: var(--ink) !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  cursor: pointer !important;
+  outline: none !important;
+  box-shadow: none !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.modern-select option {
+  padding: 12px 14px;
+  background: #ffffff;
+  color: #17231f;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Records Toolbar & Filter Styling */
+.records-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.records-toolbar .search-wrap {
+  flex: 1.4;
+  min-width: 220px;
+}
+
+.records-filter-wrap {
+  flex: 1;
+  min-width: 180px;
+}
+
+.records-backup-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Mobile Responsiveness for Records Toolbar & Dropdowns */
+@media (max-width: 680px) {
+  .records-toolbar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .records-toolbar .search-wrap,
+  .records-filter-wrap {
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  .records-backup-btns {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+
+  .records-backup-btns .button,
+  .records-backup-btns .import-label {
+    width: 100% !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+
+  .modern-select {
+    font-size: 12.5px !important;
+  }
+}
+
 
 
