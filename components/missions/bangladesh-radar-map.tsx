@@ -1,21 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState, useMemo, type CSSProperties } from "react";
 import {
-  MapPin,
   Satellite,
   Camera,
   Navigation,
   Compass,
   Layers,
-  Sparkles,
-  Info,
   Radio,
   Maximize2,
-  CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Mission } from "@/features/missions/types";
+import type { Map as LeafletMap, LayerGroup, GeoJSON, TileLayer } from "leaflet";
 
 // Import Leaflet CSS
 import "leaflet/dist/leaflet.css";
@@ -89,13 +86,13 @@ export function BangladeshRadarMap({
   onOpenRadar,
 }: BangladeshRadarMapProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
-  const markersLayerRef = useRef<any>(null);
-  const userLayerRef = useRef<any>(null);
-  const tileLayerRef = useRef<any>(null);
-  const boundaryLayerRef = useRef<any>(null);
+  const mapInstanceRef = useRef<LeafletMap | null>(null);
+  const markersLayerRef = useRef<LayerGroup | null>(null);
+  const userLayerRef = useRef<LayerGroup | null>(null);
+  const tileLayerRef = useRef<LayerGroup | TileLayer | null>(null);
+  const boundaryLayerRef = useRef<GeoJSON | null>(null);
 
-  const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
+  const [selectedMissionId, setSelectedMissionId] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locating, setLocating] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string>("all");
@@ -107,12 +104,14 @@ export function BangladeshRadarMap({
     return missions.filter((m) => !m.archived_at && m.target && m.target.lat && m.target.lng);
   }, [missions]);
 
-  // Set default selected mission
-  useEffect(() => {
-    if (!selectedMission && validMissions.length > 0) {
-      setSelectedMission(validMissions[0]);
+  // Derived selected mission
+  const selectedMission = useMemo(() => {
+    if (selectedMissionId) {
+      const found = validMissions.find((m) => m.id === selectedMissionId);
+      if (found) return found;
     }
-  }, [validMissions, selectedMission]);
+    return validMissions[0] ?? null;
+  }, [selectedMissionId, validMissions]);
 
   // Filtered missions by domain
   const filteredMissions = useMemo(() => {
@@ -310,8 +309,8 @@ export function BangladeshRadarMap({
         });
 
         marker.on("click", () => {
-          setSelectedMission(mission);
-          mapInstanceRef.current.flyTo([mission.target!.lat, mission.target!.lng], 9, {
+          setSelectedMissionId(mission.id);
+          mapInstanceRef.current?.flyTo([mission.target!.lat, mission.target!.lng], 9, {
             duration: 1.2,
           });
         });
@@ -507,7 +506,7 @@ export function BangladeshRadarMap({
             type="button"
             onClick={() => setActiveFilter("wetland")}
             className={`bd-chip ${activeFilter === "wetland" ? "active" : ""}`}
-            style={{ "--chip-color": "#00b4d8" } as any}
+            style={{ "--chip-color": "#00b4d8" } as CSSProperties}
           >
             🌊 Wetlands
           </button>
@@ -515,7 +514,7 @@ export function BangladeshRadarMap({
             type="button"
             onClick={() => setActiveFilter("char")}
             className={`bd-chip ${activeFilter === "char" ? "active" : ""}`}
-            style={{ "--chip-color": "#f59e0b" } as any}
+            style={{ "--chip-color": "#f59e0b" } as CSSProperties}
           >
             🌾 River Char
           </button>
@@ -523,7 +522,7 @@ export function BangladeshRadarMap({
             type="button"
             onClick={() => setActiveFilter("mangrove")}
             className={`bd-chip ${activeFilter === "mangrove" ? "active" : ""}`}
-            style={{ "--chip-color": "#10b981" } as any}
+            style={{ "--chip-color": "#10b981" } as CSSProperties}
           >
             🌲 Mangrove
           </button>
@@ -531,7 +530,7 @@ export function BangladeshRadarMap({
             type="button"
             onClick={() => setActiveFilter("embankment")}
             className={`bd-chip ${activeFilter === "embankment" ? "active" : ""}`}
-            style={{ "--chip-color": "#818cf8" } as any}
+            style={{ "--chip-color": "#818cf8" } as CSSProperties}
           >
             🏗️ Embankment
           </button>
