@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { logger } from "../../utils/logger.js";
 
 export const nasaRoutes = Router();
 
@@ -102,10 +103,11 @@ nasaRoutes.get("/granules", async (req, res) => {
       liveSource: "https://cmr.earthdata.nasa.gov/search/granules.json",
     });
   } catch (error) {
+    logger.error({ err: error }, "NASA CMR query failed");
     res.status(502).json({
       error: {
         code: "NASA_CMR_ERROR",
-        message: error instanceof Error ? error.message : "NASA CMR query failed.",
+        message: "Satellite metadata query failed or upstream service unavailable.",
       },
     });
   }
@@ -186,10 +188,11 @@ nasaRoutes.get("/sar-scenes", async (req, res) => {
       },
     });
   } catch (error) {
+    logger.error({ err: error }, "ASF DAAC radar scenes query failed");
     res.status(502).json({
       error: {
         code: "ASF_DAAC_ERROR",
-        message: error instanceof Error ? error.message : "Failed to query ASF DAAC for radar scenes.",
+        message: "Failed to retrieve radar scene imagery from upstream providers.",
       },
     });
   }

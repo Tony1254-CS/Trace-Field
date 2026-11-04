@@ -14,7 +14,29 @@ export function createApp() {
   const app = express();
   app.disable("x-powered-by");
   app.use(helmet());
-  app.use(cors({ origin: true, credentials: true, methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"], allowedHeaders: ["Authorization", "Content-Type"], maxAge: 600 }));
+
+  const allowedOrigins = new Set([
+    "http://localhost:3100",
+    "http://localhost:3000",
+    "http://127.0.0.1:3100",
+    "http://127.0.0.1:3000",
+    process.env.APP_URL,
+    process.env.CLIENT_URL,
+  ].filter(Boolean));
+
+  app.use(cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.has(origin)) {
+        callback(null, true);
+      } else {
+        callback(null, false);
+      }
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Authorization", "Content-Type"],
+    maxAge: 600,
+  }));
   app.use(pinoHttp({ logger, redact: ["req.headers.authorization", "req.headers.cookie"] }));
   app.get("/api/v1/health", (_req, res) => res.json({ status: "ok", service: "trace-api", timestamp: new Date().toISOString() }));
   app.use("/api/v1", rateLimit({ windowMs: 60_000, limit: 120, standardHeaders: "draft-8", legacyHeaders: false }));
