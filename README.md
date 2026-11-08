@@ -133,23 +133,59 @@ The application bundles the official high-resolution boundary polygon (`/data/ba
 - **Longitude Span:** $88.00^\circ \text{E}$ to $92.70^\circ \text{E}$
 - **Geographic Center:** $23.85^\circ \text{N}, 90.35^\circ \text{E}$ (Default map viewport at zoom level 7)
 
+```mermaid
+flowchart TD
+    subgraph GeoBounds ["🗺️ BANGLADESH RADAR GROUND-TRUTHING TRANSECT (WGS 84 Footprint: 20.55°N – 26.65°N | 88.00°E – 92.70°E)"]
+        direction TB
+
+        NorthBoundary["⬆️ Northern Latitude Bound: 26.65°N (Teesta / Upper Brahmaputra)"]
+        
+        subgraph NorthZone ["🌾 NORTH & NORTH-WEST: RIVER CHAR & SILT ACCRETION"]
+            Z1["🚜 Rangpur / Jamuna River Basin\n[25.75°N, 89.70°E]\n• Sandbar accretion & braided channel erosion\n• Radar return: High surface roughness & dry sand volume scatter\n• Domain Theme: #f59e0b (Amber)"]
+        end
+
+        subgraph NorthEastZone ["🌊 NORTH-EAST: SEASONAL WETLANDS & HAOR BASIN"]
+            Z2["💧 Sylhet / Sunamganj Haor Basin\n[24.8949°N, 91.8687°E]\n• Monsoon inundation & submerged reed beds\n• Radar return: -24 dB specular reflection (dark pixels)\n• Domain Theme: #00b4d8 (Cyan)"]
+        end
+
+        subgraph CenterZone ["🏗️ CENTRAL DELTA: EMBANKMENTS & HUMAN INFRASTRUCTURE"]
+            Z3["🏛️ Dhaka / Padma River Confluence\n[23.85°N, 90.35°E — National Viewport Center]\n• Concrete revetment structures, dykes & urban hardpan\n• Radar return: Corner double-bounce bright reflections\n• Domain Theme: #818cf8 (Indigo)"]
+        end
+
+        subgraph SouthZone ["🌲 SOUTH COASTAL: TIDAL MANGROVE & DELTAIC MUDFLATS"]
+            Z4["🌿 Sundarbans / Passur River Estuary\n[21.85°N, 89.65°E]\n• Semidiurnal tidal fluctuations & dense halophyte canopy\n• Radar return: Cross-polarization (VH) canopy volume scattering\n• Domain Theme: #10b981 (Emerald)"]
+        end
+
+        SouthBoundary["⬇️ Southern Latitude Bound: 20.55°N (Bay of Bengal Estuarine Interface)"]
+
+        NorthBoundary --> NorthZone & NorthEastZone
+        NorthZone & NorthEastZone --> CenterZone
+        CenterZone --> SouthZone
+        SouthZone --> SouthBoundary
+    end
+
+    classDef boundStyle fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#94a3b8,stroke-dasharray: 4 4;
+    classDef z1Style fill:#451a03,stroke:#f59e0b,stroke-width:2px,color:#fef3c7;
+    classDef z2Style fill:#083344,stroke:#00b4d8,stroke-width:2px,color:#e0f2fe;
+    classDef z3Style fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#e0e7ff;
+    classDef z4Style fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5;
+
+    class NorthBoundary,SouthBoundary boundStyle;
+    class Z1 z1Style;
+    class Z2 z2Style;
+    class Z3 z3Style;
+    class Z4 z4Style;
 ```
-                            26.65°N ──────────────────────────┐
-                                    │      RANGPUR / JAMUNA    │
-                                    │    (River Char & Silt)   │
-                                    │                          │
-                                    │    SYLHET HAOR BASIN     │
-                                    │    (Wetlands & Floods)   │
-                                    │    [24.8949°N, 91.8687°E]│
-                                    │                          │
-                                    │    DHAKA EMBANKMENTS     │
-                                    │    (Padma / Concrete)    │
-                                    │                          │
-                                    │    SUNDARBANS MANGROVE   │
-                                    │    (Tidal Mudflats)      │
-                            20.55°N └──────────────────────────┘
-                                    88.00°E                  92.70°E
-```
+
+#### National Radar Footprint & Coordinate Calibration Grid
+
+| Geographic Boundary | Coordinate WGS 84 | Landmark Physical Feature | Radar Remote Sensing Significance |
+| :--- | :---: | :--- | :--- |
+| ⬆️ **Northern Limit** | `26.65°N` | Teesta / Upper Brahmaputra | Braided sandbar dynamics & sediment deposition monitoring |
+| ⬇️ **Southern Limit** | `20.55°N` | Bay of Bengal Coastal Shelf | Tidal mangrove inundation & coastal cyclone surge detection |
+| ⬅️ **Western Limit** | `88.00°E` | Ganges / Padma Inflow Border | Transboundary river discharge and floodplain calibration |
+| ➡️ **Eastern Limit** | `92.70°E` | Sylhet / Meghna Foothills | Flash-flood haor basin monitoring with steep topographic relief |
+| 📍 **National Center** | `[23.85°N, 90.35°E]` | Central Bangladesh | Default Leaflet camera viewport at zoom level 7 |
 
 ### 2.2 Domain Categorization & Target Taxonomy
 In `components/missions/bangladesh-radar-map.tsx`, TRACE automatically inspects mission titles, place descriptors, and prompts to classify targets into five ecological radar domains:
