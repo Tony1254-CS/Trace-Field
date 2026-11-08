@@ -1,19 +1,39 @@
-# TRACE: A Zero-Trust In-Situ Ground-Truthing & Epistemic Verification Architecture for Spaceborne Synthetic Aperture Radar
+<div align="center">
 
-**NASA International Space Apps Challenge 2026**  
-**Challenge Track:** [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)  
-**Comprehensive Unified Monograph & Technical Architecture**
+# 🛰️ TRACE
+### Tactical Radar-ground-truth Acquisition & Calibration Environment
+**A Zero-Trust In-Situ Ground-Truthing & Epistemic Verification Architecture for Spaceborne Synthetic Aperture Radar**
 
----
+[![NASA Space Apps 2026](https://img.shields.io/badge/NASA%20Space%20Apps-2026%20Global%20Challenge-0B3D91?style=for-the-badge&logo=nasa&logoColor=white)](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
+[![Challenge Track](https://img.shields.io/badge/Track-Dancing%20with%20the%20SARs-4A154B?style=for-the-badge&logo=satellite&logoColor=white)](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
+[![Live Deployment](https://img.shields.io/badge/🚀%20Live%20App-nana--space--apps--2026--trace-00C7B7?style=for-the-badge&logo=render&logoColor=white)](https://nana-space-apps-2026-trace.onrender.com/)
+[![Team](https://img.shields.io/badge/Team-Quintessence%20Minus%20Infinity-FF6F00?style=for-the-badge&logo=affinity&logoColor=white)](#section-14-acknowledgements--team-credits)
 
-### Project & Team Identification
-- **Team Name:** `Quintessence Minus Infinity`
-- **Live Production Application:** [https://nana-space-apps-2026-trace.onrender.com/](https://nana-space-apps-2026-trace.onrender.com/)
-- **Challenge Track:** [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
-- **Monograph Type:** Unified Comprehensive Monograph (Architecture, Scientific Theory, Full API Reference, Complete Database DDL, Requirements Traceability, and Deployment Guide in One Master Document)
-- **Primary Artifact:** TRACE (*Tactical Radar-ground-truth Acquisition & Calibration Environment*)
-- **Software Release Version:** `1.0.0-rc.1`
-- **License:** Open Access / MIT Open Science License
+<br/>
+
+[![Next.js 15](https://img.shields.io/badge/Next.js%2015-App%20Router-black?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Express 5](https://img.shields.io/badge/Express-5%20REST%20API-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
+[![Supabase PostgreSQL](https://img.shields.io/badge/Supabase-PostgreSQL%20RLS-3ECF8E?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com/)
+[![TypeScript 5](https://img.shields.io/badge/TypeScript-5.x%20Strict-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![PWA Offline-First](https://img.shields.io/badge/PWA-Offline--Shell%20Ready-orange?style=flat-square&logo=pwa&logoColor=white)](#section-4-system-architecture--execution-topology)
+[![License: MIT](https://img.shields.io/badge/License-MIT%20Open%20Science-blue.svg?style=flat-square)](LICENSE)
+
+<br/>
+
+</div>
+
+> [!IMPORTANT]
+> ### 🌟 Official Project Identification & Live Production Deployment
+> 
+> | Operational Parameter | Specification & Gateway Link |
+> | :--- | :--- |
+> | 🏆 **Team Name** | **`Quintessence Minus Infinity`** |
+> | 🚀 **Live Production Application** | **[Launch TRACE Field Application ↗](https://nana-space-apps-2026-trace.onrender.com/)** (`https://nana-space-apps-2026-trace.onrender.com/`) |
+> | 🛰️ **NASA Challenge Track** | **[Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)** — Synthetic Aperture Radar Remote Sensing |
+> | 📦 **Primary Artifact** | **TRACE** *(Tactical Radar-ground-truth Acquisition & Calibration Environment)* |
+> | 📑 **Monograph Standard** | Unified Comprehensive Scientific Monograph *(Theory, Architecture, Full API & DDL)* |
+> | 🛡️ **Security & Privacy** | Zero-Trust Database Engine RLS (No Service-Role Key Bypass) + Scoped Storage |
+> | 🔖 **Release State** | `v1.0.0-rc.1` (Production Target) |
 
 ---
 
@@ -97,34 +117,46 @@ where:
 - $\lambda$ is the carrier wavelength.
 - $p$ denotes polarization state ($HH, VV, HV, VH$).
 
-```
-+-----------------------------------------------------------------+
-|               ORBITAL DOMAIN (Altitude ~700 km)                 |
-|   NISAR (L-band / S-band) | Sentinel-1 (C-band)                 |
-|   - Phase InSAR Coherence (γ)                                   |
-|   - Backscatter Matrix (σ⁰_HH, σ⁰_HV, σ⁰_VV)                   |
-+--------------------------------+--------------------------------+
-                                 |
-                     [ Microwaves: 1-10 GHz ]
-                                 |
-                                 v
-+-----------------------------------------------------------------+
-|                 TERRESTRIAL INTERPRETATION GAP                  |
-|   Ambiguities: Layover, Speckle Noise, Dielectric Variance      |
-|   "Is backscatter spike due to floodwater or plowed soil?"      |
-+--------------------------------+--------------------------------+
-                                 |
-                       contemporaneous alignment
-                                 v
-+-----------------------------------------------------------------+
-|                 IN-SITU DOMAIN (Earth Surface)                  |
-|   TRACE Field Observer (Quintessence Minus Infinity)            |
-|   - Neutral Mission Prompt (No confirmation bias)               |
-|   - Epistemic 4-State Verification                              |
-|   - Quick Terrain Labeling (Water, Land, Sand, Crop)            |
-|   - GPS Radial Accuracy Radius (Δr)                             |
-|   - Cryptographically Scoped Visual Proof                       |
-+-----------------------------------------------------------------+
+```mermaid
+flowchart TD
+    subgraph Orbital ["🛰️ ORBITAL DOMAIN (Spaceborne Sensor Constellations ~700 km Altitude)"]
+        Sat1["📡 NISAR (NASA-ISRO SAR)\nDual-frequency: L-band (24 cm) & S-band (9 cm)"]
+        Sat2["📡 Sentinel-1 (ESA Copernicus)\nC-band (5.6 cm, 12-day repeat cycle)"]
+        Sensors["Active Microwave Synthetic Aperture Illumination\nFrequencies: 1.0 – 10.0 GHz | Day & Night Penetration\nRaw Observables: InSAR Coherence (γ) & Quad-Pol Backscatter (σ⁰_HH, σ⁰_HV, σ⁰_VV)"]
+        Sat1 --- Sensors
+        Sat2 --- Sensors
+    end
+
+    subgraph Gap ["⚠️ THE TERRESTRIAL INTERPRETATION GAP (Ill-Posed Mathematical Inversion)"]
+        direction TB
+        Confusion{"Physical Ambiguity in Radar Inversion\nσ⁰ = f(ε_r, s, l, θ_i, λ, p)"}
+        Ambiguity1["🌊 Flooded Wetland / Inundated Canopy?\n(Double-bounce specular reflection produces high backscatter)"]
+        Ambiguity2["🚜 Rough Plowed Agricultural Field?\n(Diffuse surface scattering produces identical high backscatter)"]
+        Noise["Geometric Layover, Foreshortening, Radar Shadow & Speckle Noise"]
+        Confusion --> Ambiguity1
+        Confusion --> Ambiguity2
+        Confusion --> Noise
+    end
+
+    subgraph InSitu ["🌍 IN-SITU VALIDATION DOMAIN (Earth Surface — TRACE Platform)"]
+        direction TB
+        Observer["👷 Field Observer (Team: Quintessence Minus Infinity)\nDeployed with TRACE Progressive Web App"]
+        Protocols["✅ Epistemic 4-State Truth Framework (supports / contradicts / inconclusive / not-observable)\n🏷️ Terrain Ground-Truth Taxonomy (Water, Land, Sand, Crop)\n📍 On-Demand GNSS Radial Precision Metric (Δr in meters)\n📸 Cryptographically Scoped Visual Proof Stored via RLS"]
+        Observer --> Protocols
+    end
+
+    Sensors ==>|Coherent Microwave Pulse Train| Confusion
+    Protocols ==>|Contemporaneous Ground Truth In-Situ Validation| Confusion
+
+    classDef orbitStyle fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc;
+    classDef gapStyle fill:#451a03,stroke:#f59e0b,stroke-width:2px,color:#fef3c7;
+    classDef inSituStyle fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5;
+    classDef cardStyle fill:#1e293b,stroke:#64748b,stroke-width:1px,color:#fff;
+
+    class Orbital orbitStyle;
+    class Gap gapStyle;
+    class InSitu inSituStyle;
+    class Sat1,Sat2,Sensors,Confusion,Ambiguity1,Ambiguity2,Noise,Observer,Protocols cardStyle;
 ```
 
 Because an increase in soil moisture ($\epsilon_r \uparrow$) and an increase in surface roughness ($s \uparrow$) both produce higher radar backscatter ($\sigma^0 \uparrow$), remote sensing scientists cannot definitively distinguish between standing floodwater in vegetation (double-bounce backscatter) versus rough, dry terrain from space alone. Without ground validation, scientific models risk misclassifying disasters, ground subsidence, and crop yields.
@@ -141,29 +173,60 @@ Standard field survey tools force users into binary true/false decisions. In rem
 
 $$\mathcal{L}_4 = \{\text{supports}, \text{contradicts}, \text{inconclusive}, \text{not-observable}\}$$
 
-```
-                                [ SAR Orbital Observation Target ]
-                                                │
-                                    In-Situ Field Inspection
-                                                │
-                       ┌────────────────────────┼────────────────────────┐
-                       │                        │                        │
-                       ▼                        ▼                        ▼
-                [ Target Reachable? ]    [ Target Inaccessible ]  [ Condition Ambiguous ]
-                       │                        │                        │
-           ┌───────────┴───────────┐            │                        │
-           ▼                       ▼            ▼                        ▼
-     [ Ground Reality         [ Ground Reality   [ not-observable ]       [ inconclusive ]
-      Confirms Radar ]        Refutes Radar ]   (Hazard/Obstruction)     (Indeterminate)
-           │                       │
-           ▼                       ▼
-      { supports }           { contradicts }
+```mermaid
+flowchart TD
+    Start(["🎯 SAR Orbital Observation Target\n(Coordinate: φ, λ | Swath Window: t)"])
+    
+    Inspect["🚶 In-Situ Field Inspection\n(Field Observer at Ground Zero)"]
+    
+    Q1{"Is Target Physically\nReachable & Safe?"}
+    
+    Hazard["⛔ Physical Obstacle / Safety Hazard\n(Impenetrable swamp, landslide, security boundary)"]
+    InspectCondition{"Are Ground Conditions\nClear & Quantifiable?"}
+    Ambiguous["🌫️ Mixed / Transitional Signals\n(Dense fog, shifting water table, partial visual obstruction)"]
+    
+    Q2{"Does Ground Reality\nValidate Satellite Radar Hypothesis?"}
+    
+    StateSupports["🟢 SUPPORTS\nGround reality confirms radar hypothesis\n(e.g., Confirmed standing surface floodwater)"]
+    StateContradicts["🔴 CONTRADICTS\nGround reality refutes radar hypothesis\n(e.g., Dry gravel hardpan, zero moisture)"]
+    StateInconclusive["🟡 INCONCLUSIVE\nIndeterminate condition, uncertainty high\n(e.g., Unresolved moisture saturation)"]
+    StateNotObservable["🟣 NOT OBSERVABLE\nTarget inaccessible or obscured\n(e.g., Road flooded, cliff barrier)"]
+
+    Start --> Inspect
+    Inspect --> Q1
+    
+    Q1 -->|No: Hazard / Inaccessible| Hazard --> StateNotObservable
+    Q1 -->|Yes: Reachable| InspectCondition
+    
+    InspectCondition -->|No: Mixed / Ambiguous| Ambiguous --> StateInconclusive
+    InspectCondition -->|Yes: Clear Sightline| Q2
+    
+    Q2 -->|CONFIRMED| StateSupports
+    Q2 -->|REFUTED| StateContradicts
+
+    classDef startNode fill:#1e1b4b,stroke:#6366f1,stroke-width:2px,color:#e0e7ff;
+    classDef testNode fill:#1e293b,stroke:#94a3b8,stroke-width:2px,color:#f8fafc;
+    classDef supportsNode fill:#064e3b,stroke:#10b981,stroke-width:3px,color:#ecfdf5;
+    classDef contradictsNode fill:#4c0519,stroke:#f43f5e,stroke-width:3px,color:#fff1f2;
+    classDef inconclusiveNode fill:#451a03,stroke:#f59e0b,stroke-width:3px,color:#fffbeb;
+    classDef notObsNode fill:#3b0764,stroke:#a855f7,stroke-width:3px,color:#faf5ff;
+
+    class Start startNode;
+    class Inspect,Q1,InspectCondition,Q2,Hazard,Ambiguous testNode;
+    class StateSupports supportsNode;
+    class StateContradicts contradictsNode;
+    class StateInconclusive inconclusiveNode;
+    class StateNotObservable notObsNode;
 ```
 
-- **`supports`:** Observable surface conditions confirm the satellite acquisition hypothesis (e.g., open surface water observed inside a radar-identified flood perimeter).
-- **`contradicts`:** Physical ground reality refutes the satellite interpretation (e.g., radar flagged surface saturation, but ground inspection reveals dry, compacted gravel causing high surface scattering).
-- **`inconclusive`:** Conditions on the ground present mixed signals, partial visual obstruction, or transitional moisture states where human verification cannot be given with scientific certainty.
-- **`not-observable`:** The geographical coordinates cannot be physically evaluated due to terrain hazards, safety perimeters, or impenetrable barriers.
+#### Epistemic Truth State Decision Matrix
+
+| Epistemic State | Indicator Badge | Mathematical Definition | Radar Physics Correlation ($\sigma^0$) | Real-World Operational Field Case |
+| :--- | :---: | :--- | :--- | :--- |
+| **`supports`** | `🟢 SUPPORTS` | $\mathcal{P}(\text{Ground} \cap \text{Radar}) \to 1.0$ | Surface scattering mechanisms match spaceborne backscatter predictions. | Standing surface water verified within a radar-flagged flood perimeter. |
+| **`contradicts`** | `🔴 CONTRADICTS` | $\mathcal{P}(\text{Ground} \cap \text{Radar}) \to 0.0$ | Radar backscatter anomaly caused by extraneous dielectric or structural features. | Dry, compacted gravel hardpan causing a false-positive flood signature. |
+| **`inconclusive`** | `🟡 INCONCLUSIVE` | $\mathcal{H}(\text{Evidence}) > \tau_{\text{entropy}}$ | Signal-to-noise ratio in human visual validation is insufficient for certainty. | Transitional marshland with shifting, unquantifiable water depth under heavy canopy. |
+| **`not-observable`** | `🟣 NOT OBSERVABLE` | $\mathbf{x}_{\text{target}} \notin \text{AccessibleRegion}$ | Sightline or physical approach blocked by hazardous terrain or safety barrier. | Road washed out by landslide, preventing visual contact with target coordinates. |
 
 ### 2.2 Objective Ground Truthing: Quick Labels
 To supplement the epistemic response with physical surface categories, TRACE implements a discrete terrain taxonomy:
