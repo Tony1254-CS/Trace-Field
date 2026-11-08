@@ -156,72 +156,74 @@ export function SatelliteRadarModal({
             gap: 14,
           }}
         >
-          {isLoading ? (
-            <div className="panel" role="status" style={{ textAlign: "center", padding: 36 }}>
-              <RefreshCw size={24} className="animate-spin" style={{ margin: "0 auto 12px", color: "var(--moss)" }} />
-              <p style={{ margin: 0, fontSize: 13, color: "var(--muted)" }}>
-                Querying NASA Alaska Satellite Facility DAAC for live SAR scenes…
-              </p>
-            </div>
-          ) : error ? (
-            <div className="empty-state" role="alert">
-              <div>
-                <h3>Could not load SAR satellite data</h3>
-                <p>{error instanceof Error ? error.message : "Service temporarily unavailable."}</p>
-                <Button variant="secondary" onClick={() => void refetch()}>
-                  Try again
-                </Button>
+          {/* TAB 1: 🎙️ ফিল্ড অডিও গাইড (Always available offline & independent of upstream APIs) */}
+          {activeTab === "audio" && (
+            <div style={{ display: "grid", gap: 12 }}>
+              <ModernBanglaPlayer />
+
+              {/* Ground Truth Field Tips */}
+              <div
+                style={{
+                  padding: "12px 14px",
+                  borderRadius: 12,
+                  background: "rgba(243, 245, 238, 0.7)",
+                  border: "1px solid var(--line)",
+                  fontSize: 11,
+                  lineHeight: 1.5,
+                  color: "var(--muted)",
+                }}
+              >
+                <strong
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    color: "var(--ink)",
+                    marginBottom: 6,
+                    fontSize: 12,
+                  }}
+                >
+                  <CheckCircle2 size={15} style={{ color: "#2d6a4f" }} /> ফিল্ড ট্রুথিং চেকলিস্ট (Field Investigator Tips)
+                </strong>
+                <ul style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 4 }}>
+                  <li>
+                    <b>শান্ত পানি:</b> রাডার তরঙ্গ মিরর রিফ্লেকশনে ছিটকে যায়, চিত্রে এলাকাটি কালো দেখায়।
+                  </li>
+                  <li>
+                    <b>রুক্ষ মাটি বা শস্য:</b> সংকেত বিচ্ছুরণ ঘটিয়ে ধূসর বা উজ্জ্বল পিক্সেল তৈরি করে।
+                  </li>
+                  <li>
+                    <b>ফিল্ড প্রমাণ:</b> অডিও নির্দেশিকা শুনে সঠিক স্থানে গিয়ে ছবি তুলুন ও নোট রেকর্ড করুন।
+                  </li>
+                </ul>
               </div>
             </div>
-          ) : data ? (
-            <>
-              {/* TAB 1: 🎙️ ফিল্ড অডিও গাইড */}
-              {activeTab === "audio" && (
-                <div style={{ display: "grid", gap: 12 }}>
-                  <ModernBanglaPlayer />
+          )}
 
-                  {/* Ground Truth Field Tips */}
-                  <div
-                    style={{
-                      padding: "12px 14px",
-                      borderRadius: 12,
-                      background: "rgba(243, 245, 238, 0.7)",
-                      border: "1px solid var(--line)",
-                      fontSize: 11,
-                      lineHeight: 1.5,
-                      color: "var(--muted)",
-                    }}
-                  >
-                    <strong
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 6,
-                        color: "var(--ink)",
-                        marginBottom: 6,
-                        fontSize: 12,
-                      }}
-                    >
-                      <CheckCircle2 size={15} style={{ color: "#2d6a4f" }} /> ফিল্ড ট্রুথিং চেকলিস্ট (Field Investigator Tips)
-                    </strong>
-                    <ul style={{ margin: 0, paddingLeft: 18, display: "grid", gap: 4 }}>
-                      <li>
-                        <b>শান্ত পানি:</b> রাডার তরঙ্গ মিরর রিফ্লেকশনে ছিটকে যায়, চিত্রে এলাকাটি কালো দেখায়।
-                      </li>
-                      <li>
-                        <b>রুক্ষ মাটি বা শস্য:</b> সংকেত বিচ্ছুরণ ঘটিয়ে ধূসর বা উজ্জ্বল পিক্সেল তৈরি করে।
-                      </li>
-                      <li>
-                        <b>ফিল্ড প্রমাণ:</b> অডিও নির্দেশিকা শুনে সঠিক স্থানে গিয়ে ছবি তুলুন ও নোট রেকর্ড করুন।
-                      </li>
-                    </ul>
+          {/* TAB 2: 🛰️ স্যাটেলাইট রাডার দৃশ্য */}
+          {activeTab === "radar" && (
+            <div style={{ display: "grid", gap: 14 }}>
+              {isLoading ? (
+                <div className="panel" role="status" style={{ textAlign: "center", padding: 36 }}>
+                  <RefreshCw size={24} className="animate-spin" style={{ margin: "0 auto 12px", color: "var(--moss)" }} />
+                  <p style={{ margin: 0, fontSize: 13, color: "var(--muted)" }}>
+                    Querying NASA Alaska Satellite Facility DAAC for live SAR scenes…
+                  </p>
+                </div>
+              ) : error && !data ? (
+                <div className="empty-state" role="alert" style={{ textAlign: "center", padding: 28 }}>
+                  <div>
+                    <h3 style={{ fontSize: 16, fontWeight: 600 }}>Could not load live SAR satellite scenes</h3>
+                    <p style={{ color: "var(--muted)", fontSize: 13, margin: "6px 0 14px" }}>
+                      {error instanceof Error ? error.message : "Upstream satellite service temporarily slow or unreachable."}
+                    </p>
+                    <Button variant="secondary" onClick={() => void refetch()}>
+                      Try again
+                    </Button>
                   </div>
                 </div>
-              )}
-
-              {/* TAB 2: 🛰️ স্যাটেলাইট রাডার দৃশ্য */}
-              {activeTab === "radar" && (
-                <div style={{ display: "grid", gap: 14 }}>
+              ) : data ? (
+                <>
                   {/* Cinematic NASA Satellite Telemetry Viewer */}
                   <div className="nasa-sat-viewer">
                     {/* High-Definition Satellite Viewport with HUD Overlay */}
@@ -396,8 +398,10 @@ export function SatelliteRadarModal({
 
                   {/* FEEL: Walk on the Radar (Sonification & Tactile) */}
                   <FeelRadarPlayer compact />
-                </div>
-              )}
+                </>
+              ) : null}
+            </div>
+          )}
 
               {/* TAB 3: 🔬 বিজ্ঞান ও অরবিট পাস */}
               {activeTab === "science" && (
@@ -447,7 +451,8 @@ export function SatelliteRadarModal({
                         <Waves size={16} style={{ color: "#2d6a4f", flexShrink: 0, marginTop: 2 }} />
                         <div>
                           <strong style={{ color: "var(--ink)" }}>Dielectric Constant &amp; Floodwater:</strong>{" "}
-                          {data.physicalPrinciples.dielectricProperty}
+                          {data?.physicalPrinciples?.dielectricProperty ??
+                            "Water possesses a high dielectric constant (~80 vs ~4 for dry soil), causing specular scattering away from the radar antenna. Consequently, standing floodwater and wetlands appear dark in SAR imagery."}
                         </div>
                       </div>
 
@@ -497,8 +502,6 @@ export function SatelliteRadarModal({
                   </div>
                 </div>
               )}
-            </>
-          ) : null}
         </div>
       </DialogContent>
     </Dialog>

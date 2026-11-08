@@ -28,7 +28,7 @@ describe("TRACE API boundary", () => {
     expect(response.body).toHaveProperty("services");
     expect(response.body.services).toHaveProperty("cmr");
     expect(response.body.services).toHaveProperty("asf");
-  });
+  }, 10000);
 
   it("queries real ASF DAAC SAR scenes for valid coordinates", async () => {
     const response = await request(app)
@@ -37,5 +37,5 @@ describe("TRACE API boundary", () => {
     expect(response.body).toHaveProperty("scenes");
     expect(response.body).toHaveProperty("physicalPrinciples");
     expect(response.body).toHaveProperty("gibsImageUrl");
-  });
+  }, 10000);
 });
