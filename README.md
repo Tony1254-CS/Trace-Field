@@ -264,20 +264,50 @@ npm run dev
 
 The core dashboard (`components/layout/dashboard.tsx`) is designed for field ergonomics, featuring mobile-first touch targets, high-contrast dark tactical styling, and an accessible bottom navigation bar.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ 🛰️ TRACE  [● LIVE]                    [Install] [Sign Out]  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│   Active Tab View:                                          │
-│   - Missions Inbox (with Bangladesh Tactical Map)           │
-│   - Guided Capture Form (4-State Truth Logic + GPS)         │
-│   - Records Ledger (Search, Filters, Signed Photo View)     │
-│   - Privacy & Backup (Export / Transactional Restore)       │
-│                                                             │
-├─────────────────────────────────────────────────────────────┤
-│  [📋 Missions]    [📸 Capture]    [🗂️ Records]   [🛡️ Privacy] │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph DashboardFrame ["📱 TACTICAL FIELD DASHBOARD LAYOUT (components/layout/dashboard.tsx)"]
+        direction TB
+
+        subgraph TopBar ["HEADER TOOLBAR"]
+            direction LR
+            Logo["🛰️ TRACE Platform"]
+            Status["● LIVE Production Mode"]
+            Actions["[📲 PWA Install] [🚪 Sign Out]"]
+            Logo --- Status --- Actions
+        end
+
+        subgraph MainTabs ["ACTIVE WORKSPACE TABS"]
+            direction TB
+            V1["📋 Missions Inbox & Bangladesh Radar Map"]
+            V2["📸 Guided In-Situ Capture (4-State Truth Logic + GPS)"]
+            V3["🗂️ Records Ledger (Search, Filters, Signed URLs)"]
+            V4["🛡️ Data Privacy & JSON Backup / Restore"]
+            V1 --- V2 --- V3 --- V4
+        end
+
+        subgraph BottomNav ["MOBILE-FIRST BOTTOM NAVIGATION BAR"]
+            direction LR
+            B1["[📋 Missions]"]
+            B2["[📸 Capture]"]
+            B3["[🗂️ Records]"]
+            B4["[🛡️ Privacy]"]
+            B1 --- B2 --- B3 --- B4
+        end
+
+        TopBar --> MainTabs
+        MainTabs --> BottomNav
+    end
+
+    classDef frameStyle fill:#0b0f19,stroke:#3b82f6,stroke-width:2px,color:#f8fafc;
+    classDef topStyle fill:#1e293b,stroke:#0ea5e9,stroke-width:1px,color:#e0f2fe;
+    classDef tabStyle fill:#0f172a,stroke:#10b981,stroke-width:1px,color:#ecfdf5;
+    classDef navStyle fill:#1e1b4b,stroke:#818cf8,stroke-width:1px,color:#e0e7ff;
+
+    class DashboardFrame frameStyle;
+    class TopBar,Logo,Status,Actions topStyle;
+    class MainTabs,V1,V2,V3,V4 tabStyle;
+    class BottomNav,B1,B2,B3,B4 navStyle;
 ```
 
 ### Key Capabilities:
@@ -319,23 +349,55 @@ Implemented in `components/missions/satellite-radar-modal.tsx` and powered by `s
 
 When an observer clicks **"Satellite Radar"** on any mission, TRACE opens a dedicated inspection window communicating directly with NASA and ESA Earth observation backends:
 
+```mermaid
+flowchart TD
+    subgraph Modal ["🛰️ NASA-ISRO NISAR / SAR CONTEXT & DYNAMICS (Interactive Inspection Modal)"]
+        direction TB
+
+        subgraph Header ["📍 TARGET POSITION & MISSION DOMAIN"]
+            TargetInfo["Coordinate: [24.8949°N, 91.8687°E] · Sylhet Haor Basin\nDomain: Wetlands & Flood Inundation Ground-Truthing"]
+        end
+
+        subgraph Tabs ["📑 THREE-CHANNEL TACTICAL TABS"]
+            direction LR
+            T1["🎧 Audio Guide\n(Bilingual Audio & Synthesizer)"]
+            T2["📡 Radar Scenes\n(Live ASF DAAC & GIBS WMS)"]
+            T3["🔬 SAR Science\n(Dielectric & Polarization Physics)"]
+        end
+
+        subgraph SceneCard ["🛰️ LIVE SATELLITE RADAR TELEMETRY (Active View: Radar Scenes)"]
+            direction TB
+            Granule["📡 Active Scene Granule: S1A_IW_GRDH_1SDV_20261030T115822\nSensor: C-SAR (NISAR L-band Proxy) | Beam Mode: IW | Direction: ASCENDING\nPolarization: Dual-Pol (VV + VH Vertical & Cross-Polarized)"]
+            PassClock["⏱️ Next Orbital Overpass: 5 days, 14 hours remaining\nNominal 12-day repeat cycle cadence (Sentinel-1 / NISAR standard)"]
+            ImageryLinks["🗺️ NASA GIBS WMS Layer: BlueMarble_NextGeneration (Cloud-free optical context)\n🔗 Direct Deep Link: Open in NASA Worldview (Synchronized Bounding Box)"]
+            Granule --- PassClock --- ImageryLinks
+        end
+
+        Header --> Tabs
+        Tabs --> SceneCard
+    end
+
+    classDef modalFrame fill:#0b0f19,stroke:#3b82f6,stroke-width:2px,color:#f8fafc;
+    classDef headerStyle fill:#1e293b,stroke:#0ea5e9,stroke-width:2px,color:#e0f2fe;
+    classDef tabStyle fill:#1e1b4b,stroke:#818cf8,stroke-width:1px,color:#e0e7ff;
+    classDef sceneStyle fill:#0f172a,stroke:#10b981,stroke-width:2px,color:#ecfdf5;
+
+    class Modal modalFrame;
+    class Header,TargetInfo headerStyle;
+    class T1,T2,T3 tabStyle;
+    class SceneCard,Granule,PassClock,ImageryLinks sceneStyle;
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ 🛰️ NASA-ISRO NISAR / SAR CONTEXT & DYNAMICS                 │
-│ Target: [24.8949°N, 91.8687°E] · Sylhet Haor Basin          │
-├─────────────────────────────────────────────────────────────┤
-│ [🎧 Audio Guide]     [📡 Radar Scenes]     [🔬 SAR Science]  │
-├─────────────────────────────────────────────────────────────┤
-│ 🛰️ Sentinel-1 C-SAR Granule: S1A_IW_GRDH_1SDV_20261030...    │
-│    Polarization: Dual-Pol (VV + VH)  · Direction: ASCENDING │
-│                                                             │
-│ ⏱️ Next Orbital Overpass: in 5 days, 14 hours               │
-│    Nominal 12-day repeat cycle (Sentinel-1 / NISAR cadence) │
-│                                                             │
-│ 🗺️ NASA GIBS True-Color WMS: BlueMarble_NextGeneration      │
-│ 🔗 View in NASA Worldview (Direct External Deep Link)       │
-└─────────────────────────────────────────────────────────────┘
-```
+
+#### Interactive Modal Interface & Live Controls
+
+| UI Control Element | Live Telemetry Source | Tactical Field Interaction & Scientific Output |
+| :--- | :--- | :--- |
+| 🎧 **Audio Guide Tab** | Local Web Audio Engine | Plays bilingual (Bangla & English) voice principles and backscatter sound synthesizer. |
+| 📡 **Radar Scenes Tab** | **Alaska Satellite Facility (ASF DAAC)** | Displays actual Sentinel-1 SAR scene ID, dual-polarization (`VV+VH`), and ASCENDING pass. |
+| ⏱️ **Next Overpass Clock** | 12-Day Orbital Cadence Engine | Computes exact countdown (`5 days, 14 hours`) for synchronized ground-truthing. |
+| 🗺️ **NASA GIBS WMS Tile** | **NASA EOSDIS GIBS** | Renders true-color `BlueMarble_NextGeneration` imagery behind the target coordinates. |
+| 🔗 **NASA Worldview Link** | **NASA Earthdata Worldview** | One-click external deep link opening the synchronized regional bounding box. |
+| 🔬 **SAR Science Tab** | Embedded Physics Engine | Displays dielectric constants ($\epsilon_r$), surface roughness, and polarization guides. |
 
 ### 6.1 Telemetry Endpoints Queried:
 1. **Alaska Satellite Facility (ASF DAAC):** `https://api.daac.asf.alaska.edu/services/search/param?intersectsWith=POINT(lng lat)&dataset=SENTINEL-1&maxResults=4`
@@ -407,17 +469,37 @@ Implemented in `components/radar/feel-radar-player.tsx`.
 
 To make Synthetic Aperture Radar accessible to non-visual observers, students, and field teams working in bright sunlight, TRACE features an interactive **Radar Sonification & Haptic Runtime**.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ 🔊 "FEEL THE RADAR" — Audio & Haptic Sonification           │
-├─────────────────────────────────────────────────────────────┤
-│ [Calm Water: -24 dB]   [Sand/Silt: -16 dB]                 │
-│ [Wetland/Crops: -10 dB][Dense Forest/Urban: -4 dB]          │
-│                                                             │
-│ Signal Strength: [-14 dB]  ━━━━━━━━●━━━━  Frequency: 412 Hz │
-│                                                             │
-│ [ ▶ Play Synthesizer ]        [ 📳 Haptic Vibration: Active] │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph SonificationEngine ["🔊 'FEEL THE RADAR' ACOUSTIC & HAPTIC SYNTHESIZER (components/radar/feel-radar-player.tsx)"]
+        direction TB
+
+        subgraph Presets ["TERRAIN PRESETS & CALIBRATED BACKSCATTER"]
+            direction TB
+            P1["💧 Calm Water: -24 dB (Specular Reflection, Low Return)"]
+            P2["🏖️ Sand / Silt: -16 dB (Low Diffuse Scatter)"]
+            P3["🌾 Wetland / Crops: -10 dB (Volume Scatter)"]
+            P4["🏢 Dense Forest / Urban: -4 dB (Double-Bounce High Scatter)"]
+            P1 --- P2 --- P3 --- P4
+        end
+
+        subgraph Synthesis ["WEB AUDIO API DYNAMIC MAPPING: f(σ⁰) = 140 + ((σ⁰+25)/25)^1.8 * 750 Hz"]
+            direction TB
+            Audio["🎵 Real-Time Oscillator Tone: 150 Hz (Low Drone) ──> 820 Hz (High Pitch)"]
+            Haptic["📳 Hardware Haptic Vibration: Gentle 30ms Rumble ──> Intense 120ms Bursts"]
+            Audio --- Haptic
+        end
+
+        Presets ==> Synthesis
+    end
+
+    classDef engineStyle fill:#0b0f19,stroke:#3b82f6,stroke-width:2px,color:#f8fafc;
+    classDef presetStyle fill:#1e293b,stroke:#0ea5e9,stroke-width:1px,color:#e0f2fe;
+    classDef synthStyle fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5;
+
+    class SonificationEngine engineStyle;
+    class Presets,P1,P2,P3,P4 presetStyle;
+    class Synthesis,Audio,Haptic synthStyle;
 ```
 
 ### 9.1 Mathematical Sonification Mapping
@@ -443,20 +525,37 @@ Implemented in `components/radar/modern-bangla-player.tsx` with audio assets in 
 
 TRACE includes a five-chapter pedagogical guide delivered in both **Bengali (বাংলা)** and **English**, designed to train field observers and citizen scientists on radar remote sensing principles.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ 🎧 BILINGUAL SAR FIELD GUIDE                                │
-│ Language: [ বাংলা / English ] · Speed: [ 1.0x ]             │
-├─────────────────────────────────────────────────────────────┤
-│ Chapter 1: Active Microwave Remote Sensing                  │
-│ "ট্রেস ফিল্ড গাইডে স্বাগতম। নাসা নিসার এবং সেন্টিনেল রাডার      │
-│  মহাকাশ থেকে দিন-রাত ভূপৃষ্ঠের পরিবর্তন পর্যবেক্ষণ করে।"       │
-│                                                             │
-│ Chapter 2: Specular Reflection (Dark Pixels)                │
-│ "সমতল বা শান্ত পানি রাডার তরঙ্গকে আয়নার মতো প্রতিফলিত করে...  │
-│                                                             │
-│ [ ◀ Previous ]         [ ▶ Play / Pause ]         [ Next ▶ ] │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph AudioPlayer ["🎧 BILINGUAL SAR FIELD GUIDE INTERFACE (components/radar/modern-bangla-player.tsx)"]
+        direction TB
+
+        subgraph Controls ["PLAYER SETTINGS & CONTROLS"]
+            direction LR
+            Lang["🌐 Language: বাংলা / English"]
+            Speed["⚡ Playback Speed: 1.0x (Adjustable 0.75x – 1.5x)"]
+            State["▶️ Active Audio State: Synchronized Subtitle Highlighting"]
+            Lang --- Speed --- State
+        end
+
+        subgraph ScriptView ["BILINGUAL PEDAGOGICAL NARRATIVE"]
+            direction TB
+            BN["🇧🇩 'ট্রেস ফিল্ড গাইডে স্বাগতম। নাসা নিসার এবং সেন্টিনেল রাডার মহাকাশ থেকে দিন-রাত ভূপৃষ্ঠের পরিবর্তন পর্যবেক্ষণ করে।'"]
+            EN["🇬🇧 'Welcome to TRACE Field Guide. NASA NISAR and Sentinel active radars monitor surface changes day and night from orbit.'"]
+            Concept["🔬 Core Principle: Active Microwave Remote Sensing (Cloud & Night Penetration)"]
+            BN --- EN --- Concept
+        end
+
+        Controls --> ScriptView
+    end
+
+    classDef frameStyle fill:#0b0f19,stroke:#3b82f6,stroke-width:2px,color:#f8fafc;
+    classDef ctrlStyle fill:#1e293b,stroke:#0ea5e9,stroke-width:1px,color:#e0f2fe;
+    classDef scriptStyle fill:#0f172a,stroke:#10b981,stroke-width:1px,color:#ecfdf5;
+
+    class AudioPlayer frameStyle;
+    class Controls,Lang,Speed,State ctrlStyle;
+    class ScriptView,BN,EN,Concept scriptStyle;
 ```
 
 ### The 5 Training Modules & Audio Assets:
