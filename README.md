@@ -134,48 +134,38 @@ The application bundles the official high-resolution boundary polygon (`/data/ba
 - **Geographic Center:** $23.85^\circ \text{N}, 90.35^\circ \text{E}$ (Default map viewport at zoom level 7)
 
 ```mermaid
-flowchart TD
-    subgraph GeoBounds ["🗺️ BANGLADESH RADAR GROUND-TRUTHING TRANSECT (WGS 84 Footprint: 20.55°N – 26.65°N | 88.00°E – 92.70°E)"]
-        direction TB
+flowchart LR
+    North["⬆️ NORTH: 26.65°N\nUpper Brahmaputra & Teesta"] ==> Z1["🌾 River Char & Silt\nJamuna Basin [25.75°N, 89.70°E]\nHigh roughness sandbar scattering (#f59e0b)"]
+    North ==> Z2["🌊 Wetlands & Haor\nSylhet Basin [24.8949°N, 91.8687°E]\n-24 dB specular floodwater reflection (#00b4d8)"]
+    
+    Z1 ==> Central["🏗️ Central Delta: Embankments & Infrastructure\nDhaka & Padma Confluence [23.85°N, 90.35°E]\nCorner double-bounce bright revetments (#818cf8)"]
+    Z2 ==> Central
+    
+    Central ==> Z4["🌲 Tidal Mangrove & Coastal Mudflats\nSundarbans & Passur Estuary [21.85°N, 89.65°E]\nCross-pol (VH) canopy volume scattering (#10b981)"]
+    
+    Z4 ==> South["⬇️ SOUTH: 20.55°N\nBay of Bengal Coastline"]
 
-        NorthBoundary["⬆️ Northern Latitude Bound: 26.65°N (Teesta / Upper Brahmaputra)"]
-        
-        subgraph NorthZone ["🌾 NORTH & NORTH-WEST: RIVER CHAR & SILT ACCRETION"]
-            Z1["🚜 Rangpur / Jamuna River Basin\n[25.75°N, 89.70°E]\n• Sandbar accretion & braided channel erosion\n• Radar return: High surface roughness & dry sand volume scatter\n• Domain Theme: #f59e0b (Amber)"]
-        end
-
-        subgraph NorthEastZone ["🌊 NORTH-EAST: SEASONAL WETLANDS & HAOR BASIN"]
-            Z2["💧 Sylhet / Sunamganj Haor Basin\n[24.8949°N, 91.8687°E]\n• Monsoon inundation & submerged reed beds\n• Radar return: -24 dB specular reflection (dark pixels)\n• Domain Theme: #00b4d8 (Cyan)"]
-        end
-
-        subgraph CenterZone ["🏗️ CENTRAL DELTA: EMBANKMENTS & HUMAN INFRASTRUCTURE"]
-            Z3["🏛️ Dhaka / Padma River Confluence\n[23.85°N, 90.35°E — National Viewport Center]\n• Concrete revetment structures, dykes & urban hardpan\n• Radar return: Corner double-bounce bright reflections\n• Domain Theme: #818cf8 (Indigo)"]
-        end
-
-        subgraph SouthZone ["🌲 SOUTH COASTAL: TIDAL MANGROVE & DELTAIC MUDFLATS"]
-            Z4["🌿 Sundarbans / Passur River Estuary\n[21.85°N, 89.65°E]\n• Semidiurnal tidal fluctuations & dense halophyte canopy\n• Radar return: Cross-polarization (VH) canopy volume scattering\n• Domain Theme: #10b981 (Emerald)"]
-        end
-
-        SouthBoundary["⬇️ Southern Latitude Bound: 20.55°N (Bay of Bengal Estuarine Interface)"]
-
-        NorthBoundary --> NorthZone & NorthEastZone
-        NorthZone & NorthEastZone --> CenterZone
-        CenterZone --> SouthZone
-        SouthZone --> SouthBoundary
-    end
-
-    classDef boundStyle fill:#0f172a,stroke:#64748b,stroke-width:1px,color:#94a3b8,stroke-dasharray: 4 4;
+    classDef boundStyle fill:#0f172a,stroke:#64748b,stroke-width:2px,color:#94a3b8;
     classDef z1Style fill:#451a03,stroke:#f59e0b,stroke-width:2px,color:#fef3c7;
     classDef z2Style fill:#083344,stroke:#00b4d8,stroke-width:2px,color:#e0f2fe;
     classDef z3Style fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#e0e7ff;
     classDef z4Style fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5;
 
-    class NorthBoundary,SouthBoundary boundStyle;
+    class North,South boundStyle;
     class Z1 z1Style;
     class Z2 z2Style;
-    class Z3 z3Style;
+    class Central z3Style;
     class Z4 z4Style;
 ```
+
+#### Regional Radar Transect & Field Ground-Truthing Zones
+
+| Radar Calibration Zone | Target Coordinates | Hydrological & Landscape Context | Physical Radar Backscatter Profile | Tactical Domain Theme |
+| :--- | :---: | :--- | :--- | :---: |
+| 🌾 **Zone 1: North & North-West** *(River Char & Silt)* | `[25.75°N, 89.70°E]`<br/>Jamuna / Rangpur | Braided river channel migration, sandbar accretion/erosion, and dynamic sediment deposition. | High surface roughness ($s$) and dry sand volume scattering producing elevated diffuse returns. | `#f59e0b`<br/>*(Amber)* |
+| 🌊 **Zone 2: North-East** *(Wetlands & Seasonal Haors)* | `[24.8949°N, 91.8687°E]`<br/>Sylhet / Sunamganj | Deep seasonal monsoon inundation, broad haor basins, and submerged reed beds. | Calm standing water causes mirror-like specular reflection away from satellite ($-24\text{ dB}$, dark pixels). | `#00b4d8`<br/>*(Cyan)* |
+| 🏗️ **Zone 3: Central Delta** *(River Embankments & Infrastructure)* | `[23.85°N, 90.35°E]`<br/>Dhaka / Padma | River training works, concrete revetment blocks, dykes, and dense peri-urban settlement edges. | Corner reflection and double-bounce scattering from vertical structures producing bright returns. | `#818cf8`<br/>*(Indigo)* |
+| 🌲 **Zone 4: South Coastal** *(Tidal Mangrove & Mudflats)* | `[21.85°N, 89.65°E]`<br/>Sundarbans / Passur | Semidiurnal marine tidal ebb and flow, brackish creeks, dense halophyte mangrove canopies, and exposed mudflats. | Cross-polarization ($\text{VH}$) canopy volume scattering contrasted with tidal mudflat specular reflection. | `#10b981`<br/>*(Emerald)* |
 
 #### National Radar Footprint & Coordinate Calibration Grid
 
