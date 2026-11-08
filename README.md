@@ -1,43 +1,67 @@
-# TRACE Field Notebook
+# 🛰️ TRACE — Application Workspace
 
-TRACE helps field observers create missions, capture observations, and review their records. This implementation uses a Next.js App Router frontend, an Express API, and Supabase Auth, PostgreSQL, and private Storage.
+> **NASA International Space Apps Challenge 2026** | **Track:** [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)  
+> *For the complete scientific vision, system architecture diagrams, and challenge alignment, please see the [Root Master README](../README.md).*
 
-## Requirements
+---
 
-- Node.js 20.9 or later and npm.
-- A Supabase project with email/password Auth enabled.
-- Supabase project URL and publishable key.
+## ⚡ Quick Navigation
 
-## First run
+- [System Architecture](docs/ARCHITECTURE.md)
+- [API Specifications](docs/API.md)
+- [Database Schema & RLS Policies](docs/DATABASE_SCHEMA.md)
+- [Requirements Traceability Matrix](docs/REQUIREMENTS_TRACEABILITY.md)
+- [Development Setup Guide](docs/DEVELOPMENT_SETUP.md)
+- [Implementation Status](docs/IMPLEMENTATION_STATUS.md)
 
-1. Copy `.env.example` to `.env.local` and set the Supabase URL and publishable key.
-2. Apply `supabase/migrations/202610300001_trace_core.sql` to your Supabase project.
-3. Add `http://localhost:3000` to the Auth redirect URL allow-list.
-4. Run:
+---
 
-   ```powershell
-   npm ci
-   npm run dev
-   ```
+## 🛠️ Development Quickstart
 
-5. Open [http://localhost:3000](http://localhost:3000). The API is at `http://localhost:8000/api/v1`; its health route is `/health`.
+### 1. Requirements
+- Node.js 20.9+ and npm 10+
+- Configured Supabase project with Email/Password Auth
 
-See [docs/DEVELOPMENT_SETUP.md](docs/DEVELOPMENT_SETUP.md) for environment details and [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the system boundaries.
-
-## Quality checks
-
-```powershell
-npm run lint
-npm run typecheck
-npm test
-npm run test:server
-npm run build
+### 2. Environment Configuration
+Copy `.env.example` to `.env.local` and define your project credentials:
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-publishable-anon-key
+NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+PORT=8000
 ```
 
-The tests cover local schemas and API health/auth boundaries. RLS, Auth, Storage, and backup RPC behavior require a configured Supabase project for end-to-end verification.
+### 3. Database Migration
+Apply the PostgreSQL migration:
+```bash
+# Path: supabase/migrations/202610300001_trace_core.sql
+```
+This migration provisions `missions`, `observations`, Row-Level Security (RLS) policies, storage buckets, and the `restore_trace_records` transactional RPC.
 
-## Data and privacy
+### 4. Running the Development Stack
+```powershell
+npm ci
+npm run dev
+```
+- Frontend (Next.js 15): [http://localhost:3000](http://localhost:3000)
+- Backend API (Express 5): [http://localhost:8000/api/v1](http://localhost:8000/api/v1)
+- Health Endpoint: [http://localhost:8000/api/v1/health](http://localhost:8000/api/v1/health)
 
-Missions and observations are account-backed in the configured Supabase project. PostgreSQL RLS and Storage policies isolate each user's records and photos. The API uses only the public publishable key and signed-in access tokens; it does not use a service-role key. Configure the Supabase email confirmation and mail delivery settings before inviting field users.
+---
 
-The app shell can open an offline information page after it has been cached, but account records cannot be fetched or saved without a connection. A local backup is a JSON file; it is not cloud synchronization.
+## 🧪 Verification & Quality Checks
+
+Run the full testing and static analysis pipeline:
+```powershell
+npm run lint          # ESLint code quality audit
+npm run typecheck     # Strict TypeScript type evaluation
+npm test              # Client-side unit and schema tests
+npm run test:server   # Express API and security middleware tests
+npm run build         # Next.js production build verification
+```
+
+---
+
+## 🔒 Data Sovereignty & Security Note
+
+Missions and ground observations are isolated at the database engine level via PostgreSQL Row Level Security (RLS). The Express API communicates using user-delegated tokens; no administrative service-role key is ever exposed or used during runtime.
