@@ -1,28 +1,8 @@
-<div align="center">
-
 # 🛰️ TRACE — Tactical Radar-ground-truth Acquisition & Calibration Environment
 ### A Zero-Trust In-Situ Ground-Truthing & Epistemic Verification Platform for Spaceborne Synthetic Aperture Radar
 
 **NASA International Space Apps Challenge 2026**  
 **Challenge Track:** [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
-
-[![NASA Space Apps 2026](https://img.shields.io/badge/NASA%20Space%20Apps-2026%20Global%20Challenge-0B3D91?style=for-the-badge&logo=nasa&logoColor=white)](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
-[![Challenge Track](https://img.shields.io/badge/Track-Dancing%20with%20the%20SARs-4A154B?style=for-the-badge&logo=satellite&logoColor=white)](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
-[![Live Deployment](https://img.shields.io/badge/🚀%20Live%20App-nana--space--apps--2026--trace-00C7B7?style=for-the-badge&logo=render&logoColor=white)](https://nana-space-apps-2026-trace.onrender.com/)
-[![Team](https://img.shields.io/badge/Team-Quintessence%20Minus%20Infinity-FF6F00?style=for-the-badge&logo=affinity&logoColor=white)](#20-scientific-boundaries-licensing--team-credits)
-
-<br/>
-
-[![Next.js 15](https://img.shields.io/badge/Next.js%2015-App%20Router-black?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![Express 5](https://img.shields.io/badge/Express-5%20REST%20API-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
-[![Supabase PostgreSQL](https://img.shields.io/badge/Supabase-PostgreSQL%20RLS-3ECF8E?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com/)
-[![TypeScript 5](https://img.shields.io/badge/TypeScript-5.x%20Strict-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![PWA Offline-First](https://img.shields.io/badge/PWA-Offline--Shell%20Ready-orange?style=flat-square&logo=pwa&logoColor=white)](#4-application-shell-dashboard--tactical-navigation)
-[![License: MIT](https://img.shields.io/badge/License-MIT%20Open%20Science-blue.svg?style=flat-square)](LICENSE)
-
-<br/>
-
-</div>
 
 > [!IMPORTANT]
 > ### 🌟 Official Project Identification & Live Production Deployment
