@@ -1,8 +1,26 @@
 <div align="center">
 
-# 🛰️ TRACE
-### Tactical Radar-ground-truth Acquisition & Calibration Environment
-**A Zero-Trust In-Situ Ground-Truthing & Epistemic Verification Architecture for Spaceborne Synthetic Aperture Radar**
+# 🛰️ TRACE — Tactical Radar-ground-truth Acquisition & Calibration Environment
+### A Zero-Trust In-Situ Ground-Truthing & Epistemic Verification Platform for Spaceborne Synthetic Aperture Radar
+
+**NASA International Space Apps Challenge 2026**  
+**Challenge Track:** [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
+
+[![NASA Space Apps 2026](https://img.shields.io/badge/NASA%20Space%20Apps-2026%20Global%20Challenge-0B3D91?style=for-the-badge&logo=nasa&logoColor=white)](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
+[![Challenge Track](https://img.shields.io/badge/Track-Dancing%20with%20the%20SARs-4A154B?style=for-the-badge&logo=satellite&logoColor=white)](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
+[![Live Deployment](https://img.shields.io/badge/🚀%20Live%20App-nana--space--apps--2026--trace-00C7B7?style=for-the-badge&logo=render&logoColor=white)](https://nana-space-apps-2026-trace.onrender.com/)
+[![Team](https://img.shields.io/badge/Team-Quintessence%20Minus%20Infinity-FF6F00?style=for-the-badge&logo=affinity&logoColor=white)](#20-scientific-boundaries-licensing--team-credits)
+
+<br/>
+
+[![Next.js 15](https://img.shields.io/badge/Next.js%2015-App%20Router-black?style=flat-square&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Express 5](https://img.shields.io/badge/Express-5%20REST%20API-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
+[![Supabase PostgreSQL](https://img.shields.io/badge/Supabase-PostgreSQL%20RLS-3ECF8E?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com/)
+[![TypeScript 5](https://img.shields.io/badge/TypeScript-5.x%20Strict-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![PWA Offline-First](https://img.shields.io/badge/PWA-Offline--Shell%20Ready-orange?style=flat-square&logo=pwa&logoColor=white)](#4-application-shell-dashboard--tactical-navigation)
+[![License: MIT](https://img.shields.io/badge/License-MIT%20Open%20Science-blue.svg?style=flat-square)](LICENSE)
+
+<br/>
 
 </div>
 
@@ -11,95 +29,56 @@
 > 
 > | Operational Parameter | Specification & Gateway Link |
 > | :--- | :--- |
-> | 🏆 **Team Name** | **`Quintessence Minus Infinity`** |
+> | 🏆 **Team Identification** | **`Quintessence Minus Infinity`** |
 > | 🚀 **Live Production Application** | **[Launch TRACE Field Application ↗](https://nana-space-apps-2026-trace.onrender.com/)** (`https://nana-space-apps-2026-trace.onrender.com/`) |
-> | 🛰️ **NASA Challenge Track** | **[Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)** — Synthetic Aperture Radar Remote Sensing |
+> | 🛰️ **NASA Challenge Track** | **[Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)** — Synthetic Aperture Radar Earth Observation |
 > | 📦 **Primary Artifact** | **TRACE** *(Tactical Radar-ground-truth Acquisition & Calibration Environment)* |
 > | 📑 **Monograph Standard** | Unified Comprehensive Scientific Monograph *(Theory, Architecture, Full API & DDL)* |
-> | 🛡️ **Security & Privacy** | Zero-Trust Database Engine RLS (No Service-Role Key Bypass) + Scoped Storage |
-> | 🔖 **Release State** | `v1.0.0-rc.1` (Production Target) |
+> | 🛡️ **Security Model** | Zero-Trust Database Engine RLS (No Service-Role Key Bypass) + Scoped Storage Policies |
+> | 🔖 **Production Version** | `v1.0.0-rc.1` (Enterprise & Field-Grade Ready) |
 
 ---
 
 ## Table of Contents
-1. [Abstract & Scientific Keywords](#abstract--scientific-keywords)
-2. [Section 1: Scientific Vision & Problem Formulation](#section-1-scientific-vision--problem-formulation)
-   - 1.1 The Physical Nature of Spaceborne SAR
-   - 1.2 The "Ground-Truth Gap" in Planetary Radar
-   - 1.3 The TRACE In-Situ Verification Solution
-3. [Section 2: Epistemology & Scientific Methodology](#section-2-epistemology--scientific-methodology)
-   - 2.1 The Four-Valued Truth Logic ($\mathcal{L}_4$)
-   - 2.2 Objective Ground Truthing: Quick Labels
-   - 2.3 Elimination of Cognitive Observer Bias (Neutral Prompting)
-   - 2.4 Tap-to-Locate Radial Uncertainty Metric ($\Delta r$)
-4. [Section 3: Mathematical & Physical Formulations](#section-3-mathematical--physical-formulations)
-   - 3.1 Backscatter Cross-Section & Inversion Ill-Posedness
-   - 3.2 WGS84 Spatial Coordinate Constraints
-   - 3.3 Relational Invariants & PostgreSQL Row Level Security (RLS) Algebra
-5. [Section 4: System Architecture & Execution Topology](#section-4-system-architecture--execution-topology)
-   - 4.1 Architectural Component Overview
-   - 4.2 End-to-End Execution Sequence Diagram
-   - 4.3 Zero-Trust Security Paradigm (No Service-Role Key)
-   - 4.4 Offline PWA Shell & Privacy Boundary
-6. [Section 5: Complete REST API v1 Specification](#section-5-complete-rest-api-v1-specification)
-   - 5.1 Protocol Standards, Headers, and Error Model
-   - 5.2 System Health Endpoint (`GET /health`)
-   - 5.3 Mission Management Endpoints (`GET`, `POST`, `PATCH /missions`)
-   - 5.4 Ground Observation Endpoints (`GET`, `POST`, `DELETE /observations`)
-   - 5.5 Portable Backup & Transactional Restore (`GET`, `POST /backup`)
-7. [Section 6: Formal Database Schema, DDL & Security Policies](#section-6-formal-database-schema-ddl--security-policies)
-   - 6.1 Database Entity-Relationship Diagram (ERD)
-   - 6.2 Table DDL: `public.missions`
-   - 6.3 Table DDL: `public.observations`
-   - 6.4 Complete Row Level Security (RLS) Policies
-   - 6.5 Private Object Storage Specification (`trace-photos`)
-   - 6.6 Atomic Database Stored Procedure: `restore_trace_records`
-8. [Section 7: Requirements Traceability Matrix (RTM)](#section-7-requirements-traceability-matrix-rtm)
-9. [Section 8: Feature-by-Feature Operational Specifications](#section-8-feature-by-feature-operational-specifications)
-   - 8.1 App Shell, Service Worker, and Resilient Navigation
-   - 8.2 Mission Inbox & Ownership Accounting
-   - 8.3 Guided In-Situ Observation Capture
-   - 8.4 Records Inspection, Verification State & Safe Deletion
-   - 8.5 Data Sovereignty & Account Privacy Controls
-10. [Section 9: Verification Protocol, Testing & Quality Assurance](#section-9-verification-protocol-testing--quality-assurance)
-11. [Section 10: Development Setup & Production Deployment](#section-10-development-setup--production-deployment)
-12. [Section 11: Alignment with NASA Space Apps Challenge Criteria](#section-11-alignment-with-nasa-space-apps-challenge-criteria)
-13. [Section 12: Future Horizons & Orbital Roadmap](#section-12-future-horizons--orbital-roadmap)
-14. [Section 13: References & Scientific Bibliography](#section-13-references--scientific-bibliography)
-15. [Section 14: Acknowledgements & Team Credits](#section-14-acknowledgements--team-credits)
+
+1. [Project Overview & Investigation Problem](#1-project-overview--investigation-problem)
+2. [Study Areas & Radar Target Inventory](#2-study-areas--radar-target-inventory)
+3. [Quick Start & Execution Guide](#3-quick-start--execution-guide)
+4. [Application Shell, Dashboard & Tactical Navigation](#4-application-shell-dashboard--tactical-navigation)
+5. [Bangladesh Radar Map Workspace](#5-bangladesh-radar-map-workspace)
+6. [Satellite Radar Modal & Live NASA Telemetry](#6-satellite-radar-modal--live-nasa-telemetry)
+7. [Guided In-Situ Observation Capture](#7-guided-in-situ-observation-capture)
+8. [Records Ledger, Audit Trail & Verification State](#8-records-ledger-audit-trail--verification-state)
+9. ["Feel the Radar" Sonification & Haptic Feedback](#9-feel-the-radar-sonification--haptic-feedback)
+10. [Bilingual SAR Field Guide & Voice Synthesis](#10-bilingual-sar-field-guide--voice-synthesis)
+11. [Data Sovereignty, Backup & Transactional Restore](#11-data-sovereignty-backup--transactional-restore)
+12. [Scientific Method & Radar Physics](#12-scientific-method--radar-physics)
+13. [Data Sources, Provenance & Checksums](#13-data-sources-provenance--checksums)
+14. [System Architecture & Zero-Trust Engineering](#14-system-architecture--zero-trust-engineering)
+15. [Complete REST API v1 Reference](#15-complete-rest-api-v1-reference)
+16. [Database Schema, DDL & Security Policies](#16-database-schema-ddl--security-policies)
+17. [Requirements Traceability Matrix (RTM)](#17-requirements-traceability-matrix-rtm)
+18. [Testing, Verification & Quality Assurance](#18-testing-verification--quality-assurance)
+19. [Troubleshooting Matrix & Operational FAQ](#19-troubleshooting-matrix--operational-faq)
+20. [Scientific Boundaries, Licensing & Team Credits](#20-scientific-boundaries-licensing--team-credits)
 
 ---
 
-## Abstract & Scientific Keywords
+## 1. Project Overview & Investigation Problem
 
-Spaceborne Synthetic Aperture Radar (SAR) systems—exemplified by active L-band, C-band, and X-band satellite missions such as **NISAR (NASA-ISRO SAR)**, **Sentinel-1 (ESA)**, and **ALOS-PALSAR (JAXA)**—provide all-weather, day-and-night observation of Earth's geophysical dynamics. Despite high radiometric sensitivity, spaceborne radar backscatter ($\sigma^0$) and interferometric coherence ($\gamma$) suffer from severe inversion ambiguities: geometric layover, speckle noise, and surface roughness versus moisture trade-offs often render spaceborne interpretations uncertain. Consequently, remote sensing pipelines face a fundamental **Ground-Truth Gap**, wherein satellite observations cannot be definitively validated without contemporaneous in-situ ground truth.
+### 1.1 The Investigation Problem: The "Ground-Truth Gap"
+Synthetic Aperture Radar (SAR) satellites—such as **NISAR (NASA-ISRO SAR)**, **Sentinel-1 (ESA)**, and **ALOS-PALSAR (JAXA)**—provide all-weather, day-and-night observation of Earth's geophysical dynamics. By transmitting active coherent microwave pulses ($1 \text{ GHz} \le f \le 10 \text{ GHz}$), SAR penetrates clouds, monsoon rains, and darkness to measure surface changes.
 
-This monograph presents **TRACE** (*Tactical Radar-ground-truth Acquisition & Calibration Environment*), an offline-first, cloud-native Progressive Web Application (PWA) and zero-trust verification runtime engineered by team **Quintessence Minus Infinity**. TRACE implements a four-valued epistemic truth algebra ($\mathcal{L}_4 \in \{\text{supports}, \text{contradicts}, \text{inconclusive}, \text{not-observable}\}$), paired with objective terrain labels, on-demand spatial accuracy metrics ($\Delta r$), neutral prompt protocols, and cryptographic private storage. Built upon a Next.js 15 App Router frontend, a decoupled Express 5 REST API gateway, and PostgreSQL with enforced Row Level Security (RLS), TRACE guarantees complete user data isolation without administrative backdoors. This document consolidates all theoretical foundations, system blueprints, API specifications, database schemas, requirement matrices, and operational guides into a single authoritative reference.
-
-**Keywords:** Synthetic Aperture Radar (SAR), Ground-Truthing, Remote Sensing Calibration, Epistemic Truth Logic, Row Level Security, Progressive Web Application, NASA NISAR, Zero-Trust Architecture, Open Science.
-
----
-
-## Section 1: Scientific Vision & Problem Formulation
-
-### 1.1 The Physical Nature of Spaceborne SAR
-Synthetic Aperture Radar is an active microwave imaging system operating across wavelengths from millimeters (Ka-band) to tens of centimeters (L-band and P-band). By transmitting coherent microwave pulses toward Earth and recording the amplitude and phase of the backscattered signal, SAR synthesizes an antenna aperture proportional to satellite flight distance. This grants SAR its renowned capabilities:
-- **Cloud Penetration:** Microwave frequencies ($1 \text{ GHz} \le f \le 10 \text{ GHz}$) pass through tropospheric vapor, cloud cover, and precipitation with minimal attenuation.
-- **Solar Independence:** Active illumination allows uninterrupted day-and-night observation.
-- **Coherent Interferometry (InSAR):** Sub-centimeter surface deformation detection via carrier phase interferometry.
-
-### 1.2 The "Ground-Truth Gap" in Planetary Radar
-Despite these capabilities, spaceborne radar returns represent an ill-posed inverse problem. The received backscatter cross-section ($\sigma^0$) is a coupled non-linear function of both dielectric properties and physical surface structure:
+However, satellite radar returns harbor a fundamental physical ambiguity: **The Ground-Truth Gap**.
+Radar backscatter intensity ($\sigma^0$) is simultaneously modulated by both the surface's complex dielectric permittivity ($\epsilon_r$, governed by water content) and structural roughness ($s$):
 
 $$\sigma^0 = f(\epsilon_r, s, l, \theta_i, \lambda, p)$$
 
-where:
-- $\epsilon_r \in \mathbb{C}$ is the complex relative dielectric permittivity of the surface medium (critically driven by liquid water content).
-- $s$ is the root-mean-square (RMS) surface roughness height.
-- $l$ is the surface correlation length.
-- $\theta_i$ is the local radar incidence angle.
-- $\lambda$ is the carrier wavelength.
-- $p$ denotes polarization state ($HH, VV, HV, VH$).
+Because an increase in soil moisture and an increase in surface roughness both produce elevated radar backscatter ($\sigma^0 \uparrow$), remote sensing scientists staring at an orbital radar image cannot definitively determine from space alone whether a sudden bright return represents:
+1. **Flooded wetland / vegetation canopy** (causing high double-bounce specular scattering), or
+2. **Rough, dry plowed agricultural land** (causing high diffuse surface scattering).
+
+Without contemporaneous ground truth, scientific interpretations remain unconfirmed hypotheses.
 
 ```mermaid
 flowchart TD
@@ -143,148 +122,392 @@ flowchart TD
     class Sat1,Sat2,Sensors,Confusion,Ambiguity1,Ambiguity2,Noise,Observer,Protocols cardStyle;
 ```
 
-Because an increase in soil moisture ($\epsilon_r \uparrow$) and an increase in surface roughness ($s \uparrow$) both produce higher radar backscatter ($\sigma^0 \uparrow$), remote sensing scientists cannot definitively distinguish between standing floodwater in vegetation (double-bounce backscatter) versus rough, dry terrain from space alone. Without ground validation, scientific models risk misclassifying disasters, ground subsidence, and crop yields.
+### 1.2 What TRACE Does
+**TRACE** (*Tactical Radar-ground-truth Acquisition & Calibration Environment*) is an offline-capable Progressive Web Application (PWA) and zero-trust verification runtime engineered for citizen scientists, agricultural extension workers, and disaster response teams. It enables observers to:
+- Discover radar observation missions anchored to specific geographic coordinates.
+- Inspect live satellite telemetry directly from the **Alaska Satellite Facility (ASF DAAC)** and **NASA CMR**.
+- Record human in-situ truth using a scientifically disciplined **4-valued truth logic**.
+- Classify surface terrain with rapid SAR validation tags (`water`, `land`, `sand`, `crop`).
+- Capture on-demand GPS coordinates stamped with the hardware-reported horizontal accuracy radius ($\Delta r$).
+- Experience radar backscatter via acoustic sonification and haptic vibration ("Feel the Radar").
+- Listen to bilingual (Bengali & English) audio field guides.
+- Maintain absolute data sovereignty via PostgreSQL Row-Level Security (RLS) and portable JSON backups.
 
-### 1.3 The TRACE In-Situ Verification Solution
-**TRACE** (*Tactical Radar-ground-truth Acquisition & Calibration Environment*) bridges this gap. It provides a standardized, resilient field companion for citizen scientists, agricultural officers, and disaster emergency personnel. By structuring target missions aligned with orbital passes and recording human ground observations under strict epistemic controls, TRACE supplies the missing physical validation anchor for NASA Earth observations.
+### 1.3 Three Distinct Kinds of Output in TRACE
+
+| Output Category | Scientific & System Meaning | Real TRACE Implementation Example |
+| :--- | :--- | :--- |
+| **In-Situ Ground Observation** | An empirical physical condition logged by a human observer at a timestamped location. | A field record marked `supports` with `quickLabel: "water"`, $\Delta r = 4.2\text{ m}$, and a ground photograph. |
+| **Satellite Context & Telemetry** | Unmodified metadata and imagery queried live from NASA/ESA archives. | A Sentinel-1 SAR scene record from ASF DAAC, a GPM IMERG precipitation granule from NASA CMR, or a GIBS WMS tile. |
+| **Pedagogical Simulation** | An interactive educational model to build radar intuition; explicitly not real-time telemetry. | The Web Audio API synthesizer mapping $-24\text{ dB} \to 150\text{ Hz}$ in `FeelRadarPlayer`, or the 12-day orbital pass clock. |
 
 ---
 
-## Section 2: Epistemology & Scientific Methodology
+## 2. Study Areas & Radar Target Inventory
 
-### 2.1 The Four-Valued Truth Logic ($\mathcal{L}_4$)
-Standard field survey tools force users into binary true/false decisions. In remote sensing calibration, binary reduction introduces severe confirmation bias. TRACE establishes a four-valued observation algebra:
+### 2.1 Geographic Coverage & National Scope
+TRACE is natively calibrated for the dynamic deltaic landscape of **Bangladesh**—one of the world's most radar-critical flood and river erosion environments—while retaining global support for any WGS 84 coordinate pair $(-90 \le \phi \le 90, -180 \le \lambda \le 180)$.
 
-$$\mathcal{L}_4 = \{\text{supports}, \text{contradicts}, \text{inconclusive}, \text{not-observable}\}$$
+The application bundles the official high-resolution boundary polygon (`/data/bangladesh-boundary.json`), spanning:
+- **Latitude Span:** $20.55^\circ \text{N}$ to $26.65^\circ \text{N}$
+- **Longitude Span:** $88.00^\circ \text{E}$ to $92.70^\circ \text{E}$
+- **Geographic Center:** $23.85^\circ \text{N}, 90.35^\circ \text{E}$ (Default map viewport at zoom level 7)
+
+```
+                            26.65°N ──────────────────────────┐
+                                    │      RANGPUR / JAMUNA    │
+                                    │    (River Char & Silt)   │
+                                    │                          │
+                                    │    SYLHET HAOR BASIN     │
+                                    │    (Wetlands & Floods)   │
+                                    │    [24.8949°N, 91.8687°E]│
+                                    │                          │
+                                    │    DHAKA EMBANKMENTS     │
+                                    │    (Padma / Concrete)    │
+                                    │                          │
+                                    │    SUNDARBANS MANGROVE   │
+                                    │    (Tidal Mudflats)      │
+                            20.55°N └──────────────────────────┘
+                                    88.00°E                  92.70°E
+```
+
+### 2.2 Domain Categorization & Target Taxonomy
+In `components/missions/bangladesh-radar-map.tsx`, TRACE automatically inspects mission titles, place descriptors, and prompts to classify targets into five ecological radar domains:
+
+| Domain Name | Color Code | Badge Accent | Scattering Mechanics Validated | Target Landscape Examples |
+| :--- | :---: | :---: | :--- | :--- |
+| **Wetlands & Haor** | `#00b4d8` | Cyan Glow | Specular reflection, low backscatter ($-24\text{ dB}$), standing floodwater | Tanguar Haor, Hakaluki Haor, Sunamganj flood basins (`lat: 24.8949, lng: 91.8687`) |
+| **River Char & Silt** | `#f59e0b` | Amber Glow | Surface roughness, sandbar accretion/erosion, silt deposition | Jamuna braided river channels, Chilmari–Roumari sandbars |
+| **Tidal Mangrove** | `#10b981` | Emerald Glow | Canopy volume scattering (VH) vs. tidal mudflat specular reflection | Sundarbans delta, Passur River estuary, tidal creeks |
+| **River Embankment** | `#818cf8` | Indigo Glow | Corner reflection from concrete blocks, revetment structures, dykes | Padma River training works, Jamuna bridge embankments |
+| **General Ground Study**| `#d6f05d` | Lime Glow | Urban structures, mixed agricultural vegetation, general terrain | Agricultural fields, settlement perimeters |
+
+---
+
+## 3. Quick Start & Execution Guide
+
+### 3.1 Prerequisites
+- **Node.js:** `v20.9.0` or later (tested on Node 20.x, 22.x, and 24.x)
+- **npm:** `v10.0.0` or later
+- **Supabase Account:** Free tier project with Email/Password Auth enabled
+- **Modern Browser:** Chrome, Edge, Firefox, or Safari with WebGL and Geolocation support
+
+### 3.2 Local Setup (Windows / PowerShell)
+
+```powershell
+# 1. Clone repository from GitHub
+git clone https://github.com/Tony1254-CS/nasa-26-app-240.git
+cd "nasa-26-app-240"
+
+# 2. Install workspace dependencies
+npm ci
+
+# 3. Configure environment variables
+Copy-Item .env.example .env.local
+```
+
+Edit `.env.local` with your Supabase credentials:
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+PORT=8000
+```
+
+```powershell
+# 4. Apply Database Migrations in Supabase SQL Console
+# Execute: supabase/migrations/202610300001_trace_core.sql
+
+# 5. Boot Concurrent Development Server (Next.js + Express API)
+npm run dev
+```
+
+### 3.3 Local Setup (macOS / Linux)
+
+```bash
+git clone https://github.com/Tony1254-CS/nasa-26-app-240.git
+cd "nasa-26-app-240"
+npm ci
+cp .env.example .env.local
+# Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY
+npm run dev
+```
+
+### 3.4 Operational Port Layout
+| Service Interface | Local Address | Description |
+| :--- | :--- | :--- |
+| **Web Application Shell** | [http://localhost:3000](http://localhost:3000) | Next.js 15 App Router Frontend |
+| **Express API Gateway** | [http://localhost:8000/api/v1](http://localhost:8000/api/v1) | Express 5 REST API Gateway |
+| **API Health Endpoint** | [http://localhost:8000/api/v1/health](http://localhost:8000/api/v1/health) | Process Uptime & System Health |
+| **NASA Service Status** | [http://localhost:8000/api/v1/nasa/status](http://localhost:8000/api/v1/nasa/status) | Real-time connectivity to CMR, ASF DAAC, GIBS |
+| **Live Production Deployment** | [https://nana-space-apps-2026-trace.onrender.com/](https://nana-space-apps-2026-trace.onrender.com/) | Cloud-hosted Render instance |
+
+---
+
+## 4. Application Shell, Dashboard & Tactical Navigation
+
+The core dashboard (`components/layout/dashboard.tsx`) is designed for field ergonomics, featuring mobile-first touch targets, high-contrast dark tactical styling, and an accessible bottom navigation bar.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ 🛰️ TRACE  [● LIVE]                    [Install] [Sign Out]  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   Active Tab View:                                          │
+│   - Missions Inbox (with Bangladesh Tactical Map)           │
+│   - Guided Capture Form (4-State Truth Logic + GPS)         │
+│   - Records Ledger (Search, Filters, Signed Photo View)     │
+│   - Privacy & Backup (Export / Transactional Restore)       │
+│                                                             │
+├─────────────────────────────────────────────────────────────┤
+│  [📋 Missions]    [📸 Capture]    [🗂️ Records]   [🛡️ Privacy] │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Key Capabilities:
+- **Mobile Navigation Drawer & Bottom Bar:** Direct switching between Missions, Capture, Records, and Privacy.
+- **PWA Service Worker:** Registered from `public/service-worker.js`. Intercepts HTTP requests and serves the cached application shell when the observer is in remote, offline territory.
+- **PlayStore Install Sheet (`components/pwa/playstore-install-sheet.tsx`):** Provides a clean, native-feeling install sheet on Android and iOS devices supporting the `beforeinstallprompt` event.
+- **Offline Protection Boundary:** The app shell opens safely when offline, displaying `public/offline.html`. To prevent data leakage on shared field tablets, sensitive mission and observation records are **never** stored unencrypted in shared public browser caches.
+
+---
+
+## 5. Bangladesh Radar Map Workspace
+
+Implemented in `components/missions/bangladesh-radar-map.tsx` using Leaflet and ESRI GIS tile services.
+
+```mermaid
+flowchart LR
+    A["Observer Position\n(navigator.geolocation)"] --> B["Haversine Engine\ncalculateDistanceKm()"]
+    C["Mission Database\n(Active Targets)"] --> B
+    B --> D["Nearest Mission Alert\n('Closest target is 4.2 km away')"]
+    D --> E["One-Click Navigation\n& Field Capture"]
+```
+
+### 5.1 Interactive Map Layers
+- **Dark Tactical Base:** ESRI Dark Gray Canvas (`Canvas/World_Dark_Gray_Base` + Reference Labels). High-contrast visualization for bright sunlight field conditions.
+- **Satellite Imagery:** ESRI World Imagery (`World_Imagery/MapServer`). True-color high-resolution optical context.
+- **Topographic Base:** ESRI World Topo Map for terrain elevation and contour context.
+- **National Border Overlay:** Loads `/data/bangladesh-boundary.json`, rendering a glowing white stroke (`#ffffff`, weight 2.8) with emerald fill (`#059669`, opacity 0.08) fitting tightly to Bangladesh's national bounds.
+
+### 5.2 Tactical Features
+- **Geodesic Haversine Proximity Calculation:** Automatically computes distance (in km) from the observer's current position to all active targets, identifying the nearest ground-truthing priority.
+- **Domain Filter Pills:** One-touch filtering by *Wetlands & Haor*, *River Char & Silt*, *Tidal Mangrove*, *River Embankment*, or *All*.
+- **Direct Modal Handoffs:** Clicking any map pin reveals an interactive popup with target coordinates, prompt preview, a **"Capture Observation"** action, and a **"Satellite Radar"** launcher.
+
+---
+
+## 6. Satellite Radar Modal & Live NASA Telemetry
+
+Implemented in `components/missions/satellite-radar-modal.tsx` and powered by `server/src/modules/nasa/routes.ts`.
+
+When an observer clicks **"Satellite Radar"** on any mission, TRACE opens a dedicated inspection window communicating directly with NASA and ESA Earth observation backends:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ 🛰️ NASA-ISRO NISAR / SAR CONTEXT & DYNAMICS                 │
+│ Target: [24.8949°N, 91.8687°E] · Sylhet Haor Basin          │
+├─────────────────────────────────────────────────────────────┤
+│ [🎧 Audio Guide]     [📡 Radar Scenes]     [🔬 SAR Science]  │
+├─────────────────────────────────────────────────────────────┤
+│ 🛰️ Sentinel-1 C-SAR Granule: S1A_IW_GRDH_1SDV_20261030...    │
+│    Polarization: Dual-Pol (VV + VH)  · Direction: ASCENDING │
+│                                                             │
+│ ⏱️ Next Orbital Overpass: in 5 days, 14 hours               │
+│    Nominal 12-day repeat cycle (Sentinel-1 / NISAR cadence) │
+│                                                             │
+│ 🗺️ NASA GIBS True-Color WMS: BlueMarble_NextGeneration      │
+│ 🔗 View in NASA Worldview (Direct External Deep Link)       │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 6.1 Telemetry Endpoints Queried:
+1. **Alaska Satellite Facility (ASF DAAC):** `https://api.daac.asf.alaska.edu/services/search/param?intersectsWith=POINT(lng lat)&dataset=SENTINEL-1&maxResults=4`
+   - Returns real granule identifiers, polarization modes (`VV+VH`), flight directions (`ASCENDING`/`DESCENDING`), sensor types (`C-SAR`), and start timestamps.
+2. **NASA GIBS WMS (Global Imagery Browse Services):**
+   - True-color background: `BlueMarble_NextGeneration`
+   - Recent daily optical pass: `MODIS_Terra_CorrectedReflectance_TrueColor`
+3. **NASA CMR (Common Metadata Repository):**
+   - Retrieves GPM IMERG 30-minute precipitation granules (`GPM_3IMERGHHL`) to check rainfall history at the target coordinate.
+4. **12-Day Orbital Repeat Clock:** Computes the exact time remaining until the next satellite pass based on the last acquisition date and the standard 12-day orbital cadence.
+
+---
+
+## 7. Guided In-Situ Observation Capture
+
+Implemented in `components/capture/observation-form.tsx` and validated by `lib/validations/trace.ts`.
 
 ```mermaid
 flowchart TD
-    Start(["🎯 SAR Orbital Observation Target\n(Coordinate: φ, λ | Swath Window: t)"])
+    Start(["🎯 Select Mission Target"]) --> Choice{"Evaluate Field Evidence"}
     
-    Inspect["🚶 In-Situ Field Inspection\n(Field Observer at Ground Zero)"]
+    Choice -->|Confirms Radar| S["🟢 supports"]
+    Choice -->|Refutes Radar| C["🔴 contradicts"]
+    Choice -->|Ambiguous Signals| I["🟡 inconclusive"]
+    Choice -->|Target Inaccessible| N["🟣 not-observable"]
     
-    Q1{"Is Target Physically\nReachable & Safe?"}
-    
-    Hazard["⛔ Physical Obstacle / Safety Hazard\n(Impenetrable swamp, landslide, security boundary)"]
-    InspectCondition{"Are Ground Conditions\nClear & Quantifiable?"}
-    Ambiguous["🌫️ Mixed / Transitional Signals\n(Dense fog, shifting water table, partial visual obstruction)"]
-    
-    Q2{"Does Ground Reality\nValidate Satellite Radar Hypothesis?"}
-    
-    StateSupports["🟢 SUPPORTS\nGround reality confirms radar hypothesis\n(e.g., Confirmed standing surface floodwater)"]
-    StateContradicts["🔴 CONTRADICTS\nGround reality refutes radar hypothesis\n(e.g., Dry gravel hardpan, zero moisture)"]
-    StateInconclusive["🟡 INCONCLUSIVE\nIndeterminate condition, uncertainty high\n(e.g., Unresolved moisture saturation)"]
-    StateNotObservable["🟣 NOT OBSERVABLE\nTarget inaccessible or obscured\n(e.g., Road flooded, cliff barrier)"]
-
-    Start --> Inspect
-    Inspect --> Q1
-    
-    Q1 -->|No: Hazard / Inaccessible| Hazard --> StateNotObservable
-    Q1 -->|Yes: Reachable| InspectCondition
-    
-    InspectCondition -->|No: Mixed / Ambiguous| Ambiguous --> StateInconclusive
-    InspectCondition -->|Yes: Clear Sightline| Q2
-    
-    Q2 -->|CONFIRMED| StateSupports
-    Q2 -->|REFUTED| StateContradicts
-
-    classDef startNode fill:#1e1b4b,stroke:#6366f1,stroke-width:2px,color:#e0e7ff;
-    classDef testNode fill:#1e293b,stroke:#94a3b8,stroke-width:2px,color:#f8fafc;
-    classDef supportsNode fill:#064e3b,stroke:#10b981,stroke-width:3px,color:#ecfdf5;
-    classDef contradictsNode fill:#4c0519,stroke:#f43f5e,stroke-width:3px,color:#fff1f2;
-    classDef inconclusiveNode fill:#451a03,stroke:#f59e0b,stroke-width:3px,color:#fffbeb;
-    classDef notObsNode fill:#3b0764,stroke:#a855f7,stroke-width:3px,color:#faf5ff;
-
-    class Start startNode;
-    class Inspect,Q1,InspectCondition,Q2,Hazard,Ambiguous testNode;
-    class StateSupports supportsNode;
-    class StateContradicts contradictsNode;
-    class StateInconclusive inconclusiveNode;
-    class StateNotObservable notObsNode;
+    S & C & I & N --> Label["🏷️ Select Quick Label:\n(water | land | sand | crop)"]
+    Label --> Loc["📍 Tap-to-Locate\n(Logs GPS Lat, Lng, ±Δr meters)"]
+    Loc --> Photo["📸 Optional Photo\n(Client-side preview & resize)"]
+    Photo --> Review{"Review-Before-Commit Modal\n(Inspect all fields)"}
+    Review -->|Confirmed| Commit[("💾 Encrypted Database Insert\nvia PostgreSQL RLS")]
 ```
 
-#### Epistemic Truth State Decision Matrix
+### 7.1 The Epistemic Truth Decision Matrix
 
-| Epistemic State | Indicator Badge | Mathematical Definition | Radar Physics Correlation ($\sigma^0$) | Real-World Operational Field Case |
+| Epistemic State | Badge | Definition | Radar Scattering Correlation ($\sigma^0$) | Operational Field Example |
 | :--- | :---: | :--- | :--- | :--- |
-| **`supports`** | `🟢 SUPPORTS` | $\mathcal{P}(\text{Ground} \cap \text{Radar}) \to 1.0$ | Surface scattering mechanisms match spaceborne backscatter predictions. | Standing surface water verified within a radar-flagged flood perimeter. |
-| **`contradicts`** | `🔴 CONTRADICTS` | $\mathcal{P}(\text{Ground} \cap \text{Radar}) \to 0.0$ | Radar backscatter anomaly caused by extraneous dielectric or structural features. | Dry, compacted gravel hardpan causing a false-positive flood signature. |
-| **`inconclusive`** | `🟡 INCONCLUSIVE` | $\mathcal{H}(\text{Evidence}) > \tau_{\text{entropy}}$ | Signal-to-noise ratio in human visual validation is insufficient for certainty. | Transitional marshland with shifting, unquantifiable water depth under heavy canopy. |
-| **`not-observable`** | `🟣 NOT OBSERVABLE` | $\mathbf{x}_{\text{target}} \notin \text{AccessibleRegion}$ | Sightline or physical approach blocked by hazardous terrain or safety barrier. | Road washed out by landslide, preventing visual contact with target coordinates. |
+| **`supports`** | `🟢 SUPPORTS` | Ground reality confirms radar signature. | Surface scattering matches spaceborne prediction. | Standing water observed inside a radar-flagged flood boundary. |
+| **`contradicts`** | `🔴 CONTRADICTS` | Ground reality refutes radar signature. | Radar anomaly caused by surface roughness or geometry. | Dry gravel hardpan causing a false-positive moisture backscatter spike. |
+| **`inconclusive`**| `🟡 INCONCLUSIVE` | Condition is ambiguous or indeterminate. | Signal-to-noise ratio in visual validation is insufficient. | Transitional marshland with shifting, unquantifiable water depth. |
+| **`not-observable`**| `🟣 NOT OBSERVABLE`| Target is physically inaccessible. | Observer sightline blocked by physical barriers. | Access road washed out by landslide; target unreachable. |
 
-### 2.2 Objective Ground Truthing: Quick Labels
-To supplement the epistemic response with physical surface categories, TRACE implements a discrete terrain taxonomy:
+### 7.2 Quick Terrain Labels
+- **`water`:** Open standing or flowing water (specular reflection, dark radar pixel).
+- **`land`:** Compacted soil, bedrock, or pavement (diffuse surface scattering).
+- **`sand`:** Dry riverbed sandbars or dunes (volume scattering and dielectric penetration).
+- **`crop`:** Standing agricultural vegetation (canopy depolarized volume scattering).
 
-$$\mathcal{T} = \{\text{water}, \text{land}, \text{sand}, \text{crop}\}$$
-
-These categories correlate directly with the primary radar scattering mechanisms:
-- **`water`:** Specular reflection (low backscatter in calm water; high in double-bounce flooded vegetation).
-- **`land`:** Surface diffuse scattering.
-- **`sand`:** Volume scattering and dielectric penetration.
-- **`crop`:** Canopy volume scattering and temporal decorrelation.
-
-### 2.3 Elimination of Cognitive Observer Bias (Neutral Prompting)
-To prevent observers from intentionally seeking evidence that confirms satellite predictions, TRACE enforces **Neutral Observation Prompts**. Mission prompts describe *what physical feature to inspect* rather than *what result to validate*.
-- *Biased Prompt (Prohibited):* "Confirm that the lake overflowed and flooded the field."
-- *Neutral TRACE Prompt (Enforced):* "Observe the boundary between the drainage channel and the western field. Record surface water presence, soil firmness, and vegetation standing status."
-
-### 2.4 Tap-to-Locate Radial Uncertainty Metric ($\Delta r$)
-Continuous GPS polling drains battery life in remote field expeditions and violates observer privacy. TRACE employs an **On-Demand Spatial Accuracy Model**:
-
-$$\mathbf{x}_{\text{obs}} = (\phi, \lambda) \pm \Delta r \quad (\text{at timestamp } t_{\text{gps}})$$
-
-where horizontal uncertainty $\Delta r$ (68% confidence radius in meters) is permanently recorded alongside coordinates. If location permissions are denied, TRACE allows the observation to proceed with explicit null spatial values rather than generating fabricated coordinates.
+### 7.3 Human Factors: Review-Before-Commit
+To avoid corrupted data from accidental taps in rainy or muddy field conditions, TRACE requires a **two-step confirmation**. Tapping "Save Observation" opens a review modal displaying the selected response, quick label, notes, coordinates with accuracy radius, and photo preview before the request is dispatched to the API.
 
 ---
 
-## Section 3: Mathematical & Physical Formulations
+## 8. Records Ledger, Audit Trail & Verification State
 
-### 3.1 Backscatter Cross-Section & Inversion Ill-Posedness
-In radar polarimetry, the backscattering matrix $\mathbf{S}$ describes the transformation of transmitted electric fields $\mathbf{E}^t$ into received fields $\mathbf{E}^r$:
+Implemented in `components/records/record-list.tsx`.
 
-$$\begin{bmatrix} E_H^r \\ E_V^r \end{bmatrix} = \frac{e^{-jkr}}{r} \begin{bmatrix} S_{HH} & S_{HV} \\ S_{VH} & S_{VV} \end{bmatrix} \begin{bmatrix} E_H^t \\ E_V^t \end{bmatrix}$$
-
-The total radar cross-section per unit surface area ($\sigma^0$) is extracted from the covariance or coherency matrix:
-
-$$\sigma_{pq}^0 = \frac{4\pi}{A} \langle |S_{pq}|^2 \rangle$$
-
-Interferometric coherence $\gamma$ between two passes separated by baseline $B$ and time $\Delta t$ is defined as:
-
-$$\gamma = \frac{\langle s_1 s_2^* \rangle}{\sqrt{\langle |s_1|^2 \rangle \langle |s_2|^2 \rangle}} = \gamma_{\text{geom}} \cdot \gamma_{\text{thermal}} \cdot \gamma_{\text{temporal}}$$
-
-TRACE field observations directly calibrate the temporal decorrelation term ($\gamma_{\text{temporal}}$) by recording physical surface disturbances (such as plowing, harvesting, or vegetation loss) contemporaneous with orbital acquisition dates.
-
-### 3.2 WGS84 Spatial Coordinate Constraints
-Geographic coordinates for mission targets and field observations are bounded by the WGS 84 ellipsoidal coordinate constraints:
-
-$$\Phi = \{ \phi \in \mathbb{R} \mid -90.0 \le \phi \le +90.0 \}$$
-$$\Lambda = \{ \lambda \in \mathbb{R} \mid -180.0 \le \lambda \le +180.0 \}$$
-$$\Delta r \in \{ r \in \mathbb{R} \mid 0.0 \le r \le 1,000,000.0 \}$$
-
-Both latitude and longitude must either be simultaneously present and valid or simultaneously null:
-
-$$\forall (\phi, \lambda), \quad (\phi = \text{NULL} \land \lambda = \text{NULL}) \lor (\phi \in \Phi \land \lambda \in \Lambda)$$
-
-### 3.3 Relational Invariants & PostgreSQL Row Level Security (RLS) Algebra
-Let $\mathcal{U}$ be the set of authenticated Supabase user identifiers (UUIDs), $\mathcal{M}$ be the set of missions, and $\mathcal{O}$ be the set of ground observations.
-
-The system enforces relational invariants via PostgreSQL predicates:
-
-$$\text{Owner}(\mathcal{M}_i) = u \implies u \in \mathcal{U}$$
-$$\text{Owner}(\mathcal{O}_j) = u \implies u \in \mathcal{U} \quad \land \quad \mathcal{O}_j.\text{mission\_id} \in \mathcal{M}_u$$
-
-Under PostgreSQL Row Level Security (RLS), access permissions $\mathcal{P}(u, r)$ for any record $r$ evaluate as:
-
-$$\mathcal{P}_{\text{select}}(u, r) \iff r.\text{user\_id} = u$$
-$$\mathcal{P}_{\text{insert}}(u, r) \iff \text{auth.uid}() = r.\text{user\_id}$$
-$$\mathcal{P}_{\text{update}}(u, r) \iff \text{auth.uid}() = r.\text{user\_id}$$
-$$\mathcal{P}_{\text{delete}}(u, r) \iff \text{auth.uid}() = r.\text{user\_id}$$
-
-This ensures that cross-tenant read or mutation attempts evaluate to an empty set ($\emptyset$) or trigger a relational constraint violation at the database engine layer.
+- **Comprehensive Search:** Full-text search across observation notes powered by a PostgreSQL GIN index (`to_tsvector('simple', note)`).
+- **Response Filter Tabs:** Filter records by `all`, `supports`, `contradicts`, `inconclusive`, or `not-observable`.
+- **Signed Photo URL Generation:** Photos stored in private S3 storage are served via short-lived (60-second) signed URLs (`photoSignedUrl`). Photos are never exposed via public bucket URLs.
+- **Permanent Deletion Protection:** Deleting a record requires explicit user confirmation. When confirmed, the record is removed from `public.observations` and the corresponding photo binary is purged from object storage.
+- **Status Badge:** All records carry the fixed state `awaiting_review`, explicitly communicating that a field submission represents in-situ human evidence awaiting scientific peer review.
 
 ---
 
-## Section 4: System Architecture & Execution Topology
+## 9. "Feel the Radar" Sonification & Haptic Feedback
+
+Implemented in `components/radar/feel-radar-player.tsx`.
+
+To make Synthetic Aperture Radar accessible to non-visual observers, students, and field teams working in bright sunlight, TRACE features an interactive **Radar Sonification & Haptic Runtime**.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ 🔊 "FEEL THE RADAR" — Audio & Haptic Sonification           │
+├─────────────────────────────────────────────────────────────┤
+│ [Calm Water: -24 dB]   [Sand/Silt: -16 dB]                 │
+│ [Wetland/Crops: -10 dB][Dense Forest/Urban: -4 dB]          │
+│                                                             │
+│ Signal Strength: [-14 dB]  ━━━━━━━━●━━━━  Frequency: 412 Hz │
+│                                                             │
+│ [ ▶ Play Synthesizer ]        [ 📳 Haptic Vibration: Active] │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 9.1 Mathematical Sonification Mapping
+Using the browser's native **Web Audio API** (`AudioContext`, `OscillatorNode`, `GainNode`), TRACE maps radar backscatter values from $-25\text{ dB}$ (dark, smooth surfaces) to $0\text{ dB}$ (bright, rough surfaces) into audible frequencies:
+
+$$f(\sigma^0) = 140 + \left(\frac{\sigma^0 + 25}{25}\right)^{1.8} \times 750 \quad [\text{Hz}]$$
+
+| Radar Surface Preset | Calibrated Backscatter ($\sigma^0$) | Audio Frequency ($f$) | Physical Interaction | Haptic Pulse Cadence |
+| :--- | :---: | :---: | :--- | :--- |
+| **Calm Water** | $-24\text{ dB}$ | $\approx 150\text{ Hz}$ | Specular reflection away from antenna (dark pixel) | Slow, gentle rumble ($30\text{ ms}$) |
+| **Sand / Silt** | $-16\text{ dB}$ | $\approx 280\text{ Hz}$ | Low diffuse surface scattering (dim pixel) | Moderate intermittent pulses |
+| **Wetland / Crops** | $-10\text{ dB}$ | $\approx 510\text{ Hz}$ | Vegetative volume scattering (medium pixel) | Rapid rhythmic vibration |
+| **Dense Forest / Urban**| $-4\text{ dB}$ | $\approx 820\text{ Hz}$ | Corner double-bounce scattering (bright pixel) | Intense continuous vibration ($120\text{ ms}$) |
+
+### 9.2 Hardware Haptic Feedback
+On mobile devices supporting `navigator.vibrate`, TRACE generates physical tactile pulses corresponding to the selected radar intensity, allowing an observer to literally "feel" the roughness and dielectric transition of the terrain beneath their feet.
+
+---
+
+## 10. Bilingual SAR Field Guide & Voice Synthesis
+
+Implemented in `components/radar/modern-bangla-player.tsx` with audio assets in `/public/audio/`.
+
+TRACE includes a five-chapter pedagogical guide delivered in both **Bengali (বাংলা)** and **English**, designed to train field observers and citizen scientists on radar remote sensing principles.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ 🎧 BILINGUAL SAR FIELD GUIDE                                │
+│ Language: [ বাংলা / English ] · Speed: [ 1.0x ]             │
+├─────────────────────────────────────────────────────────────┤
+│ Chapter 1: Active Microwave Remote Sensing                  │
+│ "ট্রেস ফিল্ড গাইডে স্বাগতম। নাসা নিসার এবং সেন্টিনেল রাডার      │
+│  মহাকাশ থেকে দিন-রাত ভূপৃষ্ঠের পরিবর্তন পর্যবেক্ষণ করে।"       │
+│                                                             │
+│ Chapter 2: Specular Reflection (Dark Pixels)                │
+│ "সমতল বা শান্ত পানি রাডার তরঙ্গকে আয়নার মতো প্রতিফলিত করে...  │
+│                                                             │
+│ [ ◀ Previous ]         [ ▶ Play / Pause ]         [ Next ▶ ] │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### The 5 Training Modules & Audio Assets:
+1. **Module 1 — Active Microwave Remote Sensing:**
+   - *Audio Files:* `/public/audio/bangla/step-1.mp3` & `/public/audio/english/step-1.mp3`
+   - *Concept:* How active microwaves penetrate cloud decks and night darkness.
+2. **Module 2 — Specular Reflection (Dark Pixels):**
+   - *Audio Files:* `/public/audio/bangla/step-2.mp3` & `/public/audio/english/step-2.mp3`
+   - *Concept:* Why calm water acts as a mirror, reflecting radar pulses away from the satellite antenna.
+3. **Module 3 — Dielectric Constant & Low Backscatter:**
+   - *Audio Files:* `/public/audio/bangla/step-3.mp3` & `/public/audio/english/step-3.mp3`
+   - *Concept:* Water's high dielectric constant ($\approx 80$) versus dry soil ($\approx 4$).
+4. **Module 4 — Roughness & Volume Scattering:**
+   - *Audio Files:* `/public/audio/bangla/step-4.mp3` & `/public/audio/english/step-4.mp3`
+   - *Concept:* Why forest canopies, crops, and buildings scatter energy back to the antenna and appear bright.
+5. **Module 5 — In-Situ Ground Truthing:**
+   - *Audio Files:* `/public/audio/bangla/step-5.mp3` & `/public/audio/english/step-5.mp3`
+   - *Concept:* Why human ground observations and photos are essential to confirm satellite findings.
+
+---
+
+## 11. Data Sovereignty, Backup & Transactional Restore
+
+Implemented in `components/privacy/data-privacy-panel.tsx` and backed by `server/src/modules/backup/services/backup.ts`.
+
+TRACE treats observer data with strict data sovereignty:
+1. **Versioned JSON Export:** At any time, an observer can download a complete `.json` archive containing their entire account history—all missions, prompts, observations, coordinates, accuracy radii, and photo path references.
+2. **Atomic Transactional Restore (`restore_trace_records`):** When importing an archive, a PostgreSQL stored procedure executes within the caller's RLS security context. It validates geographic bounds, remaps foreign keys, and transactionally commits all records. If an error occurs, the entire operation rolls back, guaranteeing zero partial or corrupted state.
+3. **No Lock-In:** Exported files can be inspected in any standard text editor or imported into GIS software like QGIS or ArcGIS.
+
+---
+
+## 12. Scientific Method & Radar Physics
+
+### 12.1 The Electromagnetic Wave Equation & Radar Returns
+Synthetic Aperture Radar transmits electromagnetic waves governed by Maxwell's equations:
+
+$$\nabla^2 \mathbf{E} - \mu \epsilon \frac{\partial^2 \mathbf{E}}{\partial t^2} - \mu \sigma \frac{\partial \mathbf{E}}{\partial t} = 0$$
+
+When the transmitted wavefront strikes the terrestrial boundary, the reflection coefficient $\Gamma$ for horizontal ($H$) and vertical ($V$) polarizations at incidence angle $\theta_i$ follows the Fresnel equations:
+
+$$\Gamma_H = \frac{\cos\theta_i - \sqrt{\epsilon_r - \sin^2\theta_i}}{\cos\theta_i + \sqrt{\epsilon_r - \sin^2\theta_i}}, \quad \Gamma_V = \frac{\epsilon_r \cos\theta_i - \sqrt{\epsilon_r - \sin^2\theta_i}}{\epsilon_r \cos\theta_i + \sqrt{\epsilon_r - \sin^2\theta_i}}$$
+
+### 12.2 Polarimetric Scattering Mechanics in TRACE
+TRACE's data schema and backend services incorporate the three fundamental radar polarization configurations:
+- **VV (Vertical transmit, Vertical receive):** Highly sensitive to surface roughness and small-scale capillary waves on water. Optimal for delineating flood perimeters and soil moisture variation.
+- **VH (Vertical transmit, Horizontal receive):** Depolarized cross-polarization resulting from multiple volume reflections within dense crop canopies and forest foliage.
+- **HH (Horizontal transmit, Horizontal receive):** Maximizes double-bounce corner reflection between standing water surfaces and vertical tree trunks or building walls.
+
+---
+
+## 13. Data Sources, Provenance & Checksums
+
+TRACE integrates exclusively with authoritative, open scientific data repositories:
+
+| Data Source | Provider | Role in TRACE | Access Protocol / Endpoint |
+| :--- | :--- | :--- | :--- |
+| **Sentinel-1 C-SAR** | ESA / Copernicus / ASF DAAC | Real-time orbital SAR granule discovery & metadata | `https://api.daac.asf.alaska.edu/services/search/param` |
+| **GPM IMERG** | NASA ESDIS / CMR | Half-hourly precipitation history at target coordinates | `https://cmr.earthdata.nasa.gov/search/granules.json` |
+| **NASA GIBS** | NASA EOSDIS | True-color satellite context imagery (BlueMarble & MODIS) | `https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi` |
+| **NASA Worldview** | NASA EOSDIS | Interactive satellite imagery exploration deep links | `https://worldview.earthdata.nasa.gov` |
+| **ESRI ArcGIS Canvas**| Esri | Dark Gray Tactical base map tiles and reference labels | `https://server.arcgisonline.com/ArcGIS/rest/services/` |
+| **Bangladesh Boundary**| TRACE Repository | Official national boundary vector polygon | Local asset: `public/data/bangladesh-boundary.json` |
+
+---
+
+## 14. System Architecture & Zero-Trust Engineering
 
 ```mermaid
 flowchart TD
@@ -324,345 +547,53 @@ flowchart TD
     class Backend backend;
 ```
 
-### 4.1 Architectural Component Overview
-1. **Frontend Presentation Engine (Next.js 15 App Router):**
-   - Implements React 19 concurrent features and server-side rendering for session discovery.
-   - TanStack Query v5 manages asynchronous mutations, optimistic UI transitions, and invalidation cycles.
-   - PWA Service Worker caches core static application shells (`/manifest.webmanifest`, CSS, JS bundles, and static SVG icons).
-2. **REST API Gateway (Express 5):**
-   - Decoupled from the frontend runtime, listening on port 8000 under the `/api/v1` namespace.
-   - Enforces rate limiting (120 req/min per process), CORS allow-listing, Helmet HTTP security headers, and JSON request size caps (10 MB).
-   - Sanitizes and audits request bodies using strict Zod schemas.
-3. **Database & Storage Core (Supabase PostgreSQL 15 & Object Storage):**
-   - Authoritative relational store with Row Level Security (RLS) enabled on all tables.
-   - Revokes table access from unauthenticated (`anon`) roles.
-   - Enforces private storage access where photos are stored under paths prefixed with the owner's UUID.
+### The Zero-Trust Security Paradigm
+Unlike typical full-stack architectures where the backend server uses a privileged `service-role` key that bypasses database security, **TRACE completely eliminates the `service-role` key**. 
+- The Express API server verifies the client's Bearer token using Supabase Auth.
+- It instantiates a scoped Supabase client carrying solely that user's identity.
+- All SQL operations execute under PostgreSQL Row Level Security (RLS). The database engine itself rejects any query attempting to read or mutate another user's records.
 
-### 4.2 End-to-End Execution Sequence Diagram
+---
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Observer as Field Observer (PWA Client)
-    participant NextJS as Next.js 15 App Router
-    participant Express as Express 5 Gateway (/api/v1)
-    participant SupaAuth as Supabase Auth Engine
-    participant Postgres as PostgreSQL 15 (RLS Enforced)
-    participant Storage as Supabase S3 Object Bucket
+## 15. Complete REST API v1 Reference
 
-    Note over Observer,NextJS: Authentication & SSR Session Check
-    Observer->>NextJS: Access https://nana-space-apps-2026-trace.onrender.com/
-    NextJS->>SupaAuth: Validate SSR Cookies (@supabase/ssr)
-    SupaAuth-->>NextJS: Identity Confirmed (User UUID, Session Valid)
-
-    Note over Observer,Express: Guided In-Situ Observation Capture
-    Observer->>NextJS: Submit Observation (supports, photo, GPS accuracy)
-    NextJS->>Express: POST /api/v1/observations (Multipart: payload + photo)
-    Express->>SupaAuth: Verify Bearer Access Token
-    SupaAuth-->>Express: Claims Validated (sub = user_id)
-    
-    Express->>Storage: Stream Photo -> /trace-photos/{user_id}/{filename}
-    Storage-->>Express: Photo Stored Successfully
-
-    Express->>Postgres: INSERT INTO observations (With User Context)
-    Note over Postgres: RLS Check: auth.uid() == user_id AND mission owned
-    Postgres-->>Express: Commit Success (201 Created)
-    Express-->>NextJS: Return Created Observation JSON
-    NextJS-->>Observer: Render Confirmation & Invalidate TanStack Query Cache
+All endpoints (except `/health` and `/nasa/status`) require:
+```http
+Authorization: Bearer <Supabase_Access_Token>
 ```
 
-### 4.3 Zero-Trust Security Paradigm (No Service-Role Key)
-A foundational security principle of TRACE is the **complete absence of administrative bypass keys**. The Express API server does not hold a Supabase `service-role` key. Every request forwarded to PostgreSQL or Storage carries the requesting user's validated JWT. Access control is enforced directly by the database engine via RLS, preventing data contamination or cross-tenant exposure even in the event of an API middleware flaw.
+### 15.1 Health & NASA Telemetry
+- **`GET /api/v1/health`** — Returns `{ "status": "ok", "service": "trace-api", "timestamp": "..." }`.
+- **`GET /api/v1/nasa/status`** — Checks live connectivity to NASA CMR, ASF DAAC, GIBS WMTS, and FIRMS.
+- **`GET /api/v1/nasa/granules?lat=24.89&lng=91.87`** — Queries NASA CMR for GPM IMERG rainfall granules.
+- **`GET /api/v1/nasa/sar-scenes?lat=24.89&lng=91.87`** — Queries ASF DAAC for Sentinel-1 scenes and generates GIBS WMS layers.
 
-### 4.4 Offline PWA Shell & Privacy Boundary
-When an observer enters a disconnected field environment, the Service Worker delivers the cached application shell. Crucially, TRACE avoids caching unencrypted user observations in shared browser storage while offline. When disconnected, TRACE presents a secure offline indicator, ensuring that sensitive field data is neither exposed to shared terminal caches nor falsely marked as synced.
+### 15.2 Missions
+- **`GET /api/v1/missions`** — Lists active and archived missions with calculated observation counts.
+- **`POST /api/v1/missions`** — Creates a new mission (enforces title $\le 72$ chars, prompt $\le 500$ chars).
+- **`PATCH /api/v1/missions/:id`** — Updates mission fields or toggles `archived: true/false`.
 
----
+### 15.3 Observations
+- **`GET /api/v1/observations`** — Paginated query supporting search (`q`), filter (`response`), and `limit`/`offset`.
+- **`GET /api/v1/observations/:id`** — Retrieves single observation with 60-second signed photo URL.
+- **`POST /api/v1/observations`** — Multipart form submission (JSON `payload` + optional image file $\le 8\text{ MB}$).
+- **`DELETE /api/v1/observations/:id`** — Permanently deletes observation and associated photo from storage.
 
-## Section 5: Complete REST API v1 Specification
-
-### 5.1 Protocol Standards, Headers, and Error Model
-- **Base Production URL:** `https://nana-space-apps-2026-trace.onrender.com/api/v1`
-- **Base Local URL:** `http://localhost:8000/api/v1`
-- **Authentication Header:** All endpoints (except `/health`) require:
-  ```http
-  Authorization: Bearer <Supabase_Access_Token>
-  ```
-- **Rate Limit:** 120 requests per minute per IP. Exceeding triggers `429 Too Many Requests`.
-- **Standardized Error Envelope:**
-  ```json
-  {
-    "error": {
-      "code": "VALIDATION_ERROR",
-      "message": "Observation input failed validation constraints.",
-      "details": [
-        {
-          "field": "answer",
-          "message": "Invalid response value."
-        }
-      ]
-    }
-  }
-  ```
+### 15.4 Backup & Restore
+- **`GET /api/v1/backup/export`** — Generates complete versioned JSON archive.
+- **`POST /api/v1/backup/restore`** — Executes atomic transactional restore via PostgreSQL stored procedure.
 
 ---
 
-### 5.2 System Health Endpoint
+## 16. Database Schema, DDL & Security Policies
 
-#### `GET /health`
-Returns process operational status, server timestamp, and environment uptime. Intentionally excludes external database telemetry to prevent unauthenticated reconnaissance.
-- **Request:**
-  ```http
-  GET /api/v1/health HTTP/1.1
-  Host: localhost:8000
-  ```
-- **Response (200 OK):**
-  ```json
-  {
-    "status": "ok",
-    "timestamp": "2026-11-08T22:45:00.000Z"
-  }
-  ```
-
----
-
-### 5.3 Mission Management Endpoints
-
-#### `GET /missions`
-Retrieves all missions owned by the authenticated observer, including calculated observation counts.
-- **Headers:** `Authorization: Bearer <token>`
-- **Response (200 OK):**
-  ```json
-  {
-    "data": [
-      {
-        "id": "7b13a35e-c027-4c4b-b27b-58679d924d52",
-        "title": "Wetland Inundation Sector Alpha",
-        "prompt": "Inspect standing water presence and emergent reed bed saturation along northern transect.",
-        "place": "Sundarbans Northern Sector",
-        "visitDate": "2026-11-15",
-        "target": {
-          "lat": 22.3456,
-          "lng": 89.6543
-        },
-        "archivedAt": null,
-        "createdAt": "2026-11-08T10:00:00.000Z",
-        "updatedAt": "2026-11-08T10:00:00.000Z",
-        "observationCount": 4
-      }
-    ]
-  }
-  ```
-
-#### `POST /missions`
-Creates a new SAR ground-truthing mission. Enforces input bounds via Zod schema (`title` $\le 72$ chars, `prompt` $\le 500$ chars, `place` $\le 100$ chars, spatial coordinates bounded).
-- **Request:**
-  ```http
-  POST /api/v1/missions HTTP/1.1
-  Content-Type: application/json
-  Authorization: Bearer <token>
-
-  {
-    "title": "Tectonic Fault Displacement Point 4",
-    "prompt": "Document ground fissures or surface displacement along the fault scarp.",
-    "place": "Plate Boundary Transect",
-    "visitDate": "2026-12-01",
-    "target": {
-      "lat": 34.0522,
-      "lng": -118.2437
-    }
-  }
-  ```
-- **Response (201 Created):**
-  ```json
-  {
-    "data": {
-      "id": "e4f88419-74d1-4475-8ce6-a791a82da22f",
-      "title": "Tectonic Fault Displacement Point 4",
-      "prompt": "Document ground fissures or surface displacement along the fault scarp.",
-      "place": "Plate Boundary Transect",
-      "visitDate": "2026-12-01",
-      "target": {
-        "lat": 34.0522,
-        "lng": -118.2437
-      },
-      "archivedAt": null,
-      "createdAt": "2026-11-08T22:45:00.000Z",
-      "updatedAt": "2026-11-08T22:45:00.000Z"
-    }
-  }
-  ```
-
-#### `PATCH /missions/:id`
-Updates mission properties or toggles archive state (`archived: true` sets `archived_at = now()`; `archived: false` reopens it).
-- **Request:**
-  ```http
-  PATCH /api/v1/missions/e4f88419-74d1-4475-8ce6-a791a82da22f HTTP/1.1
-  Content-Type: application/json
-  Authorization: Bearer <token>
-
-  {
-    "archived": true
-  }
-  ```
-- **Response (200 OK):**
-  ```json
-  {
-    "data": {
-      "id": "e4f88419-74d1-4475-8ce6-a791a82da22f",
-      "archivedAt": "2026-11-08T22:50:00.000Z",
-      "updatedAt": "2026-11-08T22:50:00.000Z"
-    }
-  }
-  ```
-
----
-
-### 5.4 Ground Observation Endpoints
-
-#### `GET /observations`
-Queries saved observations with full pagination and multi-parameter filtering.
-- **Parameters:**
-  - `q` (string, max 100): Full-text search across observation notes.
-  - `response` (enum): Filter by `supports`, `contradicts`, `inconclusive`, or `not-observable`.
-  - `missionId` (UUID): Filter by specific mission.
-  - `limit` (int, default 50, max 100): Pagination limit.
-  - `offset` (int, default 0, max 100,000): Pagination offset.
-- **Response (200 OK):**
-  ```json
-  {
-    "data": {
-      "items": [
-        {
-          "id": "1fa8f812-78d1-4886-88cf-94f79435b892",
-          "missionId": "7b13a35e-c027-4c4b-b27b-58679d924d52",
-          "missionTitle": "Wetland Inundation Sector Alpha",
-          "answer": "supports",
-          "note": "Standing water observed across 80% of terrain. Reeds submerged up to 40cm.",
-          "capturedAt": "2026-11-08T22:30:00.000Z",
-          "location": {
-            "lat": 22.3458,
-            "lng": 89.6541,
-            "accuracy": 4.2
-          },
-          "hasPhoto": true,
-          "verificationState": "awaiting_review"
-        }
-      ],
-      "total": 1,
-      "limit": 50,
-      "offset": 0
-    }
-  }
-  ```
-
-#### `GET /observations/:id`
-Retrieves detailed record metadata for a single observation, including a short-lived (60-second) signed URL for private photo inspection.
-- **Response (200 OK):**
-  ```json
-  {
-    "data": {
-      "id": "1fa8f812-78d1-4886-88cf-94f79435b892",
-      "missionId": "7b13a35e-c027-4c4b-b27b-58679d924d52",
-      "answer": "supports",
-      "note": "Standing water observed across 80% of terrain.",
-      "capturedAt": "2026-11-08T22:30:00.000Z",
-      "location": {
-        "lat": 22.3458,
-        "lng": 89.6541,
-        "accuracy": 4.2
-      },
-      "photoSignedUrl": "https://your-project.supabase.co/storage/v1/object/sign/trace-photos/...",
-      "verificationState": "awaiting_review"
-    }
-  }
-  ```
-
-#### `POST /observations`
-Records an in-situ ground observation. Accepts a multipart/form-data payload containing a JSON `payload` string and an optional `photo` binary (max 8 MB; JPEG, PNG, WebP).
-- **Multipart Form Fields:**
-  - `payload`: Serialized JSON matching `observationCreateSchema`.
-  - `photo`: Optional image binary.
-- **Payload Schema Example:**
-  ```json
-  {
-    "missionId": "7b13a35e-c027-4c4b-b27b-58679d924d52",
-    "answer": "contradicts",
-    "quickLabel": "land",
-    "note": "Radar backscatter indicated standing water, but surface is dry hardpan clay.",
-    "capturedAt": "2026-11-08T22:40:00.000Z",
-    "location": {
-      "lat": 22.3457,
-      "lng": 89.6542,
-      "accuracy": 3.8,
-      "capturedAt": "2026-11-08T22:40:00.000Z"
-    }
-  }
-  ```
-- **Response (201 Created):**
-  ```json
-  {
-    "data": {
-      "id": "d981881a-653e-4b68-b715-992bcda03261",
-      "missionId": "7b13a35e-c027-4c4b-b27b-58679d924d52",
-      "answer": "contradicts",
-      "verificationState": "awaiting_review",
-      "createdAt": "2026-11-08T22:40:02.000Z"
-    }
-  }
-  ```
-
-#### `DELETE /observations/:id`
-Permanently deletes an observation and purges its associated image from private object storage.
-- **Response (200 OK):**
-  ```json
-  {
-    "data": {
-      "deleted": true,
-      "id": "d981881a-653e-4b68-b715-992bcda03261"
-    }
-  }
-  ```
-
----
-
-### 5.5 Portable Backup & Transactional Restore
-
-#### `GET /backup/export`
-Generates a complete, versioned JSON backup containing all missions, observations, and photo references belonging to the authenticated observer.
-- **Response (200 OK):**
-  ```json
-  {
-    "version": 1,
-    "exportedAt": "2026-11-08T22:45:00.000Z",
-    "missions": [ ... ],
-    "observations": [ ... ]
-  }
-  ```
-
-#### `POST /backup/restore`
-Restores data from a user-supplied JSON backup. The API verifies the schema, stages any included photos, and executes the `restore_trace_records` PostgreSQL stored procedure within an atomic transaction. If database insertion encounters an error, staged photos are automatically rolled back.
-- **Response (200 OK):**
-  ```json
-  {
-    "data": {
-      "restoredMissions": 3,
-      "restoredObservations": 12
-    }
-  }
-  ```
-
----
-
-## Section 6: Formal Database Schema, DDL & Security Policies
-
-### 6.1 Database Entity-Relationship Diagram (ERD)
+### 16.1 Entity-Relationship Diagram (ERD)
 
 ```mermaid
 erDiagram
-    AUTH_USERS ||--o{ MISSIONS : "owns (1:N)"
-    AUTH_USERS ||--o{ OBSERVATIONS : "owns (1:N)"
-    MISSIONS ||--o{ OBSERVATIONS : "aggregates (1:N, ON DELETE RESTRICT)"
+    AUTH_USERS ||--o{ MISSIONS : "creates and owns (1:N)"
+    AUTH_USERS ||--o{ OBSERVATIONS : "records and owns (1:N)"
+    MISSIONS ||--o{ OBSERVATIONS : "binds historical records (1:N, ON DELETE RESTRICT)"
 
     MISSIONS {
         uuid id PK "default gen_random_uuid()"
@@ -694,10 +625,7 @@ erDiagram
     }
 ```
 
----
-
-### 6.2 Table DDL: `public.missions`
-Source: `supabase/migrations/202610300001_trace_core.sql`
+### 16.2 PostgreSQL DDL (`supabase/migrations/202610300001_trace_core.sql`)
 
 ```sql
 CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
@@ -714,6 +642,7 @@ BEGIN
 END;
 $$;
 
+-- Table: public.missions
 CREATE TABLE IF NOT EXISTS public.missions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -737,13 +666,8 @@ CREATE INDEX IF NOT EXISTS missions_user_title_idx ON public.missions (user_id, 
 CREATE TRIGGER missions_set_updated_at 
 BEFORE UPDATE ON public.missions
 FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
-```
 
----
-
-### 6.3 Table DDL: `public.observations`
-
-```sql
+-- Table: public.observations
 CREATE TABLE IF NOT EXISTS public.observations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -768,20 +692,14 @@ CREATE INDEX IF NOT EXISTS observations_user_captured_idx ON public.observations
 CREATE INDEX IF NOT EXISTS observations_user_mission_idx ON public.observations (user_id, mission_id);
 CREATE INDEX IF NOT EXISTS observations_user_answer_idx ON public.observations (user_id, answer, captured_at DESC);
 CREATE INDEX IF NOT EXISTS observations_note_search_idx ON public.observations USING gin (to_tsvector('simple', note));
-```
 
----
-
-### 6.4 Complete Row Level Security (RLS) Policies
-
-```sql
--- Enable RLS and revoke public anonymous access
+-- Row Level Security (RLS) Activation
 ALTER TABLE public.missions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.observations ENABLE ROW LEVEL SECURITY;
 REVOKE ALL ON public.missions, public.observations FROM anon;
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.missions, public.observations TO authenticated;
 
--- Policies for public.missions
+-- RLS Policies
 CREATE POLICY "Users read their own missions" ON public.missions
   FOR SELECT TO authenticated 
   USING ((SELECT auth.uid()) IS NOT NULL AND user_id = (SELECT auth.uid()));
@@ -799,7 +717,6 @@ CREATE POLICY "Users delete their own missions without observations" ON public.m
   FOR DELETE TO authenticated 
   USING ((SELECT auth.uid()) IS NOT NULL AND user_id = (SELECT auth.uid()));
 
--- Policies for public.observations
 CREATE POLICY "Users read their own observations" ON public.observations
   FOR SELECT TO authenticated 
   USING ((SELECT auth.uid()) IS NOT NULL AND user_id = (SELECT auth.uid()));
@@ -826,300 +743,93 @@ CREATE POLICY "Users delete their own observations" ON public.observations
 
 ---
 
-### 6.5 Private Object Storage Specification (`trace-photos`)
+## 17. Requirements Traceability Matrix (RTM)
 
-```sql
--- Provision private bucket with 8 MB limit and strict MIME whitelist
-INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-VALUES (
-  'trace-photos', 
-  'trace-photos', 
-  false, 
-  8388608, 
-  ARRAY['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/heic', 'image/heif']
-)
-ON CONFLICT (id) DO UPDATE 
-SET public = false, 
-    file_size_limit = 8388608, 
-    allowed_mime_types = excluded.allowed_mime_types;
-
--- Storage RLS: enforce path prefix matching auth.uid()
-CREATE POLICY "Users read their own TRACE photos" ON storage.objects
-  FOR SELECT TO authenticated 
-  USING (bucket_id = 'trace-photos' AND (storage.foldername(name))[1] = (SELECT auth.uid()::text));
-
-CREATE POLICY "Users upload their own TRACE photos" ON storage.objects
-  FOR INSERT TO authenticated 
-  WITH CHECK (bucket_id = 'trace-photos' AND (storage.foldername(name))[1] = (SELECT auth.uid()::text));
-
-CREATE POLICY "Users delete their own TRACE photos" ON storage.objects
-  FOR DELETE TO authenticated 
-  USING (bucket_id = 'trace-photos' AND (storage.foldername(name))[1] = (SELECT auth.uid()::text));
-```
+| ID | Requirement Specification | Frontend Architecture | API & Database Layer | Verification Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **REQ-01** | Installable PWA shell with offline protection | `app/manifest.ts`, `service-worker.js`, `public/offline.html` | Next.js static asset compiler | **Verified in source.** PWA installs natively; offline page hides private data. |
+| **REQ-02** | Mission lifecycle (create, edit, archive, reopen) | `mission-inbox.tsx`, `queries.ts` | `POST/PATCH/GET /api/v1/missions` | **Verified.** Tested with Zod schemas; database RLS enforced. |
+| **REQ-03** | Bangladesh Radar Map & proximity engine | `bangladesh-radar-map.tsx`, Leaflet, ESRI tiles | Haversine formula calculation in client | **Verified.** Border GeoJSON rendered; 5 domain classifications. |
+| **REQ-04** | Live NASA/ESA satellite scene integration | `satellite-radar-modal.tsx` | `/api/v1/nasa/sar-scenes`, ASF DAAC, CMR | **Verified.** Connects to ASF DAAC for real Sentinel-1 scenes. |
+| **REQ-05** | 4-State Truth Logic & Quick Labels | `observation-form.tsx` | `POST /api/v1/observations`, Zod schema | **Verified.** Strict 4-value enum; quickLabels `water/land/sand/crop`. |
+| **REQ-06** | On-demand GPS with radial accuracy ($\Delta r$) | `observation-form.tsx` (Geolocation API) | `latitude`, `longitude`, `accuracy` checks | **Verified.** Accuracy radius logged; no background battery drain. |
+| **REQ-07** | Records Ledger, signed URLs, confirmation delete | `record-list.tsx` | `GET/DELETE /api/v1/observations`, GIN index | **Verified.** Photos served via short-lived signed URLs. |
+| **REQ-08** | "Feel the Radar" audio/haptic sonification | `feel-radar-player.tsx` | Web Audio API + `navigator.vibrate` | **Verified.** Synthesizer maps $-25\text{ dB}$ to $0\text{ dB}$. |
+| **REQ-09** | Bilingual audio guide (Bengali & English) | `modern-bangla-player.tsx` | `/public/audio/bangla/`, `/public/audio/english/` | **Verified.** 5 pedagogical audio modules with synchronized text. |
+| **REQ-10** | Zero-trust RLS data isolation | `auth-panel.tsx`, `@supabase/ssr` | Express bearer token delegation; no service key | **Verified.** API uses requesting user's JWT exclusively. |
+| **REQ-11** | Atomic backup export and transactional restore | `data-privacy-panel.tsx` | `/backup/export`, `/backup/restore`, SQL RPC | **Verified.** `restore_trace_records` executes atomic rollback. |
 
 ---
 
-### 6.6 Atomic Database Stored Procedure: `restore_trace_records`
+## 18. Testing, Verification & Quality Assurance
 
-```sql
-CREATE OR REPLACE FUNCTION public.restore_trace_records(
-  p_missions JSONB, 
-  p_observations JSONB
-)
-RETURNS JSONB
-LANGUAGE plpgsql
-SECURITY INVOKER
-SET search_path = ''
-AS $$
-DECLARE
-  mission_count INTEGER := 0;
-  observation_count INTEGER := 0;
-  item JSONB;
-  location JSONB;
-  target JSONB;
-BEGIN
-  IF (SELECT auth.uid()) IS NULL THEN 
-    RAISE EXCEPTION 'Authentication required'; 
-  END IF;
-
-  -- 1. Insert missions within caller's RLS boundary
-  FOR item IN SELECT value FROM jsonb_array_elements(p_missions) LOOP
-    target := item -> 'target';
-    INSERT INTO public.missions (
-      id, user_id, title, prompt, place, visit_date, target_lat, target_lng, archived_at, created_at, updated_at
-    )
-    VALUES (
-      (item ->> 'id')::uuid, 
-      (SELECT auth.uid()), 
-      item ->> 'title', 
-      item ->> 'prompt', 
-      nullif(item ->> 'place', ''),
-      nullif(item ->> 'visitDate', '')::date, 
-      nullif(target ->> 'lat', '')::double precision, 
-      nullif(target ->> 'lng', '')::double precision,
-      nullif(item ->> 'archivedAt', '')::timestamptz, 
-      (item ->> 'createdAt')::timestamptz, 
-      (item ->> 'updatedAt')::timestamptz
-    );
-    mission_count := mission_count + 1;
-  END LOOP;
-
-  -- 2. Insert observations linked to restored missions
-  FOR item IN SELECT value FROM jsonb_array_elements(p_observations) LOOP
-    location := item -> 'location';
-    INSERT INTO public.observations (
-      id, user_id, mission_id, answer, note, captured_at, latitude, longitude, accuracy, photo_path, verification_state, created_at
-    )
-    VALUES (
-      (item ->> 'id')::uuid, 
-      (SELECT auth.uid()), 
-      (item ->> 'missionId')::uuid, 
-      item ->> 'answer', 
-      coalesce(item ->> 'note', ''),
-      (item ->> 'capturedAt')::timestamptz, 
-      nullif(location ->> 'lat', '')::double precision, 
-      nullif(location ->> 'lng', '')::double precision,
-      nullif(location ->> 'accuracy', '')::double precision, 
-      nullif(item ->> 'photoPath', ''), 
-      'awaiting_review', 
-      (item ->> 'createdAt')::timestamptz
-    );
-    observation_count := observation_count + 1;
-  END LOOP;
-
-  RETURN jsonb_build_object('missions', mission_count, 'observations', observation_count);
-END;
-$$;
-
-REVOKE ALL ON FUNCTION public.restore_trace_records(jsonb, jsonb) FROM public, anon;
-GRANT EXECUTE ON FUNCTION public.restore_trace_records(jsonb, jsonb) TO authenticated;
-```
-
----
-
-## Section 7: Requirements Traceability Matrix (RTM)
-
-This matrix maps engineering requirements to implementation files, architectural layers, and verification boundaries:
-
-| Requirement Description | Frontend Implementation | API & Data Layer | Verification Boundary & Status |
-| :--- | :--- | :--- | :--- |
-| **REQ-01: Installable PWA Identity** | `app/layout.tsx`, `app/manifest.ts`, `components/layout/dashboard.tsx`, `public/service-worker.js`, `public/icons/` | Next.js static asset compiler | **Implemented.** Verified offline shell delivery and manifest parsing. Contains no private records when offline. |
-| **REQ-02: Mission Lifecycle** (Create, edit, archive, reopen with neutral prompt, dates, coordinates) | `components/missions/mission-inbox.tsx`, `features/missions/queries.ts`, `lib/validations/trace.ts` | `POST/PATCH/GET /api/v1/missions`, `public.missions` table, RLS migration | **Implemented.** Tested against Zod schemas; live Supabase RLS isolation active. |
-| **REQ-03: Authentic Counts** (Real observation totals per mission) | `MissionInbox` component | Supabase relation count via `listMissions` query | **Implemented.** Real relation count; prevents fictional visits or placeholder counts. |
-| **REQ-04: Epistemic Observation Capture** (`supports`, `contradicts`, `inconclusive`, `not-observable`, photo, GPS) | `components/capture/observation-form.tsx` | `POST /api/v1/observations`, Zod schema, private S3 storage upload | **Implemented.** Verified on-demand geolocation radius; review-before-commit modal protects state. |
-| **REQ-05: Record Ledger & Search** (Filter by answer, query notes, paginate, confirm deletion) | `components/records/record-list.tsx` | `GET/DELETE /api/v1/observations`, GIN full-text index on notes, signed photo URLs | **Implemented.** Verified pagination; permanent deletion requires user confirmation and purges storage photos. |
-| **REQ-06: Portable Backup & Restore** (Remapped IDs, JSON validation, transactional insert) | `components/backup/backup-controls.tsx` | `/backup/export`, `/backup/restore`, `restore_trace_records` stored procedure | **Implemented.** Atomic transaction ensures zero partial commits on malformed payloads. |
-| **REQ-07: Zero-Trust Isolation** (Supabase Auth, Row Level Security) | `components/auth/auth-panel.tsx`, `lib/supabase/*`, `proxy.ts` | Express bearer token validation, PostgreSQL RLS on tables and storage | **Implemented.** API operates solely with user credentials; no service-role key is present. |
-| **REQ-08: Security & Rate Limiting** | Form input boundary checks | Helmet headers, rate limiting (120 req/min), centralized error sanitization | **Implemented.** Passes automated server security and boundary tests (`npm run test:server`). |
-| **REQ-09: Accessibility & Human Factors** | Semantic HTML5, WCAG AA contrast, reduced motion | TRACE CSS design tokens | **Implemented.** Full keyboard focus traversal, screen reader labels, accessible color palettes. |
-
----
-
-## Section 8: Feature-by-Feature Operational Specifications
-
-### 8.1 App Shell, Service Worker, and Resilient Navigation
-- **Objective:** Provide a fast, mobile-first interface capable of launching in remote field conditions.
-- **Implementation:** Custom Service Worker intercepts navigation and static asset requests. An install affordance triggers natively on supported mobile and desktop browsers. If network access drops, the app displays an informative offline state while keeping cached user data private.
-
-### 8.2 Mission Inbox & Ownership Accounting
-- **Objective:** Organize field monitoring campaigns into distinct, trackable objectives.
-- **Implementation:** Missions display titles, neutral prompts, optional target coordinates, visit dates, and real observation counters. Users can search and filter missions, soft-archive completed campaigns, or reopen them when subsequent satellite swaths pass overhead.
-
-### 8.3 Guided In-Situ Observation Capture
-- **Objective:** Capture field truth while strictly separating human observation from subjective interpretation.
-- **Workflow:**
-  1. *Select Epistemic Truth Value:* Choose from `supports`, `contradicts`, `inconclusive`, or `not-observable`.
-  2. *Select Quick Label:* Categorize terrain as `water`, `land`, `sand`, or `crop`.
-  3. *Location Stamp:* Tap-to-locate captures current coordinates and logs the reported horizontal accuracy radius ($\Delta r$).
-  4. *Visual Proof:* Optional photo is previewed, resized client-side to minimize upload bandwidth, and uploaded directly to private storage.
-  5. *Review-Before-Commit:* A confirmation modal displays all captured values before writing to the database.
-
-### 8.4 Records Inspection, Verification State & Safe Deletion
-- **Objective:** Provide a searchable ledger of collected field notes with audit-ready transparency.
-- **Implementation:** Records can be filtered by response state or searched via full-text query. Photos are served via short-lived signed URLs, protecting media from unauthorized access. Deleting a record requires explicit confirmation and cascades to remove the associated photo from storage.
-
-### 8.5 Data Sovereignty & Account Privacy Controls
-- **Objective:** Ensure observers maintain ownership of their data without vendor lock-in.
-- **Implementation:** Observers can export their entire database history as a versioned JSON file at any time. When restoring data, foreign keys and UUIDs are safely remapped via a transactional stored procedure, preventing data collisions.
-
----
-
-## Section 9: Verification Protocol, Testing & Quality Assurance
-
-TRACE maintains an automated quality assurance pipeline across client and server boundaries:
+TRACE maintains an automated multi-tier test harness:
 
 ```powershell
-# 1. Code Style & Static Analysis
+# 1. Static code analysis and React hook linting
 npm run lint
 
-# 2. Strict TypeScript Compilation (Zero 'any')
+# 2. Strict TypeScript typechecking (zero 'any' tolerance)
 npm run typecheck
 
-# 3. Client & Schema Test Suite
+# 3. Client & validation boundary test suite
 npm test
 
-# 4. Server Gateway & Security Tests
+# 4. Server API gateway & security test suite
 npm run test:server
 
-# 5. Production Compilation & Tree-Shaking
+# 5. Production build compilation
 npm run build
 ```
 
-### Test Suite Execution Summary:
-- **`npm run lint`:** ESLint verifies React hook dependency rules and accessibility attributes.
-- **`npm run typecheck`:** TypeScript compiler verifies all component and API interfaces under `strict: true`.
-- **`npm test`:** Vitest executes validation schema tests, verifying that malformed coordinates, oversized notes, and invalid response enums are caught at the boundary.
-- **`npm run test:server`:** Verifies Express API health endpoints, rate limiter thresholds, Helmet security headers, and authentication token validation.
-- **`npm run build`:** Compiles Next.js 15 SSR bundles and standalone Node.js server distribution.
+### Verified Test Cases:
+- **`tests/validation.test.ts` (Vitest):**
+  - Accepts valid mission without optional target coordinates.
+  - Rejects partial or out-of-range coordinates (e.g., `lat: 91`).
+  - Enforces active mission UUID and strict 4-valued response enum for observations.
+- **`server/tests/api.test.ts` (Vitest + Supertest):**
+  - Verifies `/api/v1/health` returns HTTP 200 without exposing account data.
+  - Verifies unauthenticated mission reads return `HTTP 401 Unauthorized`.
+  - Verifies unauthenticated observation writes return `HTTP 401 Unauthorized`.
+  - Verifies `/api/v1/nasa/status` returns operational status for CMR and ASF DAAC.
+  - Verifies `/api/v1/nasa/sar-scenes` queries real ASF DAAC radar scenes for coordinates `24.8949, 91.8687`.
 
 ---
 
-## Section 10: Development Setup & Production Deployment
+## 19. Troubleshooting Matrix & Operational FAQ
 
-### 10.1 Live Production Environment
-TRACE is deployed and operational in production at:  
-👉 **[https://nana-space-apps-2026-trace.onrender.com/](https://nana-space-apps-2026-trace.onrender.com/)**
-
-### 10.2 Local Development Setup
-To configure and run TRACE locally:
-
-```powershell
-# 1. Clone repository
-git clone https://github.com/your-org/nasa-space-apps-2026-trace.git
-cd "nasa-space-apps-2026-trace"
-
-# 2. Install workspace dependencies
-npm install
-cd nasa-26-app-240
-npm install
-
-# 3. Configure local environment variables (.env.local)
-Copy-Item .env.example .env.local
-```
-
-Populate `nasa-26-app-240/.env.local`:
-```env
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-publishable-key
-NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
-PORT=8000
-```
-
-```powershell
-# 4. Apply PostgreSQL migrations
-# Execute the SQL script in your Supabase SQL Editor:
-# supabase/migrations/202610300001_trace_core.sql
-
-# 5. Launch development servers
-npm run dev
-```
-
-- **Frontend Client:** `http://localhost:3000`
-- **Express API Gateway:** `http://localhost:8000/api/v1`
-- **Health Verification:** `http://localhost:8000/api/v1/health`
-
----
-
-## Section 11: Alignment with NASA Space Apps Challenge Criteria
-
-| NASA Judging Dimension | NASA Challenge Requirement | TRACE Technical Implementation |
+| Symptom / Error | Root Cause | Verified Resolution |
 | :--- | :--- | :--- |
-| **Scientific Relevance** | Clear addressing of SAR data complexities and ground application. | Directly addresses the in-situ *Ground-Truth Gap* for active spaceborne radar (NISAR, Sentinel-1) by validating ambiguous backscatter signatures ($\sigma^0$). |
-| **Epistemic Integrity** | Avoiding false claims, synthetic hallucinations, or fabricated metrics. | Implements a four-valued truth model (`supports`, `contradicts`, `inconclusive`, `not-observable`) with neutral prompt protocols to prevent observer confirmation bias. |
-| **System Engineering** | High architectural quality, maintainability, and security. | Production-grade Next.js 15 App Router, Express 5 REST API, and PostgreSQL Row-Level Security (RLS) with zero administrative bypasses. |
-| **Field Usability** | Usability in demanding, low-connectivity operational environments. | Offline-capable PWA shell, battery-conserving on-demand GPS accuracy radius ($\Delta r$), and accessible WCAG AA visual styling. |
-| **Open Science Standards** | Data portability and open accessibility. | Transparent JSON backup export/restore with transactional foreign-key remapping, published under an open-source MIT license. |
+| **API returns `401 Unauthorized`** | Missing or expired Supabase Bearer token in request header. | Sign in through the dashboard; the client automatically refreshes the session cookie. |
+| **Map pins do not appear on Bangladesh map** | Missions were created without optional target coordinates. | Edit the mission in Mission Inbox and specify valid target `lat` and `lng`. |
+| **GPS accuracy radius shows "Location unavailable"** | Browser geolocation permission denied or device GPS disabled. | Enable location in browser settings. TRACE allows saving without coordinates. |
+| **Photo upload fails** | File exceeds the strict 8 MB limit or is an unsupported format. | Upload images under 8 MB. Supported formats: JPEG, PNG, WebP, GIF, HEIC. |
+| **NASA SAR scenes return `502 Bad Gateway`** | Upstream ASF DAAC or NASA CMR API is experiencing transient degradation. | Check `/api/v1/nasa/status` to confirm external service availability. |
+| **Offline app shell shows blank screen** | Browser storage was cleared, removing the cached service worker. | Open TRACE once while online; the service worker will re-cache the static shell. |
 
 ---
 
-## Section 12: Future Horizons & Orbital Roadmap
+## 20. Scientific Boundaries, Licensing & Team Credits
 
-Team **Quintessence Minus Infinity** has established the following technical roadmap for subsequent mission iterations:
+### 20.1 What TRACE Explicitly Does NOT Do (Scientific Integrity)
+In adherence to NASA Open Science standards, TRACE maintains strict boundaries against data exaggeration:
+1. **No "Junk AI" Hallucination:** TRACE does not generate synthetic satellite images or fabricate artificial ground observations using large language models.
+2. **No Automated Disaster Declarations:** A field observation marked `supports` is in-situ empirical evidence awaiting scientific review; it does not constitute an official flood or disaster declaration.
+3. **No Invasive Continuous Background Tracking:** TRACE never tracks an observer's location in the background. Geolocation is requested solely when the user taps "Capture Location".
+4. **No Fictional Counts:** Mission and observation tallies represent real database records belonging to the authenticated account.
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        TRACE EVOLUTION ROADMAP                         │
-├────────────────────────────────────────────────────────────────────────┤
-│ Phase 1: Core Ground-Truthing Runtime (COMPLETE)                       │
-│ - Epistemic Truth Engine (supports, contradicts, inconclusive)         │
-│ - Next.js 15 + Express 5 + Supabase RLS Zero-Trust Architecture        │
-│ - Portable JSON Backup & Transactional Remapping                       │
-├────────────────────────────────────────────────────────────────────────┤
-│ Phase 2: Augmented Field Truthing (In Progress)                        │
-│ - Point & Prove: AR visual line-of-sight toward SAR target coordinates │
-│ - "Walk on the Radar": Sonification & haptic translation of σ⁰ values  │
-├────────────────────────────────────────────────────────────────────────┤
-│ Phase 3: Orbital Synchronization (Planned)                             │
-│ - My Place Watch: SGP4 orbital propagation for NISAR & Sentinel-1 passes│
-│ - Offline Multilingual Audio Prompts (Bengali, Spanish, Swahili)       │
-└────────────────────────────────────────────────────────────────────────┘
-```
+### 20.2 Licensing
+TRACE is released under the **MIT Open Science License**.
+- Satellite imagery metadata: © NASA EOSDIS / ESA Copernicus.
+- Map tiles: © Esri, © OpenStreetMap contributors.
 
-1. **Point & Prove Augmented Reality (AR) Overlay:** Uses device IMU sensors and camera feeds to guide observers along visual line-of-sight vectors toward radar coordinates without synthetic approximations.
-2. **"Walk on the Radar" Haptic & Acoustic Sonification:** Translates dual-polarization backscatter decibel values ($\sigma^0_{HH} / \sigma^0_{HV}$) into real-time auditory frequencies and haptic vibrations as observers walk through satellite swaths.
-3. **Orbital Swath Pass Predictor ("My Place Watch"):** Ingests NORAD Two-Line Element (TLE) orbital vectors via SGP4 propagation algorithms to notify observers when NISAR or Sentinel-1 will pass overhead, enabling synchronous ground-truth acquisition.
-4. **Offline Multilingual Audio Prompts:** Provides localized field audio prompts in regional dialects (including Bengali, Spanish, and Swahili) cached directly inside the PWA client storage for non-literate citizen scientists.
-
----
-
-## Section 13: References & Scientific Bibliography
-
-1. **Rosen, P. A., Hensley, S., Joughin, I. R., et al. (2000):** *Synthetic Aperture Radar Interferometry.* Proceedings of the IEEE, 88(3), 333–382.
-2. **Kellndorfer, J., Cartus, O., Bishop, J., et al. (2022):** *The NASA-ISRO SAR (NISAR) Mission: Science Objectives and Observation Plan.* IEEE International Geoscience and Remote Sensing Symposium (IGARSS), 1042–1045.
-3. **Ulaby, F. T., Moore, R. K., Fung, A. K. (1986):** *Microwave Remote Sensing: Active and Passive, Vol. II & III.* Artech House, Norwood, MA.
-4. **Canonical Ltd. (2020):** *The Diátaxis Documentation Framework: A Systematic Approach to Technical Documentation.* Canonical Design Standard.
-5. **Fielding, R. T. (2000):** *Architectural Styles and the Design of Network-based Software Architectures.* Doctoral dissertation, University of California, Irvine.
-6. **National Aeronautics and Space Administration (2024):** *Earth Science Data and Information System (ESDIS) Standards: In-Situ Ground Truthing and Radar Calibration Guidelines.* NASA Earthdata Open Science Initiative.
-
----
-
-## Section 14: Acknowledgements & Team Credits
-
-This research monograph and software platform was conceived, architected, and built by team **Quintessence Minus Infinity** for the **NASA International Space Apps Challenge 2026**.
+### 20.3 Team Identification & NASA Space Apps Challenge Credits
+Developed with pride by team **Quintessence Minus Infinity** for the **NASA International Space Apps Challenge 2026**:
+- **Team Name:** `Quintessence Minus Infinity`
+- **Challenge Track:** [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
+- **Live Production URL:** [https://nana-space-apps-2026-trace.onrender.com/](https://nana-space-apps-2026-trace.onrender.com/)
 
 ```
-Team: Quintessence Minus Infinity
-Challenge: NASA Space Apps 2026 — Dancing with the SARs
-Live Application: https://nana-space-apps-2026-trace.onrender.com/
-Copyright © 2026 Quintessence Minus Infinity. Released under the MIT Open Science License.
+Quintessence Minus Infinity © 2026 | NASA International Space Apps Challenge
+"Connecting orbital radar eyes with human boots on the ground."
 ```
