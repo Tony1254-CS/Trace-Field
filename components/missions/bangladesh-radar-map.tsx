@@ -11,6 +11,7 @@ import {
   Maximize2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { escapeHtml } from "@/lib/utils";
 import type { Mission } from "@/features/missions/types";
 import type { Map as LeafletMap, LayerGroup, GeoJSON, TileLayer } from "leaflet";
 
@@ -294,7 +295,7 @@ export function BangladeshRadarMap({
             <div class="marker-radar-wave"></div>
             ${isSelected ? '<div class="marker-radar-wave-outer"></div>' : ""}
             <div class="marker-core-dot"></div>
-            <div class="marker-label-tag">${mission.title}</div>
+            <div class="marker-label-tag">${escapeHtml(mission.title)}</div>
           </div>
         `;
 
