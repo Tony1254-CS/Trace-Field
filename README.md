@@ -10,7 +10,7 @@
 > | Operational Parameter | Specification & Gateway Link |
 > | :--- | :--- |
 > | 🏆 **Team Identification** | **`Quintessence Minus Infinity`** |
-> | 🚀 **Live Production Application** | **[Launch TRACE Field Application ↗](https://nana-space-apps-2026-trace.onrender.com/)** (`https://nana-space-apps-2026-trace.onrender.com/`) |
+> | 🚀 **Live Production Application** | **[Launch TRACE Field Application ↗](https://nana-space-apps-2026-trace.vercel.app/)** (`https://nana-space-apps-2026-trace.vercel.app/`) |
 > | 🛰️ **NASA Challenge Track** | **[Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)** — Synthetic Aperture Radar Earth Observation |
 > | 📦 **Primary Artifact** | **TRACE** *(Tactical Radar-ground-truth Acquisition & Calibration Environment)* |
 > | 📑 **Monograph Standard** | Unified Comprehensive Scientific Monograph *(Theory, Architecture, Full API & DDL)* |
@@ -249,8 +249,8 @@ npm run dev
 | **OpenAPI Specification** | [http://localhost:8000/api/v1/openapi.json](http://localhost:8000/api/v1/openapi.json) | Raw OpenAPI 3.0.3 JSON Spec |
 | **API Health Endpoint** | [http://localhost:8000/api/v1/health](http://localhost:8000/api/v1/health) | Process Uptime & System Health |
 | **NASA Service Status** | [http://localhost:8000/api/v1/nasa/status](http://localhost:8000/api/v1/nasa/status) | Real-time connectivity to CMR, ASF DAAC, GIBS |
-| **Live Production App** | [https://nana-space-apps-2026-trace.onrender.com/](https://nana-space-apps-2026-trace.onrender.com/) | Cloud-hosted Render instance |
-| **Live Production Swagger** | [https://nana-space-apps-2026-trace.onrender.com/docs](https://nana-space-apps-2026-trace.onrender.com/docs) | Cloud-hosted Swagger UI |
+| **Live Production App** | [https://nana-space-apps-2026-trace.vercel.app/](https://nana-space-apps-2026-trace.vercel.app/) | Vercel Edge & Cloud Deployment |
+| **Live Production Swagger** | [https://nana-space-apps-2026-trace.vercel.app/docs](https://nana-space-apps-2026-trace.vercel.app/docs) | Live Interactive Swagger / API Docs |
 
 ---
 
@@ -763,7 +763,7 @@ Unlike typical full-stack architectures where the backend server uses a privileg
 ## 15. Complete REST API v1 Reference
 
 > 📚 **Interactive Swagger UI Documentation:**
-> Visit **[`/docs`](http://localhost:8000/docs)** (or **[`https://nana-space-apps-2026-trace.onrender.com/docs`](https://nana-space-apps-2026-trace.onrender.com/docs)** on production) to test endpoints live with Swagger UI.
+> Visit **[`/docs`](http://localhost:8000/docs)** (or **[`https://nana-space-apps-2026-trace.vercel.app/docs`](https://nana-space-apps-2026-trace.vercel.app/docs)** on production) to test endpoints live with Swagger UI.
 > Raw OpenAPI 3.0.3 JSON specification is served at **[`/api/v1/openapi.json`](http://localhost:8000/api/v1/openapi.json)**.
 
 All endpoints (except `/health`, `/nasa/status`, and `/docs`) require:
@@ -1047,7 +1047,7 @@ TRACE is released under the **MIT Open Science License**.
 Developed with pride by team **Quintessence Minus Infinity** for the **NASA International Space Apps Challenge 2026**:
 - **Team Name:** `Quintessence Minus Infinity`
 - **Challenge Track:** [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
-- **Live Production URL:** [https://nana-space-apps-2026-trace.onrender.com/](https://nana-space-apps-2026-trace.onrender.com/)
+- **Live Production URL:** [https://nana-space-apps-2026-trace.vercel.app/](https://nana-space-apps-2026-trace.vercel.app/)
 
 ---
 
