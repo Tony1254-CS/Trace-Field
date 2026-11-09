@@ -14,6 +14,14 @@ const nextConfig: NextConfig = {
     const apiPort = process.env.API_PORT || 8000;
     return [
       {
+        source: "/docs",
+        destination: `http://127.0.0.1:${apiPort}/docs`,
+      },
+      {
+        source: "/api-docs",
+        destination: `http://127.0.0.1:${apiPort}/docs`,
+      },
+      {
         source: "/api/v1/:path*",
         destination: `http://127.0.0.1:${apiPort}/api/v1/:path*`,
       },

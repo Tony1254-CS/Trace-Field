@@ -244,9 +244,12 @@ npm run dev
 | :--- | :--- | :--- |
 | **Web Application Shell** | [http://localhost:3000](http://localhost:3000) | Next.js 15 App Router Frontend |
 | **Express API Gateway** | [http://localhost:8000/api/v1](http://localhost:8000/api/v1) | Express 5 REST API Gateway |
+| **Interactive Swagger UI** | [http://localhost:8000/docs](http://localhost:8000/docs) · [http://localhost:3100/docs](http://localhost:3100/docs) | Interactive OpenAPI 3.0 / Swagger UI |
+| **OpenAPI Specification** | [http://localhost:8000/api/v1/openapi.json](http://localhost:8000/api/v1/openapi.json) | Raw OpenAPI 3.0.3 JSON Spec |
 | **API Health Endpoint** | [http://localhost:8000/api/v1/health](http://localhost:8000/api/v1/health) | Process Uptime & System Health |
 | **NASA Service Status** | [http://localhost:8000/api/v1/nasa/status](http://localhost:8000/api/v1/nasa/status) | Real-time connectivity to CMR, ASF DAAC, GIBS |
-| **Live Production Deployment** | [https://nana-space-apps-2026-trace.onrender.com/](https://nana-space-apps-2026-trace.onrender.com/) | Cloud-hosted Render instance |
+| **Live Production App** | [https://nana-space-apps-2026-trace.onrender.com/](https://nana-space-apps-2026-trace.onrender.com/) | Cloud-hosted Render instance |
+| **Live Production Swagger** | [https://nana-space-apps-2026-trace.onrender.com/docs](https://nana-space-apps-2026-trace.onrender.com/docs) | Cloud-hosted Swagger UI |
 
 ---
 
@@ -662,7 +665,11 @@ Unlike typical full-stack architectures where the backend server uses a privileg
 
 ## 15. Complete REST API v1 Reference
 
-All endpoints (except `/health` and `/nasa/status`) require:
+> 📚 **Interactive Swagger UI Documentation:**
+> Visit **[`/docs`](http://localhost:8000/docs)** (or **[`https://nana-space-apps-2026-trace.onrender.com/docs`](https://nana-space-apps-2026-trace.onrender.com/docs)** on production) to test endpoints live with Swagger UI.
+> Raw OpenAPI 3.0.3 JSON specification is served at **[`/api/v1/openapi.json`](http://localhost:8000/api/v1/openapi.json)**.
+
+All endpoints (except `/health`, `/nasa/status`, and `/docs`) require:
 ```http
 Authorization: Bearer <Supabase_Access_Token>
 ```

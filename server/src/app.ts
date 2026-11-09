@@ -9,11 +9,12 @@ import { missionRoutes } from "./modules/missions/routes.js";
 import { observationRoutes } from "./modules/observations/routes.js";
 import { backupRoutes } from "./modules/backup/routes.js";
 import { nasaRoutes } from "./modules/nasa/routes.js";
+import { renderSwaggerUi, getOpenApiJson } from "./docs/swagger-ui.js";
 
 export function createApp() {
   const app = express();
   app.disable("x-powered-by");
-  app.use(helmet());
+  app.use(helmet({ contentSecurityPolicy: false }));
 
   const allowedOrigins = new Set([
     "http://localhost:3100",
@@ -38,6 +39,11 @@ export function createApp() {
     maxAge: 600,
   }));
   app.use(pinoHttp({ logger, redact: ["req.headers.authorization", "req.headers.cookie"] }));
+  
+  // Swagger UI & Interactive OpenAPI Specification
+  app.get(["/docs", "/api-docs", "/api/v1/docs"], renderSwaggerUi);
+  app.get("/api/v1/openapi.json", getOpenApiJson);
+
   app.get("/api/v1/health", (_req, res) => res.json({ status: "ok", service: "trace-api", timestamp: new Date().toISOString() }));
   app.use("/api/v1", rateLimit({ windowMs: 60_000, limit: 120, standardHeaders: "draft-8", legacyHeaders: false }));
   app.use("/api/v1", (_req, res, next) => { res.setHeader("Cache-Control", "private, no-store"); next(); });
