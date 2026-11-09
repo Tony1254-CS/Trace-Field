@@ -9,7 +9,7 @@ import { missionRoutes } from "./modules/missions/routes.js";
 import { observationRoutes } from "./modules/observations/routes.js";
 import { backupRoutes } from "./modules/backup/routes.js";
 import { nasaRoutes } from "./modules/nasa/routes.js";
-import { renderSwaggerUi, getOpenApiJson } from "./docs/swagger-ui.js";
+import { renderModernDocs, renderSwaggerUi, getOpenApiJson } from "./docs/swagger-ui.js";
 
 export function createApp() {
   const app = express();
@@ -41,7 +41,13 @@ export function createApp() {
   app.use(pinoHttp({ logger, redact: ["req.headers.authorization", "req.headers.cookie"] }));
   
   // Swagger UI & Interactive OpenAPI Specification
-  app.get(["/docs", "/api-docs", "/api/v1/docs"], renderSwaggerUi);
+  app.get(["/docs", "/api-docs", "/api/v1/docs"], (req, res) => {
+    if (req.query.ui === "swagger") {
+      return renderSwaggerUi(req, res);
+    }
+    return renderModernDocs(req, res);
+  });
+  app.get(["/docs/swagger", "/api-docs/swagger"], renderSwaggerUi);
   app.get("/api/v1/openapi.json", getOpenApiJson);
 
   app.get("/api/v1/health", (_req, res) => res.json({ status: "ok", service: "trace-api", timestamp: new Date().toISOString() }));

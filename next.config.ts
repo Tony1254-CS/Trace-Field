@@ -18,6 +18,10 @@ const nextConfig: NextConfig = {
         destination: `http://127.0.0.1:${apiPort}/docs`,
       },
       {
+        source: "/docs/:path*",
+        destination: `http://127.0.0.1:${apiPort}/docs/:path*`,
+      },
+      {
         source: "/api-docs",
         destination: `http://127.0.0.1:${apiPort}/docs`,
       },
