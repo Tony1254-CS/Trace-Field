@@ -10,7 +10,7 @@
 > | Operational Parameter | Specification & Gateway Link |
 > | :--- | :--- |
 > | 🏆 **Team Identification** | **`Quintessence Minus Infinity`** |
-> | 📱 **In-Situ Field Client (TRACE)** | **[Launch TRACE Field Application ↗](https://nana-space-apps-2026-trace.vercel.app/)** (`https://nana-space-apps-2026-trace.vercel.app/`) |
+> | 📱 **In-Situ Field Client (TRACE)** | **[Launch TRACE Field Application ↗](https://nasa-space-apps-2026-trace.vercel.app/)** (`https://nasa-space-apps-2026-trace.vercel.app/`) |
 > | 🛰️ **Satellite Observatory (FluviSAR)** | **[Launch FluviSAR Web Platform ↗](https://nasa-web-240sec-chi.vercel.app/)** (`https://nasa-web-240sec-chi.vercel.app/`) |
 > | 🛰️ **NASA Challenge Track** | **[Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)** — Synthetic Aperture Radar Earth Observation |
 > | 📦 **Primary Artifacts** | **TRACE** *(In-Situ Radar Ground-Truth & Calibration)* + **FluviSAR** *(Satellite Observatory & Evidence Platform)* |
@@ -38,9 +38,9 @@
 
 | 🛰️ **FluviSAR — Satellite Observatory & Evidence Web** | 📱 **TRACE — In-Situ Ground-Truth Field Client** |
 | :---: | :---: |
-| <a href="https://nasa-web-240sec-chi.vercel.app/"><img src="public/screenshots/fluvisar-mobile.jpg" width="310" alt="FluviSAR Satellite Observatory Mobile Interface" style="border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);" /></a> | <a href="https://nana-space-apps-2026-trace.vercel.app/"><img src="public/screenshots/trace-mobile.jpg" width="310" alt="TRACE Ground-Truth Field Client Mobile Interface" style="border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);" /></a> |
+| <a href="https://nasa-web-240sec-chi.vercel.app/"><img src="public/screenshots/fluvisar-mobile.jpg" width="310" alt="FluviSAR Satellite Observatory Mobile Interface" style="border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);" /></a> | <a href="https://nasa-space-apps-2026-trace.vercel.app/"><img src="public/screenshots/trace-mobile.jpg" width="310" alt="TRACE Ground-Truth Field Client Mobile Interface" style="border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);" /></a> |
 | **"See the invisible. Question every change."**<br><sub>Spaceborne SAR & Optical Observatory · Water-Transition Screening</sub> | **"Go where the evidence is."**<br><sub>Tactical Mobile PWA · 4-Valued Epistemic Truth ($L_4$) · GPS Ground Proof</sub> |
-| [🚀 **Launch FluviSAR Web ↗**](https://nasa-web-240sec-chi.vercel.app/) | [🚀 **Launch TRACE Field App ↗**](https://nana-space-apps-2026-trace.vercel.app/) |
+| [🚀 **Launch FluviSAR Web ↗**](https://nasa-web-240sec-chi.vercel.app/) | [🚀 **Launch TRACE Field App ↗**](https://nasa-space-apps-2026-trace.vercel.app/) |
 
 </div>
 
@@ -276,9 +276,9 @@ npm run dev
 | **OpenAPI Specification** | [http://localhost:8000/api/v1/openapi.json](http://localhost:8000/api/v1/openapi.json) | Raw OpenAPI 3.0.3 JSON Spec |
 | **API Health Endpoint** | [http://localhost:8000/api/v1/health](http://localhost:8000/api/v1/health) | Process Uptime & System Health |
 | **NASA Service Status** | [http://localhost:8000/api/v1/nasa/status](http://localhost:8000/api/v1/nasa/status) | Real-time connectivity to CMR, ASF DAAC, GIBS |
-| **Live Production App (TRACE)** | [https://nana-space-apps-2026-trace.vercel.app/](https://nana-space-apps-2026-trace.vercel.app/) | Vercel Edge & Cloud Deployment |
+| **Live Production App (TRACE)** | [https://nasa-space-apps-2026-trace.vercel.app/](https://nasa-space-apps-2026-trace.vercel.app/) | Vercel Edge & Cloud Deployment |
 | **Live Satellite Observatory (FluviSAR)** | [https://nasa-web-240sec-chi.vercel.app/](https://nasa-web-240sec-chi.vercel.app/) | Dual-Region Radar Observatory Web Platform |
-| **Live Production Swagger** | [https://nana-space-apps-2026-trace.vercel.app/docs](https://nana-space-apps-2026-trace.vercel.app/docs) | Live Interactive Swagger / API Docs |
+| **Live Production Swagger** | [https://nasa-space-apps-2026-trace.vercel.app/docs](https://nasa-space-apps-2026-trace.vercel.app/docs) | Live Interactive Swagger / API Docs |
 
 ---
 
@@ -791,7 +791,7 @@ Unlike typical full-stack architectures where the backend server uses a privileg
 ## 15. Complete REST API v1 Reference
 
 > 📚 **Interactive Swagger UI Documentation:**
-> Visit **[`/docs`](http://localhost:8000/docs)** (or **[`https://nana-space-apps-2026-trace.vercel.app/docs`](https://nana-space-apps-2026-trace.vercel.app/docs)** on production) to test endpoints live with Swagger UI.
+> Visit **[`/docs`](http://localhost:8000/docs)** (or **[`https://nasa-space-apps-2026-trace.vercel.app/docs`](https://nasa-space-apps-2026-trace.vercel.app/docs)** on production) to test endpoints live with Swagger UI.
 > Raw OpenAPI 3.0.3 JSON specification is served at **[`/api/v1/openapi.json`](http://localhost:8000/api/v1/openapi.json)**.
 
 All endpoints (except `/health`, `/nasa/status`, and `/docs`) require:
@@ -1075,7 +1075,7 @@ TRACE is released under the **MIT Open Science License**.
 Developed with pride by team **Quintessence Minus Infinity** for the **NASA International Space Apps Challenge 2026**:
 - **Team Name:** `Quintessence Minus Infinity`
 - **Challenge Track:** [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
-- **Live In-Situ Field Application (TRACE):** [https://nana-space-apps-2026-trace.vercel.app/](https://nana-space-apps-2026-trace.vercel.app/)
+- **Live In-Situ Field Application (TRACE):** [https://nasa-space-apps-2026-trace.vercel.app/](https://nasa-space-apps-2026-trace.vercel.app/)
 - **Live Satellite Observatory (FluviSAR):** [https://nasa-web-240sec-chi.vercel.app/](https://nasa-web-240sec-chi.vercel.app/)
 
 ---
