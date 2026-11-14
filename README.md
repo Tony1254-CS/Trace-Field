@@ -5,17 +5,44 @@
 **Challenge Track:** [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
 
 > [!IMPORTANT]
-> ### 🌟 Official Project Identification & Live Production Deployment
+> ### 🌟 Official Project Identification & Live Production Deployments
 > 
 > | Operational Parameter | Specification & Gateway Link |
 > | :--- | :--- |
 > | 🏆 **Team Identification** | **`Quintessence Minus Infinity`** |
-> | 🚀 **Live Production Application** | **[Launch TRACE Field Application ↗](https://nana-space-apps-2026-trace.vercel.app/)** (`https://nana-space-apps-2026-trace.vercel.app/`) |
+> | 📱 **In-Situ Field Client (TRACE)** | **[Launch TRACE Field Application ↗](https://nana-space-apps-2026-trace.vercel.app/)** (`https://nana-space-apps-2026-trace.vercel.app/`) |
+> | 🛰️ **Satellite Observatory (FluviSAR)** | **[Launch FluviSAR Web Platform ↗](https://nasa-web-240sec-chi.vercel.app/)** (`https://nasa-web-240sec-chi.vercel.app/`) |
 > | 🛰️ **NASA Challenge Track** | **[Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)** — Synthetic Aperture Radar Earth Observation |
-> | 📦 **Primary Artifact** | **TRACE** *(Tactical Radar-ground-truth Acquisition & Calibration Environment)* |
+> | 📦 **Primary Artifacts** | **TRACE** *(In-Situ Radar Ground-Truth & Calibration)* + **FluviSAR** *(Satellite Observatory & Evidence Platform)* |
 > | 📑 **Monograph Standard** | Unified Comprehensive Scientific Monograph *(Theory, Architecture, Full API & DDL)* |
 > | 🛡️ **Security Model** | Zero-Trust Database Engine RLS (No Service-Role Key Bypass) + Scoped Storage Policies |
 > | 🔖 **Production Version** | `v1.0.0-rc.1` (Enterprise & Field-Grade Ready) |
+> 
+> ---
+> 
+> #### 🛰️ FluviSAR — Satellite Observatory & Evidence Platform Overview
+> **Web Deployment:** [https://nasa-web-240sec-chi.vercel.app/](https://nasa-web-240sec-chi.vercel.app/)  
+> *"Observe change. Challenge the evidence. Document the follow-up."*
+> 
+> **FluviSAR** is our dual-region Earth-observation web application developed for exploring Bangladesh's **Jamuna River (Chilmari–Roumari)** braided channels and the **Sundarbans mangrove landscape (Passur)**. FluviSAR connects dated satellite imagery, numerical radar measurements, reproducible water-transition screening, human field observations, and source-linked reports in one continuous investigation workflow.
+> - **Frontend Application:** React 19 · TypeScript · Vite · MapLibre GL JS
+> - **Scientific Processing Services:** Python 3.12 · FastAPI · Rasterio · NumPy · SciPy · Shapely
+> - **Observation Sources:** Radiometrically terrain-corrected Copernicus Sentinel-1 C-band ($VV/VH$) and Sentinel-2 L2A optical imagery.
+> - **System Synergy with TRACE:** While **FluviSAR** operates as the orbital observatory identifying water-transition candidates and numerical backscatter shifts from space, **TRACE** serves as the companion mobile field client empowering observers on the ground to capture in-situ photos, GPS bounds, and epistemic four-valued truth classifications ($L_4$) to validate or challenge those satellite observations.
+
+---
+
+<div align="center">
+
+### 📱 Dual-Platform Operational Ecosystem (Mobile Interface View)
+
+| 🛰️ **FluviSAR — Satellite Observatory & Evidence Web** | 📱 **TRACE — In-Situ Ground-Truth Field Client** |
+| :---: | :---: |
+| <a href="https://nasa-web-240sec-chi.vercel.app/"><img src="public/screenshots/fluvisar-mobile.jpg" width="310" alt="FluviSAR Satellite Observatory Mobile Interface" style="border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);" /></a> | <a href="https://nana-space-apps-2026-trace.vercel.app/"><img src="public/screenshots/trace-mobile.jpg" width="310" alt="TRACE Ground-Truth Field Client Mobile Interface" style="border-radius: 14px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);" /></a> |
+| **"See the invisible. Question every change."**<br><sub>Spaceborne SAR & Optical Observatory · Water-Transition Screening</sub> | **"Go where the evidence is."**<br><sub>Tactical Mobile PWA · 4-Valued Epistemic Truth ($L_4$) · GPS Ground Proof</sub> |
+| [🚀 **Launch FluviSAR Web ↗**](https://nasa-web-240sec-chi.vercel.app/) | [🚀 **Launch TRACE Field App ↗**](https://nana-space-apps-2026-trace.vercel.app/) |
+
+</div>
 
 ---
 
@@ -249,7 +276,8 @@ npm run dev
 | **OpenAPI Specification** | [http://localhost:8000/api/v1/openapi.json](http://localhost:8000/api/v1/openapi.json) | Raw OpenAPI 3.0.3 JSON Spec |
 | **API Health Endpoint** | [http://localhost:8000/api/v1/health](http://localhost:8000/api/v1/health) | Process Uptime & System Health |
 | **NASA Service Status** | [http://localhost:8000/api/v1/nasa/status](http://localhost:8000/api/v1/nasa/status) | Real-time connectivity to CMR, ASF DAAC, GIBS |
-| **Live Production App** | [https://nana-space-apps-2026-trace.vercel.app/](https://nana-space-apps-2026-trace.vercel.app/) | Vercel Edge & Cloud Deployment |
+| **Live Production App (TRACE)** | [https://nana-space-apps-2026-trace.vercel.app/](https://nana-space-apps-2026-trace.vercel.app/) | Vercel Edge & Cloud Deployment |
+| **Live Satellite Observatory (FluviSAR)** | [https://nasa-web-240sec-chi.vercel.app/](https://nasa-web-240sec-chi.vercel.app/) | Dual-Region Radar Observatory Web Platform |
 | **Live Production Swagger** | [https://nana-space-apps-2026-trace.vercel.app/docs](https://nana-space-apps-2026-trace.vercel.app/docs) | Live Interactive Swagger / API Docs |
 
 ---
@@ -1047,7 +1075,8 @@ TRACE is released under the **MIT Open Science License**.
 Developed with pride by team **Quintessence Minus Infinity** for the **NASA International Space Apps Challenge 2026**:
 - **Team Name:** `Quintessence Minus Infinity`
 - **Challenge Track:** [Dancing with the SARs](https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/?tab=details)
-- **Live Production URL:** [https://nana-space-apps-2026-trace.vercel.app/](https://nana-space-apps-2026-trace.vercel.app/)
+- **Live In-Situ Field Application (TRACE):** [https://nana-space-apps-2026-trace.vercel.app/](https://nana-space-apps-2026-trace.vercel.app/)
+- **Live Satellite Observatory (FluviSAR):** [https://nasa-web-240sec-chi.vercel.app/](https://nasa-web-240sec-chi.vercel.app/)
 
 ---
 
